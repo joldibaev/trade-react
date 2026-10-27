@@ -3,10 +3,13 @@ import type { Messages } from "./ru"
 // Uzbek, Latin script. Oʻ and gʻ use the modifier letter ʻ (U+02BB), the official spelling.
 export const uz: Messages = {
   common: {
+    appName: "Cosmos",
     retry: "Qayta urinish",
+    signOut: "Chiqish",
     language: "Til",
     theme: "Mavzu",
     supportId: "Yordam xizmati uchun kod:",
+    pageFailed: "Sahifani ochib boʻlmadi.",
     close: "Yopish",
     cancel: "Bekor qilish",
     actions: "Amallar",
@@ -15,11 +18,27 @@ export const uz: Messages = {
     activeMany: "Faollar",
     inactiveMany: "Nofaollar",
     loadCurrent: "Joriy maʼlumotlarni yuklash",
+    noAccess: "Bu boʻlimga ruxsat yoʻq",
+    noAccessHint:
+      "Huquqlarni administrator beradi: guruhingizga kerakli huquqni qoʻshishni soʻrang.",
   },
   theme: {
     system: "Tizimdagidek",
     light: "Yorugʻ",
     dark: "Qorongʻi",
+  },
+  shell: {
+    navigation: "Boʻlimlar",
+    openMenu: "Menyuni ochish",
+    skipToContent: "Asosiy qismga oʻtish",
+  },
+  auth: {
+    title: "Kirish",
+    description: "Oʻz loginingiz bilan kiring.",
+    login: "Login",
+    password: "Parol",
+    submit: "Kirish",
+    failed: "Kirib boʻlmadi",
   },
   dataTable: {
     loadingMore: "Yana yuklanmoqda…",

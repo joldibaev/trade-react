@@ -4,10 +4,13 @@ import type { ErrorCode, FieldCode } from "@/api/errors"
 // so a key missing or left over in uz.ts or kk.ts fails `npm run typecheck`.
 export const ru = {
   common: {
+    appName: "Cosmos",
     retry: "Повторить",
+    signOut: "Выйти",
     language: "Язык",
     theme: "Тема",
     supportId: "Код для поддержки:",
+    pageFailed: "Не удалось открыть страницу.",
     close: "Закрыть",
     cancel: "Отмена",
     actions: "Действия",
@@ -16,11 +19,27 @@ export const ru = {
     activeMany: "Активные",
     inactiveMany: "Неактивные",
     loadCurrent: "Загрузить актуальные данные",
+    noAccess: "Нет доступа к этому разделу",
+    noAccessHint:
+      "Права выдаёт администратор: попросите его добавить нужное право вашей группе.",
   },
   theme: {
     system: "Как в системе",
     light: "Светлая",
     dark: "Тёмная",
+  },
+  shell: {
+    navigation: "Разделы",
+    openMenu: "Открыть меню",
+    skipToContent: "Перейти к содержимому",
+  },
+  auth: {
+    title: "Вход",
+    description: "Войдите под своим логином.",
+    login: "Логин",
+    password: "Пароль",
+    submit: "Войти",
+    failed: "Не удалось войти",
   },
   dataTable: {
     loadingMore: "Загружаем ещё…",

@@ -3,10 +3,13 @@ import type { Messages } from "./ru"
 // Kazakh, Cyrillic script.
 export const kk: Messages = {
   common: {
+    appName: "Cosmos",
     retry: "Қайталау",
+    signOut: "Шығу",
     language: "Тіл",
     theme: "Тақырып",
     supportId: "Қолдау қызметі үшін код:",
+    pageFailed: "Бетті ашу мүмкін болмады.",
     close: "Жабу",
     cancel: "Болдырмау",
     actions: "Әрекеттер",
@@ -15,11 +18,27 @@ export const kk: Messages = {
     activeMany: "Белсенділер",
     inactiveMany: "Белсенді еместер",
     loadCurrent: "Өзекті деректерді жүктеу",
+    noAccess: "Бұл бөлімге рұқсат жоқ",
+    noAccessHint:
+      "Құқықтарды әкімші береді: тобыңызға қажетті құқықты қосуды сұраңыз.",
   },
   theme: {
     system: "Жүйедегідей",
     light: "Ашық",
     dark: "Қараңғы",
+  },
+  shell: {
+    navigation: "Бөлімдер",
+    openMenu: "Мәзірді ашу",
+    skipToContent: "Негізгі мазмұнға өту",
+  },
+  auth: {
+    title: "Кіру",
+    description: "Өз логиніңізбен кіріңіз.",
+    login: "Логин",
+    password: "Құпиясөз",
+    submit: "Кіру",
+    failed: "Кіру мүмкін болмады",
   },
   dataTable: {
     loadingMore: "Тағы жүктелуде…",
