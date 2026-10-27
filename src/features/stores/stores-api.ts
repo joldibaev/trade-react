@@ -1,6 +1,7 @@
 import { queryOptions, type QueryClient } from "@tanstack/react-query"
 
 import { api, unwrap } from "@/api/client"
+import { wholeListOptions } from "@/api/cursor-pages"
 import { readAgainOnConflict } from "@/api/writes"
 import type { components } from "@/api/schema"
 
@@ -20,11 +21,9 @@ export type CashboxChanges = Omit<
  * a manager of Юнусабад gets only Юнусабад, and another store's page answers 404 as if it did not exist.
  */
 export function storesQuery(filters: { isActive?: boolean | undefined } = {}) {
-  return queryOptions({
-    queryKey: ["stores", "list", filters],
-    queryFn: () =>
-      unwrap(api.GET("/api/stores", { params: { query: filters } })),
-  })
+  return wholeListOptions(["stores", "list", filters], () =>
+    unwrap(api.GET("/api/stores", { params: { query: filters } }))
+  )
 }
 
 export function storeQuery(id: string) {

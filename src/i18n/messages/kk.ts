@@ -234,7 +234,6 @@ export const kk: Messages = {
     fixCells: "Барлық бағалар дұрыс емес",
     fixCellsHint:
       "Қызыл жиектегі ұяшықтарды түзетіңіз: баға нөлден үлкен, үтірден кейін екі белгіден аспайды.",
-    currentPricesFailed: "Ағымдағы бағаларды жүктеу мүмкін болмады",
     from: "Бастап",
     to: "Дейін",
     period: "Кезең",
@@ -428,8 +427,6 @@ export const kk: Messages = {
     SERVICE_UNAVAILABLE: "Сервер уақытша қолжетімсіз. Кейінірек қайталаңыз.",
     BAD_REQUEST: "Сұраныс қате.",
     INTERNAL_SERVER_ERROR: "Сервердегі қате. Кейінірек қайталаңыз.",
-    IDEMPOTENCY_IN_PROGRESS: "Әрекет әлі орындалуда. Күтіңіз.",
-    IDEMPOTENCY_KEY_REUSED: "Бұл әрекет бұрын басқа деректермен жіберілген.",
     CSRF_REJECTED:
       "Сұраныс қауіпсіздік себебімен қабылданбады. Бетті жаңартыңыз.",
     INVALID_CREDENTIALS: "Логин немесе құпиясөз қате.",
@@ -471,7 +468,6 @@ export const kk: Messages = {
     REVALUATION_NO_CHANGES: "Қайта бағалауда өзгерістер жоқ.",
     PRICES_CHANGED: "Бағалар өзгерді. Жолдарды тексеріңіз.",
     PRICES_CHANGED_LATER: "Осы қайта бағалаудан кейін бағалар өзгерген.",
-    INFRA_DEMO_REJECTED: "Демонстрациялық бас тарту.",
     SESSION_NOT_FOUND: "Сеанс табылмады: мүмкін, ол аяқталған.",
   },
 }

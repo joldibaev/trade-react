@@ -46,14 +46,22 @@ export async function mockSession(page: Page, me: Me | null) {
   )
 }
 
-export function product(index: number): Product {
+/** Product `index`; `prices` are the current prices, `${productId}|${priceTypeId}` → price. */
+export function product(
+  index: number,
+  prices: ReadonlyMap<string, string> = new Map()
+): Product {
+  const id = `00000000-0000-7000-8000-${String(index).padStart(12, "0")}`
   return {
-    id: `00000000-0000-7000-8000-${String(index).padStart(12, "0")}`,
+    id,
     code: 10000 + index,
     name: `Товар ${index}`,
     categoryId: null,
     isActive: index % 10 !== 0,
     barcode: `478${String(index).padStart(10, "0")}`,
+    prices: [...prices.entries()]
+      .filter(([key]) => key.startsWith(`${id}|`))
+      .map(([key, price]) => ({ priceTypeId: key.split("|")[1] ?? "", price })),
     version: 1,
   }
 }
@@ -62,6 +70,8 @@ type ProductsMock = {
   total: number
   /** Answers this page (0-based) with an error once instead of rows. */
   failPage?: { page: number; status: number; code: ProblemCode }
+  /** Current prices the products carry, `${productId}|${priceTypeId}` → price. */
+  prices?: ReadonlyMap<string, string>
 }
 
 /**
@@ -70,7 +80,7 @@ type ProductsMock = {
  */
 export async function mockProducts(
   page: Page,
-  { total, failPage }: ProductsMock
+  { total, failPage, prices }: ProductsMock
 ) {
   const requests: URL[] = []
   let failed = false
@@ -80,7 +90,9 @@ export async function mockProducts(
     const limit = Number(url.searchParams.get("limit") ?? "50")
     const search = url.searchParams.get("search")
     if (search) {
-      const items = Array.from({ length: total }, (_, i) => product(i + 1))
+      const items = Array.from({ length: total }, (_, i) =>
+        product(i + 1, prices)
+      )
         .filter((p) => p.name.includes(search))
         .slice(0, limit)
       return route.fulfill({ json: { items, nextCursor: null } })
@@ -92,7 +104,7 @@ export async function mockProducts(
     }
     const end = Math.min(offset + limit, total)
     const items = Array.from({ length: end - offset }, (_, i) =>
-      product(offset + i + 1)
+      product(offset + i + 1, prices)
     )
     return route.fulfill({
       json: { items, nextCursor: end < total ? String(end) : null },

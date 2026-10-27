@@ -42,7 +42,6 @@ import type { Messages } from "@/i18n/messages/ru"
 import { formatDecimal } from "@/lib/decimal"
 import { formatInstant } from "@/lib/instant"
 
-import { priceKey, useCurrentPrices } from "./current-prices"
 import {
   changedPrices,
   createRevaluation,
@@ -54,6 +53,7 @@ import {
   revaluationQuery,
   updateRevaluation,
   type PriceType,
+  type ProductPrice,
   type Revaluation,
 } from "./prices-api"
 import {
@@ -62,6 +62,7 @@ import {
   emptyRow,
   invalidCells,
   linesFromRows,
+  priceKey,
   rowsFromLines,
   serverFieldName,
   type GridRow,
@@ -227,36 +228,30 @@ function RevaluationEditor({
     enableBeforeUnload: () => form.state.isDirty,
   })
 
-  // "Was": the old price the server wrote into a saved line; for a cell not saved yet, the current price.
-  const productIds = useMemo(() => rows.map((row) => row.productId), [rows])
-  // Only products with a cell no saved line covers: a saved line carries its old price, and a 5,000-line draft
-  // would otherwise open with 50 requests.
-  const unpriced = useMemo(() => {
-    const savedCells = new Set(
-      (saved?.lines ?? []).map((l) => priceKey(l.productId, l.priceTypeId))
-    )
-    return rows
-      .filter((row) =>
-        types.some((type) => !savedCells.has(priceKey(row.productId, type.id)))
-      )
-      .map((row) => row.productId)
-  }, [rows, saved, types])
-  const current = useCurrentPrices(editable ? unpriced : [])
+  // "Was": the old price the server wrote into a saved line; for a cell not saved yet, the current price of the
+  // product as the picker found it (products carry their prices). A reopened draft knows no current price for a
+  // cell it has no line for: that "was" stays empty until the cell is saved.
+  const [found, setFound] = useState<ReadonlyMap<string, ProductPrice[]>>(
+    () => new Map()
+  )
   const oldPrice = useCallback(
     (productId: string, priceTypeId: string): string | null | undefined => {
       const line = saved?.lines.find(
         (l) => l.productId === productId && l.priceTypeId === priceTypeId
       )
       if (line) return line.oldPrice
-      if (!editable) return undefined
-      return current.prices.get(priceKey(productId, priceTypeId)) ?? null
+      const prices = found.get(productId)
+      if (!prices) return undefined
+      return prices.find((p) => p.priceTypeId === priceTypeId)?.price ?? null
     },
-    [saved, editable, current.prices]
+    [saved, found]
   )
 
+  const productIds = useMemo(() => rows.map((row) => row.productId), [rows])
   const chosen = useMemo(() => new Set(productIds), [productIds])
   const pick = useCallback(
     (product: ProductListItem) => {
+      setFound((current) => new Map(current).set(product.id, product.prices))
       form.pushFieldValue("rows", emptyRow(product, types))
     },
     [form, types]
@@ -372,12 +367,6 @@ function RevaluationEditor({
             <AlertTitle>{t.revaluations.fixCells}</AlertTitle>
             <AlertDescription>{t.revaluations.fixCellsHint}</AlertDescription>
           </Alert>
-        )}
-        {current.error !== null && (
-          <ProblemAlert
-            title={t.revaluations.currentPricesFailed}
-            error={current.error}
-          />
         )}
 
         <div className="flex flex-wrap items-center justify-between gap-2">

@@ -50,10 +50,12 @@ test("a new revaluation sends only the cells that were touched, a removal as nul
   await mockSession(page, admin)
   const types = priceTypes()
   await mockPriceTypes(page, types)
-  await mockProducts(page, { total: 30 })
-  const sent = await mockRevaluations(page, {
-    prices: new Map([[`${product(7).id}|${types[1]?.id ?? ""}`, "9000.00"]]),
-  })
+  // Products carry their current prices: the grid's "was" comes from the product the picker found.
+  const prices = new Map([
+    [`${product(7).id}|${types[1]?.id ?? ""}`, "9000.00"],
+  ])
+  await mockProducts(page, { total: 30, prices })
+  const sent = await mockRevaluations(page, { prices })
   await page.goto("/revaluations/new")
   await addProducts(page, ["Товар 3", "Товар 7"])
   expect(sent).toHaveLength(0)

@@ -235,7 +235,6 @@ export const uz: Messages = {
     fixCells: "Hamma narxlar toʻgʻri emas",
     fixCellsHint:
       "Qizil ramkadagi kataklarni tuzating: narx noldan katta, verguldan keyin ikki belgidan koʻp emas.",
-    currentPricesFailed: "Joriy narxlarni yuklab boʻlmadi",
     from: "Dan",
     to: "Gacha",
     period: "Davr",
@@ -434,9 +433,6 @@ export const uz: Messages = {
       "Server vaqtincha ishlamayapti. Keyinroq urinib koʻring.",
     BAD_REQUEST: "Notoʻgʻri soʻrov.",
     INTERNAL_SERVER_ERROR: "Serverda xatolik. Keyinroq urinib koʻring.",
-    IDEMPOTENCY_IN_PROGRESS: "Amal hali bajarilmoqda. Kuting.",
-    IDEMPOTENCY_KEY_REUSED:
-      "Bu amal avval boshqa maʼlumotlar bilan yuborilgan.",
     CSRF_REJECTED: "Soʻrov xavfsizlik sababli rad etildi. Sahifani yangilang.",
     INVALID_CREDENTIALS: "Login yoki parol notoʻgʻri.",
     TOO_MANY_LOGIN_ATTEMPTS:
@@ -480,7 +476,6 @@ export const uz: Messages = {
     PRICES_CHANGED: "Narxlar oʻzgardi. Qatorlarni tekshiring.",
     PRICES_CHANGED_LATER:
       "Bu qayta baholashdan keyin narxlar allaqachon oʻzgargan.",
-    INFRA_DEMO_REJECTED: "Namoyish uchun rad etish.",
     SESSION_NOT_FOUND: "Seans topilmadi: ehtimol, u allaqachon tugatilgan.",
   },
 }

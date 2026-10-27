@@ -18,16 +18,15 @@ import { formatInstant } from "@/lib/instant"
 
 import {
   priceHistoryOptions,
-  pricesQuery,
   priceTypesQuery,
   type PriceHistoryItem,
+  type ProductPrice,
 } from "./prices-api"
 
-/** A product's price of every type, as the till reads it now. */
-export function CurrentPricesCard({ productId }: { productId: string }) {
+/** A product's price of every type, as the till reads it now; the prices come with the product. */
+export function CurrentPricesCard({ prices }: { prices: ProductPrice[] }) {
   const t = useT()
   const types = useQuery(priceTypesQuery)
-  const prices = useQuery(pricesQuery([productId]))
 
   return (
     <Card>
@@ -35,16 +34,13 @@ export function CurrentPricesCard({ productId }: { productId: string }) {
         <CardTitle>{t.prices.current}</CardTitle>
       </CardHeader>
       <CardContent>
-        {types.isPending || prices.isPending ? (
+        {types.isPending ? (
           <Skeleton className="h-16 w-full" />
-        ) : types.isError || prices.isError ? (
+        ) : types.isError ? (
           <ProblemAlert
             title={t.prices.loadFailed}
-            error={types.error ?? prices.error}
-            onRetry={() => {
-              void types.refetch()
-              void prices.refetch()
-            }}
+            error={types.error}
+            onRetry={() => void types.refetch()}
           />
         ) : types.data.length === 0 ? (
           <p className="text-sm text-muted-foreground">{t.prices.noTypes}</p>
@@ -53,11 +49,10 @@ export function CurrentPricesCard({ productId }: { productId: string }) {
             items={types.data
               .filter(
                 (type) =>
-                  type.isActive ||
-                  prices.data.some((p) => p.priceTypeId === type.id)
+                  type.isActive || prices.some((p) => p.priceTypeId === type.id)
               )
               .map((type) => {
-                const price = prices.data.find((p) => p.priceTypeId === type.id)
+                const price = prices.find((p) => p.priceTypeId === type.id)
                 return {
                   label: type.name,
                   value: price ? (

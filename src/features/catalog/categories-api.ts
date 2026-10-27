@@ -1,16 +1,16 @@
-import { queryOptions, type QueryClient } from "@tanstack/react-query"
+import type { QueryClient } from "@tanstack/react-query"
 
 import { api, unwrap } from "@/api/client"
+import { wholeListOptions } from "@/api/cursor-pages"
 import type { components } from "@/api/schema"
 import { readAgainOnConflict } from "@/api/writes"
 
 import type { Category } from "./category-tree"
 
 /** Every category of the chain, one flat list; read by everyone signed in. */
-export const categoriesQuery = queryOptions({
-  queryKey: ["categories"],
-  queryFn: () => unwrap(api.GET("/api/categories")),
-})
+export const categoriesQuery = wholeListOptions(["categories"], () =>
+  unwrap(api.GET("/api/categories"))
+)
 
 async function refresh(queryClient: QueryClient) {
   await queryClient.invalidateQueries({ queryKey: ["categories"] })

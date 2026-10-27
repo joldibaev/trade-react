@@ -86,10 +86,12 @@ export async function mockStores(page: Page, stores: Store[]) {
     }
     if (parts[2] === undefined && method === "GET") {
       const active = url.searchParams.get("isActive")
-      return json(
-        route,
-        stores.filter((s) => active === null || String(s.isActive) === active)
-      )
+      return json(route, {
+        items: stores.filter(
+          (s) => active === null || String(s.isActive) === active
+        ),
+        nextCursor: null,
+      })
     }
     if (parts[2] === undefined && method === "POST") {
       const name = body?.name ?? ""

@@ -1,7 +1,7 @@
 import { queryOptions, type QueryClient } from "@tanstack/react-query"
 
 import { api, unwrap } from "@/api/client"
-import { cursorListOptions } from "@/api/cursor-pages"
+import { cursorListOptions, wholeListOptions } from "@/api/cursor-pages"
 import type { components } from "@/api/schema"
 import { readAgainOnConflict } from "@/api/writes"
 import { isActiveFilter, type ActiveStatus } from "@/components/page"
@@ -158,15 +158,11 @@ export function securityEventsOptions(
 
 /** Where the person is signed in, for an admin (never one's own: that is /api/auth/sessions). */
 export function userSessionsQuery(userId: string) {
-  return queryOptions({
-    queryKey: ["users", "sessions", userId],
-    queryFn: () =>
-      unwrap(
-        api.GET("/api/users/{id}/sessions", {
-          params: { path: { id: userId } },
-        })
-      ),
-  })
+  return wholeListOptions(["users", "sessions", userId], () =>
+    unwrap(
+      api.GET("/api/users/{id}/sessions", { params: { path: { id: userId } } })
+    )
+  )
 }
 
 /** Ends one session of another person (a lost phone): the rest and the password stay. Audited, with the reason. */
@@ -192,17 +188,17 @@ export async function endUserSession(
 
 // ---- Groups: the permissions a person has come from their one group (TradeNet ADR-0009).
 
-export const groupsQuery = queryOptions({
-  queryKey: ["groups", "list"],
-  queryFn: () => unwrap(api.GET("/api/groups")),
-})
+export const groupsQuery = wholeListOptions(["groups", "list"], () =>
+  unwrap(api.GET("/api/groups"))
+)
 
 /** The permissions a group may be given; USERS_MANAGE stays with the built-in ADMIN. */
-export const grantablePermissionsQuery = queryOptions({
-  queryKey: ["groups", "permissions"],
-  queryFn: () => unwrap(api.GET("/api/groups/permissions")),
+export const grantablePermissionsQuery = {
+  ...wholeListOptions(["groups", "permissions"], () =>
+    unwrap(api.GET("/api/groups/permissions"))
+  ),
   staleTime: Infinity,
-})
+}
 
 export function groupQuery(id: string) {
   return queryOptions({
@@ -286,19 +282,23 @@ export async function updateProfile(
   return me
 }
 
-/** The other sessions end; this one gets a new token in its cookie (TradeNet authentication.md). */
+/**
+ * The other sessions end; this one gets a new token in its cookie (TradeNet authentication.md). The answer is the
+ * account with its new version, which the next profile edit must send.
+ */
 export async function changePassword(
   queryClient: QueryClient,
   body: components["schemas"]["ChangePasswordRequest"]
 ) {
-  await unwrap(api.POST("/api/auth/password", { body }))
+  const me = await unwrap(api.POST("/api/auth/password", { body }))
+  queryClient.setQueryData(meQuery.queryKey, me)
   void queryClient.invalidateQueries({ queryKey: ["auth", "sessions"] })
+  return me
 }
 
-export const sessionsQuery = queryOptions({
-  queryKey: ["auth", "sessions"],
-  queryFn: () => unwrap(api.GET("/api/auth/sessions")),
-})
+export const sessionsQuery = wholeListOptions(["auth", "sessions"], () =>
+  unwrap(api.GET("/api/auth/sessions"))
+)
 
 export async function endSession(queryClient: QueryClient, id: string) {
   await unwrap(

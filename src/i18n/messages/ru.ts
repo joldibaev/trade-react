@@ -235,7 +235,6 @@ export const ru = {
     fixCells: "Не все цены верны",
     fixCellsHint:
       "Исправьте ячейки в красной рамке: цена больше нуля, не больше двух знаков после запятой.",
-    currentPricesFailed: "Не удалось загрузить текущие цены",
     from: "С",
     to: "По",
     period: "Период",
@@ -428,8 +427,6 @@ export const ru = {
     SERVICE_UNAVAILABLE: "Сервер временно недоступен. Повторите позже.",
     BAD_REQUEST: "Неверный запрос.",
     INTERNAL_SERVER_ERROR: "Ошибка на сервере. Повторите позже.",
-    IDEMPOTENCY_IN_PROGRESS: "Операция ещё выполняется. Подождите.",
-    IDEMPOTENCY_KEY_REUSED: "Эта операция уже отправлялась с другими данными.",
     CSRF_REJECTED:
       "Запрос отклонён из соображений безопасности. Обновите страницу.",
     INVALID_CREDENTIALS: "Неверный логин или пароль.",
@@ -472,7 +469,6 @@ export const ru = {
     REVALUATION_NO_CHANGES: "В переоценке нет изменений.",
     PRICES_CHANGED: "Цены изменились. Проверьте строки.",
     PRICES_CHANGED_LATER: "После этой переоценки цены уже менялись.",
-    INFRA_DEMO_REJECTED: "Демонстрационный отказ.",
     SESSION_NOT_FOUND: "Сеанс не найден: возможно, он уже завершён.",
   } satisfies Record<ErrorCode, string>,
 }

@@ -166,7 +166,7 @@ function ProductDetails({ product }: { product: Product }) {
           </CardContent>
         </Card>
       </div>
-      <CurrentPricesCard productId={product.id} />
+      <CurrentPricesCard prices={product.prices} />
       <PriceHistory productId={product.id} />
       {editing && (
         <ProductFormDialog product={product} open onOpenChange={setEditing} />

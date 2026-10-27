@@ -120,20 +120,26 @@ export async function mockAccess(page: Page) {
       const sessionId = url.pathname.split("/")[5]
       if (request.method() === "GET")
         return route.fulfill({
-          json: userSessions.filter((x) => !ended.includes(x.id)),
+          json: {
+            items: userSessions.filter((x) => !ended.includes(x.id)),
+            nextCursor: null,
+          },
         })
       if (sessionId) ended.push(sessionId)
       return route.fulfill({ status: 204 })
     }
     if (kind === "groups" && id === "permissions")
       return route.fulfill({
-        json: ["STORES_MANAGE", "CATALOG_MANAGE", "PRICES_MANAGE"],
+        json: {
+          items: ["STORES_MANAGE", "CATALOG_MANAGE", "PRICES_MANAGE"],
+          nextCursor: null,
+        },
       })
     const items: { id: string; version: number }[] =
       kind === "users" ? people : list
     if (!id && request.method() === "GET")
       return route.fulfill({
-        json: kind === "users" ? { items: people, nextCursor: null } : list,
+        json: { items: kind === "users" ? people : list, nextCursor: null },
       })
     const target = items.find((item) => item.id === id)
     if (!target)
@@ -183,7 +189,10 @@ export async function mockSessions(page: Page) {
     const request = route.request()
     if (request.method() === "GET")
       return route.fulfill({
-        json: sessions.filter((s) => !ended.includes(s.id)),
+        json: {
+          items: sessions.filter((s) => !ended.includes(s.id)),
+          nextCursor: null,
+        },
       })
     const id = new URL(request.url()).pathname.split("/").at(-1) ?? ""
     if (id === "others")

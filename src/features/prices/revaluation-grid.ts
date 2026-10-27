@@ -28,6 +28,9 @@ export type GridRow = {
   cells: GridCell[]
 }
 
+export const priceKey = (productId: string, priceTypeId: string) =>
+  `${productId}|${priceTypeId}`
+
 /** Money has 2 fraction digits (`[Money]`, docs/platform/json-and-numbers.md). */
 export const priceScale = 2
 

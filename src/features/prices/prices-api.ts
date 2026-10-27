@@ -1,7 +1,7 @@
 import { queryOptions, type QueryClient } from "@tanstack/react-query"
 
 import { api, unwrap } from "@/api/client"
-import { cursorListOptions } from "@/api/cursor-pages"
+import { cursorListOptions, wholeListOptions } from "@/api/cursor-pages"
 import { problemWith } from "@/api/errors"
 import type { components } from "@/api/schema"
 import { readAgainOnConflict } from "@/api/writes"
@@ -14,13 +14,13 @@ export type RevaluationStatus = components["schemas"]["RevaluationStatus"]
 export type RevaluationLineRequest =
   components["schemas"]["RevaluationLineRequest"]
 export type PriceHistoryItem = components["schemas"]["PriceHistoryItem"]
+export type ProductPrice = components["schemas"]["ProductPrice"]
 
 // ---- Price types: a short list, read by everyone (cashiers need prices), managed with PRICES_MANAGE.
 
-export const priceTypesQuery = queryOptions({
-  queryKey: ["price-types"],
-  queryFn: () => unwrap(api.GET("/api/price-types")),
-})
+export const priceTypesQuery = wholeListOptions(["price-types"], () =>
+  unwrap(api.GET("/api/price-types"))
+)
 
 export async function createPriceType(queryClient: QueryClient, name: string) {
   const created = await unwrap(api.POST("/api/price-types", { body: { name } }))
@@ -49,21 +49,7 @@ export async function updatePriceType(
   return updated
 }
 
-// ---- Current prices and history.
-
-/** The current prices of up to 100 products (the API's limit), every type. */
-export function pricesQuery(productIds: readonly string[]) {
-  return queryOptions({
-    queryKey: ["prices", [...productIds].sort()],
-    queryFn: () =>
-      unwrap(
-        api.GET("/api/prices", {
-          params: { query: { productId: [...productIds] } },
-        })
-      ),
-    enabled: productIds.length > 0,
-  })
-}
+// ---- Price history. The current prices travel with the product (`ProductResponse.prices`, list items too).
 
 export function priceHistoryOptions(productId: string) {
   return cursorListOptions(["prices", "history", productId], (cursor) =>
@@ -124,8 +110,11 @@ function remember(queryClient: QueryClient, revaluation: Revaluation) {
     revaluation
   )
   void queryClient.invalidateQueries({ queryKey: ["revaluations", "list"] })
-  if (revaluation.status !== "DRAFT")
-    void queryClient.invalidateQueries({ queryKey: ["prices"] })
+  // A posted or reversed document changed prices, which every product card and list row carries.
+  if (revaluation.status !== "DRAFT") {
+    void queryClient.invalidateQueries({ queryKey: ["products"] })
+    void queryClient.invalidateQueries({ queryKey: ["prices", "history"] })
+  }
   return revaluation
 }
 

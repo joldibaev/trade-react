@@ -42,7 +42,8 @@ export async function mockCategories(
     const id = new URL(request.url()).pathname.split("/")[3]
     const body = request.postDataJSON() as Record<string, unknown> | null
     requests.push({ method: request.method(), body })
-    if (request.method() === "GET") return route.fulfill({ json: categories })
+    if (request.method() === "GET")
+      return route.fulfill({ json: { items: categories, nextCursor: null } })
     if (request.method() === "POST") {
       const created = category(
         next++,
@@ -108,6 +109,7 @@ export async function mockProductWrites(
         isActive: true,
         packages: (body.packages ?? []) as Product["packages"],
         barcodes: (body.barcodes ?? []) as Product["barcodes"],
+        prices: [],
         version: 1,
       } satisfies Product
       existing.push(created)

@@ -31,7 +31,8 @@ export async function mockPriceTypes(page: Page, types: PriceType[]) {
   const patches: unknown[] = []
   await page.route(/\/api\/price-types(\/[^?]*)?$/, async (route) => {
     const request = route.request()
-    if (request.method() === "GET") return route.fulfill({ json: types })
+    if (request.method() === "GET")
+      return route.fulfill({ json: { items: types, nextCursor: null } })
     const id = new URL(request.url()).pathname.split("/")[3]
     const body = request.postDataJSON() as Partial<PriceType>
     patches.push(body)
@@ -76,18 +77,6 @@ export async function mockRevaluations(
         oldPrice: prices.get(`${line.productId}|${line.priceTypeId}`) ?? null,
       }
     })
-
-  await page.route(/\/api\/prices\?/, (route) => {
-    const ids = new URL(route.request().url()).searchParams.getAll("productId")
-    return route.fulfill({
-      json: [...prices.entries()]
-        .map(([key, price]) => {
-          const [productId = "", priceTypeId = ""] = key.split("|")
-          return { productId, priceTypeId, price }
-        })
-        .filter((p) => ids.includes(p.productId)),
-    })
-  })
 
   await page.route(/\/api\/revaluations(\/[^?]*)?(\?.*)?$/, async (route) => {
     const request = route.request()
