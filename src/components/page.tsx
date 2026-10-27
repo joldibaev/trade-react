@@ -59,6 +59,18 @@ export function parseActiveStatus(value: unknown): ActiveStatus | undefined {
   return value === "active" || value === "inactive" ? value : undefined
 }
 
+/**
+ * A text parameter of a list route (`?search=`, `?categoryId=`), trimmed; empty is none. The router reads search
+ * values as JSON, so the digits of a typed or shared link (`?search=10001`, a code or a tax id) arrive as a number;
+ * a search made on the page is written quoted and arrives as text.
+ */
+export function parseSearchText(value: unknown): string | undefined {
+  const text = typeof value === "number" ? String(value) : value
+  return typeof text === "string" && text.trim() !== ""
+    ? text.trim()
+    : undefined
+}
+
 /** The API's `isActive` filter for a status from the URL. */
 export function isActiveFilter(status: ActiveStatus | undefined) {
   return status === undefined ? undefined : status === "active"

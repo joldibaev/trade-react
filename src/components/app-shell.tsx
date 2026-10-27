@@ -2,6 +2,7 @@ import { useQueryClient } from "@tanstack/react-query"
 import { Link, useNavigate, type LinkProps } from "@tanstack/react-router"
 import {
   FileSpreadsheetIcon,
+  HandshakeIcon,
   LayoutTemplateIcon,
   LogOutIcon,
   PackageIcon,
@@ -54,6 +55,11 @@ const navigation: NavGroup[] = [
         to: "/products",
         label: (t) => t.shell.products,
         icon: <PackageIcon aria-hidden />,
+      },
+      {
+        to: "/counterparties",
+        label: (t) => t.shell.counterparties,
+        icon: <HandshakeIcon aria-hidden />,
       },
       {
         to: "/labels",

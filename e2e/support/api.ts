@@ -17,6 +17,7 @@ export const admin: Me = {
     "STORES_MANAGE",
     "CATALOG_MANAGE",
     "PRICES_MANAGE",
+    "COUNTERPARTIES_MANAGE",
   ],
   stores: { all: true, storeIds: [] },
   version: 1,

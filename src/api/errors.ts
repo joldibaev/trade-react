@@ -5,7 +5,8 @@ export type ProblemCode = components["schemas"]["ProblemCode"]
 /** What is wrong with one field, as TradeNet says it. */
 export type ServerFieldCode = components["schemas"]["FieldCode"]
 /** Field codes the client gives itself, for what only the screen can check (a password typed twice). */
-export type ClientFieldCode = "PASSWORDS_DIFFER" | "BARCODE_TAKEN"
+export type ClientFieldCode =
+  "PASSWORDS_DIFFER" | "BARCODE_TAKEN" | "COUNTERPARTY_TAX_ID_TAKEN"
 /** Every code a field may show: each catalog has one text per code (src/i18n). */
 export type FieldCode = ServerFieldCode | ClientFieldCode
 
@@ -86,6 +87,8 @@ type ProblemExtensions = {
   PRICES_CHANGED: components["schemas"]["PriceConflicts"]
   PRICES_CHANGED_LATER: components["schemas"]["PriceConflicts"]
   BARCODE_TAKEN: components["schemas"]["TakenBarcode"]
+  COUNTERPARTY_TAX_ID_TAKEN: components["schemas"]["TakenTaxId"]
+  PRICE_TYPE_HAS_COUNTERPARTIES: components["schemas"]["PriceTypeCounterparties"]
 }
 
 /**

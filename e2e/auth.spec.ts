@@ -28,8 +28,10 @@ test("sends a signed-out person to sign-in and back to the page they asked for",
 
   await page.getByLabel("Пароль").fill("admin-dev-password")
   await page.getByRole("button", { name: "Войти" }).click()
-  await expect(page).toHaveURL(/\/products\?search=1$/)
+  // The router writes a search it read as a number back as text (`"1"`); the search itself survives the sign-in.
+  await expect(page).toHaveURL(/\/products\?search=(%22)?1(%22)?$/)
   await expect(page.getByRole("heading", { name: "Товары" })).toBeVisible()
+  await expect(page.getByRole("searchbox")).toHaveValue("1")
 })
 
 test("an ended session in the middle of work leads to sign-in", async ({

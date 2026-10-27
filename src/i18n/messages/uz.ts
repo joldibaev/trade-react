@@ -55,6 +55,7 @@ export const uz: Messages = {
     groups: "Guruhlar va huquqlar",
     labels: "Yorliqlarni chop etish",
     labelTemplates: "Yorliq andozalari",
+    counterparties: "Kontragentlar",
   },
   auth: {
     title: "Kirish",
@@ -200,7 +201,44 @@ export const uz: Messages = {
     hint: "Tovar narxi faqat qayta baholash orqali oʻzgaradi: kim, qachon va qaysi narxdan qaysiga oʻzgartirgani koʻrinadi.",
     delete: "Oʻchirish",
     deleteHint:
-      "Faqat narxlari, qayta baholashlari va yorliq andozalari yoʻq turni oʻchirib tashlash mumkin. Aks holda uni faqat oʻchirib qoʻyish mumkin.",
+      "Faqat narxlari, qayta baholashlari va yorliq andozalari yoʻq hamda hech bir kontragentda tanlanmagan turni oʻchirish mumkin. Aks holda uni nofaol qilish mumkin.",
+    usedByCounterparties: "Tur tanlangan kontragentlar:",
+  },
+  counterparties: {
+    title: "Kontragentlar",
+    create: "Yangi kontragent",
+    createTitle: "Yangi kontragent",
+    editTitle: "Kontragentni oʻzgartirish",
+    search: "Nomi, telefon yoki STIR",
+    name: "Nomi",
+    nameHint:
+      "Firma nomi yoki shaxsning ismi. Takrorlanmaydi, hatto nofaollar orasida ham.",
+    role: "Roli",
+    roleHint: "Kamida bittasi: yetkazib beruvchi, mijoz yoki ikkalasi.",
+    supplier: "Yetkazib beruvchi",
+    customer: "Mijoz",
+    suppliers: "Yetkazib beruvchilar",
+    customers: "Mijozlar",
+    priceType: "Narx turi",
+    priceTypeHint: "Kassa mijoz uchun shu narx turini taklif qiladi.",
+    noPriceType: "Tanlanmagan",
+    phone: "Telefon",
+    taxId: "STIR / JShShIR",
+    taxIdHint: "STIR — 9 ta raqam, JShShIR — 14 ta raqam.",
+    address: "Manzil",
+    note: "Izoh",
+    active: "Faol",
+    inactive: "Nofaol",
+    deactivate: "Nofaol qilish",
+    activate: "Faol qilish",
+    deactivateHint:
+      "Kontragent oʻchirilmaydi: u roʻyxatda nofaol boʻlib qoladi, uni qayta faol qilish mumkin.",
+    activateHint: "Kontragent yana faol boʻladi.",
+    empty: "Hozircha kontragentlar yoʻq.",
+    delete: "Oʻchirish",
+    deleteHint:
+      "Kontragent butunlay oʻchiriladi. Agar u yana kerak boʻlishi mumkin boʻlsa, yaxshisi, uni nofaol qiling.",
+    taxIdTakenBy: "kontragentda koʻrsatilgan",
   },
   revaluations: {
     title: "Qayta baholashlar",
@@ -349,6 +387,7 @@ export const uz: Messages = {
     STORES_MANAGE: "Doʻkonlar va kassalar",
     CATALOG_MANAGE: "Tovarlar katalogi",
     PRICES_MANAGE: "Narxlar va qayta baholashlar",
+    COUNTERPARTIES_MANAGE: "Kontragentlar",
   },
   permissionHints: {
     USERS_MANAGE: "Faqat administratorda.",
@@ -358,6 +397,8 @@ export const uz: Messages = {
       "Tovarlar va kategoriyalarni yaratish va tahrirlash. Katalogni hamma oʻqiy oladi.",
     PRICES_MANAGE:
       "Narx turlari va qayta baholashlar. Narxlarni hamma koʻra oladi.",
+    COUNTERPARTIES_MANAGE:
+      "Yetkazib beruvchilar va mijozlarni yaratish va tahrirlash. Roʻyxatni hamma koʻra oladi.",
   },
   audit: {
     title: "Xavfsizlik tarixi",
@@ -611,6 +652,7 @@ export const uz: Messages = {
     DUPLICATE: "Qiymat takrorlanmoqda.",
     PASSWORDS_DIFFER: "Parollar mos kelmadi.",
     BARCODE_TAKEN: "Bu shtrix-kod boshqa tovarda bor.",
+    COUNTERPARTY_TAX_ID_TAKEN: "Bu STIR yoki JShShIR boshqa kontragentda bor.",
   },
   errors: {
     NETWORK_ERROR:
@@ -689,6 +731,12 @@ export const uz: Messages = {
     PRICE_TYPE_HAS_REVALUATIONS:
       "Narx turi qayta baholashlarda bor. U bilan qoralamalarni oʻchiring yoki turni nofaol qiling.",
     PRICE_TYPE_HAS_LABEL_TEMPLATES:
-      "Narx turi yorliq andozalarida tanlangan. Andozalarni oʻzgartiring yoki turni oʻchirib qoʻying.",
+      "Narx turi yorliq andozalarida tanlangan. Andozalarni oʻzgartiring yoki turni nofaol qiling.",
+    COUNTERPARTY_NOT_FOUND: "Kontragent topilmadi.",
+    COUNTERPARTY_NAME_TAKEN:
+      "Bunday nomli kontragent allaqachon bor (balki nofaoldir).",
+    COUNTERPARTY_TAX_ID_TAKEN: "Bu STIR yoki JShShIR boshqa kontragentda bor.",
+    PRICE_TYPE_HAS_COUNTERPARTIES:
+      "Narx turi kontragentlarda tanlangan. Ularni oʻzgartiring yoki turni nofaol qiling.",
   },
 }

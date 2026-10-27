@@ -120,6 +120,9 @@ export function CheckboxListField({
           <Field key={option.value} orientation="horizontal">
             <Checkbox
               id={id}
+              // A rule over the whole list ("choose at least one") marks every box, so focus lands on the first.
+              aria-invalid={state.invalid}
+              aria-describedby={state.describedBy}
               checked={chosen.has(option.value)}
               onCheckedChange={(checked) => {
                 state.change(
@@ -129,6 +132,8 @@ export function CheckboxListField({
                       value === option.value ? checked : chosen.has(value)
                     )
                 )
+                // A list has no blur of its own; as in `SelectField`, a choice counts as leaving the field.
+                field.handleBlur()
               }}
             />
             <FieldContent>

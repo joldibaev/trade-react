@@ -14,6 +14,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as AppIndexRouteImport } from './routes/_app/index'
 import { Route as AppAdminRouteImport } from './routes/_app/_admin'
 import { Route as AppAccountRouteImport } from './routes/_app/account'
+import { Route as AppCounterpartiesRouteImport } from './routes/_app/counterparties'
 import { Route as AppLabelsRouteImport } from './routes/_app/labels'
 import { Route as AppPriceTypesRouteImport } from './routes/_app/price-types'
 import { Route as AppLabelTemplatesIndexRouteImport } from './routes/_app/label-templates/index'
@@ -52,6 +53,11 @@ const AppAdminRoute = AppAdminRouteImport.update({
 const AppAccountRoute = AppAccountRouteImport.update({
   id: '/account',
   path: '/account',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCounterpartiesRoute = AppCounterpartiesRouteImport.update({
+  id: '/counterparties',
+  path: '/counterparties',
   getParentRoute: () => AppRoute,
 } as any)
 const AppLabelsRoute = AppLabelsRouteImport.update({
@@ -141,6 +147,7 @@ export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
   '/login': typeof LoginRoute
   '/account': typeof AppAccountRoute
+  '/counterparties': typeof AppCounterpartiesRoute
   '/labels': typeof AppLabelsRoute
   '/price-types': typeof AppPriceTypesRoute
   '/label-templates/$templateId': typeof AppLabelTemplatesTemplateIdRoute
@@ -162,6 +169,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/': typeof AppIndexRoute
   '/account': typeof AppAccountRoute
+  '/counterparties': typeof AppCounterpartiesRoute
   '/labels': typeof AppLabelsRoute
   '/price-types': typeof AppPriceTypesRoute
   '/label-templates/$templateId': typeof AppLabelTemplatesTemplateIdRoute
@@ -185,6 +193,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/_app/_admin': typeof AppAdminRouteWithChildren
   '/_app/account': typeof AppAccountRoute
+  '/_app/counterparties': typeof AppCounterpartiesRoute
   '/_app/labels': typeof AppLabelsRoute
   '/_app/price-types': typeof AppPriceTypesRoute
   '/_app/': typeof AppIndexRoute
@@ -209,6 +218,7 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/account'
+    | '/counterparties'
     | '/labels'
     | '/price-types'
     | '/label-templates/$templateId'
@@ -230,6 +240,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/'
     | '/account'
+    | '/counterparties'
     | '/labels'
     | '/price-types'
     | '/label-templates/$templateId'
@@ -252,6 +263,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/_app/_admin'
     | '/_app/account'
+    | '/_app/counterparties'
     | '/_app/labels'
     | '/_app/price-types'
     | '/_app/'
@@ -311,6 +323,13 @@ declare module '@tanstack/react-router' {
       path: '/account'
       fullPath: '/account'
       preLoaderRoute: typeof AppAccountRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/counterparties': {
+      id: '/_app/counterparties'
+      path: '/counterparties'
+      fullPath: '/counterparties'
+      preLoaderRoute: typeof AppCounterpartiesRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/labels': {
@@ -449,6 +468,7 @@ const AppAdminRouteWithChildren = AppAdminRoute._addFileChildren(
 interface AppRouteChildren {
   AppAdminRoute: typeof AppAdminRouteWithChildren
   AppAccountRoute: typeof AppAccountRoute
+  AppCounterpartiesRoute: typeof AppCounterpartiesRoute
   AppLabelsRoute: typeof AppLabelsRoute
   AppPriceTypesRoute: typeof AppPriceTypesRoute
   AppIndexRoute: typeof AppIndexRoute
@@ -467,6 +487,7 @@ interface AppRouteChildren {
 const AppRouteChildren: AppRouteChildren = {
   AppAdminRoute: AppAdminRouteWithChildren,
   AppAccountRoute: AppAccountRoute,
+  AppCounterpartiesRoute: AppCounterpartiesRoute,
   AppLabelsRoute: AppLabelsRoute,
   AppPriceTypesRoute: AppPriceTypesRoute,
   AppIndexRoute: AppIndexRoute,

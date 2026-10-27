@@ -2,6 +2,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { PlusIcon } from "lucide-react"
 import { useMemo, useState } from "react"
 
+import { problemWith } from "@/api/errors"
 import { ConfirmDialog } from "@/components/confirm-dialog"
 import { DataTable } from "@/components/data-table/data-table"
 import { dataTableColumns } from "@/components/data-table/columns"
@@ -193,6 +194,7 @@ export function PriceTypesPage() {
           confirmLabel={t.priceTypes.delete}
           destructive
           failedTitle={t.common.deleteFailed}
+          refusalDetails={(error) => <UsedByCounterparties error={error} />}
           action={() => deletePriceType(queryClient, command.priceType)}
         />
       )}
@@ -221,6 +223,23 @@ export function PriceTypesPage() {
         />
       )}
     </>
+  )
+}
+
+/** TradeNet names up to 20 counterparties (by name) that still have the type; that many means there may be more. */
+const namedCounterparties = 20
+
+/** The counterparties that keep a price type from being deleted, so the person knows whom to change. */
+function UsedByCounterparties({ error }: { error: unknown }) {
+  const t = useT()
+  const names = (
+    problemWith(error, "PRICE_TYPE_HAS_COUNTERPARTIES")?.counterparties ?? []
+  ).map((c) => c.name)
+  if (names.length === 0) return null
+  return (
+    <p>
+      {`${t.priceTypes.usedByCounterparties} ${names.join(", ")}${names.length >= namedCounterparties ? ", …" : ""}`}
+    </p>
   )
 }
 
