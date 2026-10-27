@@ -14,6 +14,11 @@ a recommendation.
 How the client is built and why: `docs/`. The npm scripts in plain words:
 `README.md`.
 
+The owner works on a Mac and on Windows; the sibling repositories (TradeNet,
+trade4-old) sit next to this one. Durable knowledge (a decision, a rule, a
+fact) goes into this repository: this file, `docs/` or `docs/backlog.md`. An
+agent's local memory stays on one machine and is lost on the other.
+
 ## Talking to the owner
 
 - The owner (Nurlan) reads Russian and does not write code. Reply in Russian,
@@ -59,9 +64,9 @@ an i18n library. Reasons and rejected options: `docs/decisions/0001-stack.md`.
 - A 401 from any request (except sign-in and `/me`) means the session ended:
   `main.tsx` forgets the person once and the signed-in layout sends them to
   sign-in with the page as the way back. Do not handle 401 per screen.
-- Writes are never retried automatically (`mutations.retry: false`). A write
-  TradeNet marks `[RequiresIdempotencyKey]` (sales, payments) gets a UUIDv7
-  per operation, reused for every attempt of that operation.
+- Writes are never retried automatically (`mutations.retry: false`). TradeNet
+  has no `Idempotency-Key` today; when sales or payments bring it back, such a
+  write gets a UUIDv7 per operation, reused for every attempt of it.
 - An edit sends the `version` it read; a 409 `VERSION_CONFLICT` keeps the
   person's edits on screen and lets them choose.
 - The dev proxy (`vite.config.ts`) keeps the browser's `Host` (no
@@ -77,8 +82,9 @@ an i18n library. Reasons and rejected options: `docs/decisions/0001-stack.md`.
 - Every list is `DataTable` (`src/components/data-table`): virtual rows in a
   native `<table>`. A growing list comes through `useCursorSource` over
   `cursorListOptions` (`src/api/cursor-pages.ts`, infinite scroll over
-  `nextCursor`); a short list the API answers whole (stores, groups) through
-  `useArraySource`. Lint bans
+  `nextCursor`); a short list TradeNet answers whole (stores, groups,
+  sessions: one page, `nextCursor` null) through `wholeListOptions` and
+  `useArraySource`. Every TradeNet list is `{items, nextCursor}`. Lint bans
   `@tanstack/react-virtual` outside it. A new list behavior goes into
   `DataTable` for every list, not into a page.
 - Every form is `useAppForm` (`src/components/form`). A new kind of field
@@ -169,7 +175,12 @@ the skill looks right, raise it with the owner.
 
 ## Git
 
-Commit only when the owner accepts the work. One commit per self-contained
-change, Conventional Commits (`feat(products): ...`). History shows final
-states: until pushed, fold a correction into its commit instead of adding a
-"fix" commit. The owner pushes.
+The remote is GitHub, `origin` (`git@github.com:joldibaev/trade-react.git`);
+the main branch is `master`. An agent commits and pushes only to the review
+branch the owner names; nothing reaches `master` without his permission.
+
+One commit per self-contained change, Conventional Commits
+(`feat(products): ...`), each passing typecheck and lint. History shows final
+states: until a review branch is merged, a correction is folded into the
+commit it corrects and the branch is pushed again with `--force-with-lease`;
+once merged into `master`, history is never rewritten.
