@@ -7,6 +7,9 @@ const port = 5174
 export default defineConfig({
   testDir: "./e2e",
   fullyParallel: true,
+  // Two browsers at a time: with Playwright's default (half the cores) the dev server's first compile of each page
+  // competed with the owner's IDEs, and tests failed on timeouts that no test code caused. Two pass reliably here.
+  workers: 2,
   forbidOnly: Boolean(process.env.CI),
   reporter: "list",
   use: {
