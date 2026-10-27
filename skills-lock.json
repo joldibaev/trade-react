@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "skills": {
+    "shadcn": {
+      "source": "shadcn-ui/ui",
+      "sourceType": "github",
+      "commit": "8f04138777c1b6996e709993362a7b0a12888ecf",
+      "skillPath": "skills/shadcn/SKILL.md",
+      "removed": [
+        "evals/",
+        "agents/",
+        "assets/shadcn.png",
+        "assets/shadcn-small.png"
+      ],
+      "computedHash": "5f0cd17c76c7d2c4fdcec111e12f1ff08d32a12ec3e4547efd000b5f8a7e4d9d",
+      "localChanges": "Every `shadcn@latest` (and the pnpm/bun runners) replaced with `npx shadcn`, the CLI pinned in package.json (4.22.1), so the skill never runs a newer CLI than the project has. computedHash is of the upstream files."
+    },
+    "react-best-practices": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "skillPath": "skills/react-best-practices/SKILL.md",
+      "computedHash": "3286ace648b4d740317b9c1cb7fbd38600eaacc62a8b57ea5e06fd2992b5582e"
+    },
+    "composition-patterns": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "skillPath": "skills/composition-patterns/SKILL.md",
+      "computedHash": "fb8f849b4d46c0c4d364ae6fb398a5cb693b54f9a4c31765a1ec0689c7cb93d5"
+    }
+  }
+}

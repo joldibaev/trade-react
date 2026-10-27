@@ -1,0 +1,2 @@
+# One line ending on Windows and macOS, so a diff shows only real changes.
+* text=auto eol=lf

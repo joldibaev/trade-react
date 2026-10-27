@@ -1,32 +1,53 @@
-# React + TypeScript + Vite
+# trade-react
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Веб-клиент учётной системы Cosmos (React). Сервер — TradeNet, отдельный
+репозиторий; договор между ними — только OpenAPI-документ TradeNet. Правила для
+агентов — в `AGENTS.md`, почему выбраны именно эти библиотеки — в `docs/`.
 
-Currently, two official plugins are available:
+Эта страница — шпаргалка: какие команды есть и что они делают. Каждую команду
+можно запустить кнопкой из списка npm-скриптов в IDE (WebStorm/Rider: окно
+**npm**, или зелёная стрелка рядом со скриптом в `package.json`) или в
+терминале этой папки: `npm run <имя>`.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Один раз на компьютере
 
-## React Compiler
+1. **Node.js 26** (`node --version` → `v26.…`).
+2. **Google Chrome** — браузерные проверки (`e2e`) запускают установленный
+   Chrome, а не скачивают свой браузер на 200 МБ.
+3. `npm install` — скачивает библиотеки (папка `node_modules`). Повторить после
+   `git pull`, если изменился `package.json`.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Каждый день
 
-## Expanding the Oxlint configuration
+| Скрипт    | Что делает                                                                                                                                                                                           |
+| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `dev`     | Запускает клиент на http://localhost:5173. Запросы `/api` уходят в TradeNet на `localhost:5129`, поэтому сначала запустите API (Rider). Правки в коде видны в браузере сразу. Остановить — `Ctrl+C`. |
+| `api`     | Перечитывает OpenAPI-документ запущенного TradeNet и обновляет типы `src/api/schema.d.ts`. Запускать после изменений в API; потом `typecheck` покажет, что в клиенте нужно поправить.                |
+| `check`   | Все проверки подряд: `typecheck`, `lint`, `format:check`, `test`, `e2e`. Зелёный `check` — работа готова к приёмке. Около минуты.                                                                    |
+| `build`   | Собирает клиент для сервера в папку `dist`.                                                                                                                                                          |
+| `preview` | Показывает собранный `dist` на http://localhost:4173 (без прокси к API — только посмотреть, что собралось).                                                                                          |
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+## Проверки по отдельности
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
+| Скрипт      | Что проверяет                                                                                                                                                                                                             |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `typecheck` | Типы TypeScript: опечатки, неверные поля API, непереведённый код ошибки.                                                                                                                                                  |
+| `lint`      | Правила кода: доступность, тексты только из переводов, деньги не как числа и т.д. Каждое сообщение говорит, что сделать.                                                                                                  |
+| `format`    | Приводит оформление кода к единому виду (Prettier). `format:check` только проверяет.                                                                                                                                      |
+| `test`      | Быстрые тесты логики и компонентов (Vitest), пару секунд. `test:watch` — перезапускает их при каждой правке.                                                                                                              |
+| `e2e`       | Проверки в настоящем Chrome: прокрутка 10 000 товаров, вход, меню на телефоне. API подменяется в тестах, запускать TradeNet не нужно. Сам поднимает клиент на порту 5174. `e2e:ui` — то же с окном, где видно каждый шаг. |
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## Если что-то не так
+
+- **В браузере «Сервер временно недоступен»** — не запущен TradeNet на 5129
+  (прокси клиента отвечает за него 502).
+- **Нужен другой API** (например, второй на 5199): в терминале
+  `API_URL=http://localhost:5199 npm run dev` (macOS) или
+  `$env:API_URL="http://localhost:5199"; npm run dev` (PowerShell). Для `api`
+  то же с `OPENAPI_URL=http://localhost:5199/openapi/v1.json`.
+- **`dev` пишет, что порт 5173 занят** — клиент уже запущен (в IDE или другом
+  терминале). Остановите тот.
+- **`e2e` не находит Chrome** — установите Google Chrome.
+- **Все запросы отвечают 403 `CSRF_REJECTED`** — в `vite.config.ts` у прокси
+  появился `changeOrigin: true`; его нужно убрать (почему — там же в
+  комментарии).
