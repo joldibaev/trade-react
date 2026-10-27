@@ -4,8 +4,11 @@ import {
   FileSpreadsheetIcon,
   LogOutIcon,
   PackageIcon,
+  ShieldIcon,
   StoreIcon,
   TagsIcon,
+  UserRoundIcon,
+  UsersIcon,
 } from "lucide-react"
 import type { ReactNode } from "react"
 
@@ -75,6 +78,18 @@ const navigation: NavGroup[] = [
         label: (t) => t.shell.stores,
         icon: <StoreIcon aria-hidden />,
       },
+      {
+        to: "/users",
+        label: (t) => t.shell.users,
+        icon: <UsersIcon aria-hidden />,
+        permission: "USERS_MANAGE",
+      },
+      {
+        to: "/groups",
+        label: (t) => t.shell.groups,
+        icon: <ShieldIcon aria-hidden />,
+        permission: "USERS_MANAGE",
+      },
     ],
   },
 ]
@@ -130,9 +145,13 @@ export function AppShell({ me, children }: { me: Me; children: ReactNode }) {
           </nav>
         </SidebarContent>
         <SidebarFooter>
-          <p className="truncate px-2 text-sm text-muted-foreground">
-            {me.fullName}
-          </p>
+          <SidebarMenu>
+            <NavLink
+              to="/account"
+              icon={<UserRoundIcon aria-hidden />}
+              label={me.fullName}
+            />
+          </SidebarMenu>
           <div className="flex flex-wrap gap-1">
             <LanguageMenu />
             <ThemeMenu />

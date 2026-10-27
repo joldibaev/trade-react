@@ -12,6 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AppIndexRouteImport } from './routes/_app/index'
+import { Route as AppAdminRouteImport } from './routes/_app/_admin'
+import { Route as AppAccountRouteImport } from './routes/_app/account'
 import { Route as AppPriceTypesRouteImport } from './routes/_app/price-types'
 import { Route as AppProductsIndexRouteImport } from './routes/_app/products/index'
 import { Route as AppProductsProductIdRouteImport } from './routes/_app/products/$productId'
@@ -20,6 +22,10 @@ import { Route as AppRevaluationsRevaluationIdRouteImport } from './routes/_app/
 import { Route as AppRevaluationsNewRouteImport } from './routes/_app/revaluations/new'
 import { Route as AppStoresIndexRouteImport } from './routes/_app/stores/index'
 import { Route as AppStoresStoreIdRouteImport } from './routes/_app/stores/$storeId'
+import { Route as AppAdminGroupsIndexRouteImport } from './routes/_app/_admin/groups/index'
+import { Route as AppAdminGroupsGroupIdRouteImport } from './routes/_app/_admin/groups/$groupId'
+import { Route as AppAdminUsersIndexRouteImport } from './routes/_app/_admin/users/index'
+import { Route as AppAdminUsersUserIdRouteImport } from './routes/_app/_admin/users/$userId'
 
 const AppRoute = AppRouteImport.update({
   id: '/_app',
@@ -33,6 +39,15 @@ const LoginRoute = LoginRouteImport.update({
 const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAdminRoute = AppAdminRouteImport.update({
+  id: '/_admin',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAccountRoute = AppAccountRouteImport.update({
+  id: '/account',
+  path: '/account',
   getParentRoute: () => AppRoute,
 } as any)
 const AppPriceTypesRoute = AppPriceTypesRouteImport.update({
@@ -76,10 +91,31 @@ const AppStoresStoreIdRoute = AppStoresStoreIdRouteImport.update({
   path: '/stores/$storeId',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAdminGroupsIndexRoute = AppAdminGroupsIndexRouteImport.update({
+  id: '/groups/',
+  path: '/groups/',
+  getParentRoute: () => AppAdminRoute,
+} as any)
+const AppAdminGroupsGroupIdRoute = AppAdminGroupsGroupIdRouteImport.update({
+  id: '/groups/$groupId',
+  path: '/groups/$groupId',
+  getParentRoute: () => AppAdminRoute,
+} as any)
+const AppAdminUsersIndexRoute = AppAdminUsersIndexRouteImport.update({
+  id: '/users/',
+  path: '/users/',
+  getParentRoute: () => AppAdminRoute,
+} as any)
+const AppAdminUsersUserIdRoute = AppAdminUsersUserIdRouteImport.update({
+  id: '/users/$userId',
+  path: '/users/$userId',
+  getParentRoute: () => AppAdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
   '/login': typeof LoginRoute
+  '/account': typeof AppAccountRoute
   '/price-types': typeof AppPriceTypesRoute
   '/products/$productId': typeof AppProductsProductIdRoute
   '/revaluations/$revaluationId': typeof AppRevaluationsRevaluationIdRoute
@@ -88,11 +124,16 @@ export interface FileRoutesByFullPath {
   '/products/': typeof AppProductsIndexRoute
   '/revaluations/': typeof AppRevaluationsIndexRoute
   '/stores/': typeof AppStoresIndexRoute
+  '/groups/$groupId': typeof AppAdminGroupsGroupIdRoute
+  '/users/$userId': typeof AppAdminUsersUserIdRoute
+  '/groups/': typeof AppAdminGroupsIndexRoute
+  '/users/': typeof AppAdminUsersIndexRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
-  '/price-types': typeof AppPriceTypesRoute
   '/': typeof AppIndexRoute
+  '/account': typeof AppAccountRoute
+  '/price-types': typeof AppPriceTypesRoute
   '/products/$productId': typeof AppProductsProductIdRoute
   '/revaluations/$revaluationId': typeof AppRevaluationsRevaluationIdRoute
   '/revaluations/new': typeof AppRevaluationsNewRoute
@@ -100,11 +141,17 @@ export interface FileRoutesByTo {
   '/products': typeof AppProductsIndexRoute
   '/revaluations': typeof AppRevaluationsIndexRoute
   '/stores': typeof AppStoresIndexRoute
+  '/groups/$groupId': typeof AppAdminGroupsGroupIdRoute
+  '/users/$userId': typeof AppAdminUsersUserIdRoute
+  '/groups': typeof AppAdminGroupsIndexRoute
+  '/users': typeof AppAdminUsersIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
+  '/_app/_admin': typeof AppAdminRouteWithChildren
+  '/_app/account': typeof AppAccountRoute
   '/_app/price-types': typeof AppPriceTypesRoute
   '/_app/': typeof AppIndexRoute
   '/_app/products/$productId': typeof AppProductsProductIdRoute
@@ -114,12 +161,17 @@ export interface FileRoutesById {
   '/_app/products/': typeof AppProductsIndexRoute
   '/_app/revaluations/': typeof AppRevaluationsIndexRoute
   '/_app/stores/': typeof AppStoresIndexRoute
+  '/_app/_admin/groups/$groupId': typeof AppAdminGroupsGroupIdRoute
+  '/_app/_admin/users/$userId': typeof AppAdminUsersUserIdRoute
+  '/_app/_admin/groups/': typeof AppAdminGroupsIndexRoute
+  '/_app/_admin/users/': typeof AppAdminUsersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/login'
+    | '/account'
     | '/price-types'
     | '/products/$productId'
     | '/revaluations/$revaluationId'
@@ -128,11 +180,16 @@ export interface FileRouteTypes {
     | '/products/'
     | '/revaluations/'
     | '/stores/'
+    | '/groups/$groupId'
+    | '/users/$userId'
+    | '/groups/'
+    | '/users/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
-    | '/price-types'
     | '/'
+    | '/account'
+    | '/price-types'
     | '/products/$productId'
     | '/revaluations/$revaluationId'
     | '/revaluations/new'
@@ -140,10 +197,16 @@ export interface FileRouteTypes {
     | '/products'
     | '/revaluations'
     | '/stores'
+    | '/groups/$groupId'
+    | '/users/$userId'
+    | '/groups'
+    | '/users'
   id:
     | '__root__'
     | '/_app'
     | '/login'
+    | '/_app/_admin'
+    | '/_app/account'
     | '/_app/price-types'
     | '/_app/'
     | '/_app/products/$productId'
@@ -153,6 +216,10 @@ export interface FileRouteTypes {
     | '/_app/products/'
     | '/_app/revaluations/'
     | '/_app/stores/'
+    | '/_app/_admin/groups/$groupId'
+    | '/_app/_admin/users/$userId'
+    | '/_app/_admin/groups/'
+    | '/_app/_admin/users/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -181,6 +248,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/_admin': {
+      id: '/_app/_admin'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppAdminRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/account': {
+      id: '/_app/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof AppAccountRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/price-types': {
@@ -239,10 +320,58 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppStoresStoreIdRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/_admin/groups/': {
+      id: '/_app/_admin/groups/'
+      path: '/groups'
+      fullPath: '/groups/'
+      preLoaderRoute: typeof AppAdminGroupsIndexRouteImport
+      parentRoute: typeof AppAdminRoute
+    }
+    '/_app/_admin/groups/$groupId': {
+      id: '/_app/_admin/groups/$groupId'
+      path: '/groups/$groupId'
+      fullPath: '/groups/$groupId'
+      preLoaderRoute: typeof AppAdminGroupsGroupIdRouteImport
+      parentRoute: typeof AppAdminRoute
+    }
+    '/_app/_admin/users/': {
+      id: '/_app/_admin/users/'
+      path: '/users'
+      fullPath: '/users/'
+      preLoaderRoute: typeof AppAdminUsersIndexRouteImport
+      parentRoute: typeof AppAdminRoute
+    }
+    '/_app/_admin/users/$userId': {
+      id: '/_app/_admin/users/$userId'
+      path: '/users/$userId'
+      fullPath: '/users/$userId'
+      preLoaderRoute: typeof AppAdminUsersUserIdRouteImport
+      parentRoute: typeof AppAdminRoute
+    }
   }
 }
 
+interface AppAdminRouteChildren {
+  AppAdminGroupsGroupIdRoute: typeof AppAdminGroupsGroupIdRoute
+  AppAdminUsersUserIdRoute: typeof AppAdminUsersUserIdRoute
+  AppAdminGroupsIndexRoute: typeof AppAdminGroupsIndexRoute
+  AppAdminUsersIndexRoute: typeof AppAdminUsersIndexRoute
+}
+
+const AppAdminRouteChildren: AppAdminRouteChildren = {
+  AppAdminGroupsGroupIdRoute: AppAdminGroupsGroupIdRoute,
+  AppAdminUsersUserIdRoute: AppAdminUsersUserIdRoute,
+  AppAdminGroupsIndexRoute: AppAdminGroupsIndexRoute,
+  AppAdminUsersIndexRoute: AppAdminUsersIndexRoute,
+}
+
+const AppAdminRouteWithChildren = AppAdminRoute._addFileChildren(
+  AppAdminRouteChildren,
+)
+
 interface AppRouteChildren {
+  AppAdminRoute: typeof AppAdminRouteWithChildren
+  AppAccountRoute: typeof AppAccountRoute
   AppPriceTypesRoute: typeof AppPriceTypesRoute
   AppIndexRoute: typeof AppIndexRoute
   AppProductsProductIdRoute: typeof AppProductsProductIdRoute
@@ -255,6 +384,8 @@ interface AppRouteChildren {
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppAdminRoute: AppAdminRouteWithChildren,
+  AppAccountRoute: AppAccountRoute,
   AppPriceTypesRoute: AppPriceTypesRoute,
   AppIndexRoute: AppIndexRoute,
   AppProductsProductIdRoute: AppProductsProductIdRoute,
