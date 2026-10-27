@@ -28,6 +28,14 @@ agent's local memory stays on one machine and is lost on the other.
   it is weaker than an alternative, say why once, with the cost.
 - Whenever a library or a browser feature could replace our code, propose it
   unasked, with what goes away and the cost.
+- A thought the owner says aloud is not a decision, and one decision is not
+  a rule. Check a thought against common practice and correct him when it is
+  weaker; he asked for that. Apply a decision only to the case he named and
+  ask about the others. Example: he dropped the product name snapshot in
+  sale lines; that says nothing about a counterparty's details on an invoice.
+- Do the routine work yourself (database reset, migrations, seed, pushing a
+  review branch). Hand him only what needs him: a decision, a check in the
+  app, restarting the API he runs.
 
 ## Stack
 
