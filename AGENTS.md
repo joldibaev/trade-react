@@ -33,9 +33,9 @@ agent's local memory stays on one machine and is lost on the other.
   weaker; he asked for that. Apply a decision only to the case he named and
   ask about the others. Example: he dropped the product name snapshot in
   sale lines; that says nothing about a counterparty's details on an invoice.
-- Do the routine work yourself (database reset, migrations, seed, pushing a
-  review branch). Hand him only what needs him: a decision, a check in the
-  app, restarting the API he runs.
+- Do the routine work yourself (database reset, migrations, seed). Hand him
+  only what needs him: a decision, a check in the app, restarting the API he
+  runs, and the word to push.
 
 ## Stack
 
@@ -188,11 +188,14 @@ the skill looks right, raise it with the owner.
 ## Git
 
 The remote is GitHub, `origin` (`git@github.com:joldibaev/trade-react.git`);
-the main branch is `master`. An agent commits and pushes only to the review
-branch the owner names; nothing reaches `master` without his permission.
+the main branch is `master`. An agent commits only to the review branch the
+owner names and pushes only when he says so, each time (owner, 2026-10-28):
+until then commits stay local, and the report names the branch and commits.
+Nothing reaches `master` without his permission.
 
 One commit per self-contained change, Conventional Commits
 (`feat(products): ...`), each passing typecheck and lint. History shows final
 states: until a review branch is merged, a correction is folded into the
-commit it corrects and the branch is pushed again with `--force-with-lease`;
+commit it corrects; a branch already pushed is pushed again with
+`--force-with-lease`, when the owner says so;
 once merged into `master`, history is never rewritten.
