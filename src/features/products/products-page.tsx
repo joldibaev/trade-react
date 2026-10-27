@@ -29,8 +29,10 @@ import { useCan } from "@/features/auth/permissions"
 import { categoriesQuery } from "@/features/catalog/categories-api"
 import { CategoryPanel } from "@/features/catalog/category-panel"
 import { categoryPath, type Category } from "@/features/catalog/category-tree"
+import { priceTypesQuery, type PriceType } from "@/features/prices/prices-api"
 import { useT } from "@/i18n/i18n"
 import type { Messages } from "@/i18n/messages/ru"
+import { formatDecimal } from "@/lib/decimal"
 
 import { ProductFormDialog } from "./product-form-dialog"
 import {
@@ -43,7 +45,9 @@ const column = dataTableColumns<ProductListItem>()
 
 function productColumns(
   t: Messages,
-  categories: ReadonlyMap<string, Category>
+  categories: ReadonlyMap<string, Category>,
+  /** The type every receipt starts with: its price is the one people ask about. Products carry their prices. */
+  defaultType: PriceType | undefined
 ) {
   return column.columns([
     column.accessor("code", {
@@ -78,6 +82,22 @@ function productColumns(
       size: 150,
       cell: (info) => info.getValue() ?? "",
     }),
+    ...(defaultType
+      ? [
+          column.accessor("prices", {
+            id: "price",
+            header: defaultType.name,
+            size: 130,
+            meta: { align: "end" },
+            cell: (info) => {
+              const price = info
+                .getValue()
+                .find((p) => p.priceTypeId === defaultType.id)
+              return price ? formatDecimal(price.price) : ""
+            },
+          }),
+        ]
+      : []),
     column.accessor("isActive", {
       header: t.products.status,
       size: 120,
@@ -107,7 +127,11 @@ export function ProductsPage({ filters }: { filters: ProductFilters }) {
     () => new Map((categories ?? []).map((c) => [c.id, c])),
     [categories]
   )
-  const columns = useMemo(() => productColumns(t, byId), [t, byId])
+  const defaultType = useQuery(priceTypesQuery).data?.find((p) => p.isDefault)
+  const columns = useMemo(
+    () => productColumns(t, byId, defaultType),
+    [t, byId, defaultType]
+  )
   const source = useCursorSource(useInfiniteQuery(productsListOptions(filters)))
   const filtered = Object.keys(filters).length > 0
   const choice = {

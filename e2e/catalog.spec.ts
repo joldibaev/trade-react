@@ -1,11 +1,18 @@
 import { expect, test, type Page } from "@playwright/test"
 
-import { admin, cashier, mockProducts, mockSession } from "./support/api"
+import {
+  admin,
+  cashier,
+  mockProducts,
+  mockSession,
+  product,
+} from "./support/api"
 import {
   categoryTree,
   mockCategories,
   mockProductWrites,
 } from "./support/catalog"
+import { mockPriceTypes, priceTypes } from "./support/prices"
 
 /** The tree is beside the list on a wide screen and behind a button on a phone. */
 async function categories(page: Page, isMobile: boolean) {
@@ -220,4 +227,26 @@ test("a barcode another product has is marked on its line, with whose it is", as
   await expect(dialog.locator('[id="barcodes[1].value-error"]')).toHaveText(
     "Этот штрихкод уже у другого товара."
   )
+})
+
+test("the list shows each product's price of the default type", async ({
+  page,
+}) => {
+  await mockSession(page, admin)
+  await mockCategories(page, categoryTree())
+  const types = priceTypes()
+  await mockPriceTypes(page, types)
+  await mockProducts(page, {
+    total: 5,
+    prices: new Map([[`${product(2).id}|${types[0]?.id ?? ""}`, "12500.00"]]),
+  })
+  await page.goto("/products")
+  await expect(
+    page.getByRole("columnheader", { name: "Розница" })
+  ).toBeVisible()
+  await expect(
+    page.getByRole("row", { name: /Товар 2/ }).getByRole("cell", {
+      name: "12 500,00",
+    })
+  ).toBeVisible()
 })
