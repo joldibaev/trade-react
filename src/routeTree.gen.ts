@@ -16,6 +16,9 @@ import { Route as AppAdminRouteImport } from './routes/_app/_admin'
 import { Route as AppAccountRouteImport } from './routes/_app/account'
 import { Route as AppLabelsRouteImport } from './routes/_app/labels'
 import { Route as AppPriceTypesRouteImport } from './routes/_app/price-types'
+import { Route as AppLabelTemplatesIndexRouteImport } from './routes/_app/label-templates/index'
+import { Route as AppLabelTemplatesTemplateIdRouteImport } from './routes/_app/label-templates/$templateId'
+import { Route as AppLabelTemplatesNewRouteImport } from './routes/_app/label-templates/new'
 import { Route as AppProductsIndexRouteImport } from './routes/_app/products/index'
 import { Route as AppProductsProductIdRouteImport } from './routes/_app/products/$productId'
 import { Route as AppRevaluationsIndexRouteImport } from './routes/_app/revaluations/index'
@@ -59,6 +62,22 @@ const AppLabelsRoute = AppLabelsRouteImport.update({
 const AppPriceTypesRoute = AppPriceTypesRouteImport.update({
   id: '/price-types',
   path: '/price-types',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppLabelTemplatesIndexRoute = AppLabelTemplatesIndexRouteImport.update({
+  id: '/label-templates/',
+  path: '/label-templates/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppLabelTemplatesTemplateIdRoute =
+  AppLabelTemplatesTemplateIdRouteImport.update({
+    id: '/label-templates/$templateId',
+    path: '/label-templates/$templateId',
+    getParentRoute: () => AppRoute,
+  } as any)
+const AppLabelTemplatesNewRoute = AppLabelTemplatesNewRouteImport.update({
+  id: '/label-templates/new',
+  path: '/label-templates/new',
   getParentRoute: () => AppRoute,
 } as any)
 const AppProductsIndexRoute = AppProductsIndexRouteImport.update({
@@ -124,10 +143,13 @@ export interface FileRoutesByFullPath {
   '/account': typeof AppAccountRoute
   '/labels': typeof AppLabelsRoute
   '/price-types': typeof AppPriceTypesRoute
+  '/label-templates/$templateId': typeof AppLabelTemplatesTemplateIdRoute
+  '/label-templates/new': typeof AppLabelTemplatesNewRoute
   '/products/$productId': typeof AppProductsProductIdRoute
   '/revaluations/$revaluationId': typeof AppRevaluationsRevaluationIdRoute
   '/revaluations/new': typeof AppRevaluationsNewRoute
   '/stores/$storeId': typeof AppStoresStoreIdRoute
+  '/label-templates/': typeof AppLabelTemplatesIndexRoute
   '/products/': typeof AppProductsIndexRoute
   '/revaluations/': typeof AppRevaluationsIndexRoute
   '/stores/': typeof AppStoresIndexRoute
@@ -142,10 +164,13 @@ export interface FileRoutesByTo {
   '/account': typeof AppAccountRoute
   '/labels': typeof AppLabelsRoute
   '/price-types': typeof AppPriceTypesRoute
+  '/label-templates/$templateId': typeof AppLabelTemplatesTemplateIdRoute
+  '/label-templates/new': typeof AppLabelTemplatesNewRoute
   '/products/$productId': typeof AppProductsProductIdRoute
   '/revaluations/$revaluationId': typeof AppRevaluationsRevaluationIdRoute
   '/revaluations/new': typeof AppRevaluationsNewRoute
   '/stores/$storeId': typeof AppStoresStoreIdRoute
+  '/label-templates': typeof AppLabelTemplatesIndexRoute
   '/products': typeof AppProductsIndexRoute
   '/revaluations': typeof AppRevaluationsIndexRoute
   '/stores': typeof AppStoresIndexRoute
@@ -163,10 +188,13 @@ export interface FileRoutesById {
   '/_app/labels': typeof AppLabelsRoute
   '/_app/price-types': typeof AppPriceTypesRoute
   '/_app/': typeof AppIndexRoute
+  '/_app/label-templates/$templateId': typeof AppLabelTemplatesTemplateIdRoute
+  '/_app/label-templates/new': typeof AppLabelTemplatesNewRoute
   '/_app/products/$productId': typeof AppProductsProductIdRoute
   '/_app/revaluations/$revaluationId': typeof AppRevaluationsRevaluationIdRoute
   '/_app/revaluations/new': typeof AppRevaluationsNewRoute
   '/_app/stores/$storeId': typeof AppStoresStoreIdRoute
+  '/_app/label-templates/': typeof AppLabelTemplatesIndexRoute
   '/_app/products/': typeof AppProductsIndexRoute
   '/_app/revaluations/': typeof AppRevaluationsIndexRoute
   '/_app/stores/': typeof AppStoresIndexRoute
@@ -183,10 +211,13 @@ export interface FileRouteTypes {
     | '/account'
     | '/labels'
     | '/price-types'
+    | '/label-templates/$templateId'
+    | '/label-templates/new'
     | '/products/$productId'
     | '/revaluations/$revaluationId'
     | '/revaluations/new'
     | '/stores/$storeId'
+    | '/label-templates/'
     | '/products/'
     | '/revaluations/'
     | '/stores/'
@@ -201,10 +232,13 @@ export interface FileRouteTypes {
     | '/account'
     | '/labels'
     | '/price-types'
+    | '/label-templates/$templateId'
+    | '/label-templates/new'
     | '/products/$productId'
     | '/revaluations/$revaluationId'
     | '/revaluations/new'
     | '/stores/$storeId'
+    | '/label-templates'
     | '/products'
     | '/revaluations'
     | '/stores'
@@ -221,10 +255,13 @@ export interface FileRouteTypes {
     | '/_app/labels'
     | '/_app/price-types'
     | '/_app/'
+    | '/_app/label-templates/$templateId'
+    | '/_app/label-templates/new'
     | '/_app/products/$productId'
     | '/_app/revaluations/$revaluationId'
     | '/_app/revaluations/new'
     | '/_app/stores/$storeId'
+    | '/_app/label-templates/'
     | '/_app/products/'
     | '/_app/revaluations/'
     | '/_app/stores/'
@@ -288,6 +325,27 @@ declare module '@tanstack/react-router' {
       path: '/price-types'
       fullPath: '/price-types'
       preLoaderRoute: typeof AppPriceTypesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/label-templates/': {
+      id: '/_app/label-templates/'
+      path: '/label-templates'
+      fullPath: '/label-templates/'
+      preLoaderRoute: typeof AppLabelTemplatesIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/label-templates/$templateId': {
+      id: '/_app/label-templates/$templateId'
+      path: '/label-templates/$templateId'
+      fullPath: '/label-templates/$templateId'
+      preLoaderRoute: typeof AppLabelTemplatesTemplateIdRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/label-templates/new': {
+      id: '/_app/label-templates/new'
+      path: '/label-templates/new'
+      fullPath: '/label-templates/new'
+      preLoaderRoute: typeof AppLabelTemplatesNewRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/products/': {
@@ -394,10 +452,13 @@ interface AppRouteChildren {
   AppLabelsRoute: typeof AppLabelsRoute
   AppPriceTypesRoute: typeof AppPriceTypesRoute
   AppIndexRoute: typeof AppIndexRoute
+  AppLabelTemplatesTemplateIdRoute: typeof AppLabelTemplatesTemplateIdRoute
+  AppLabelTemplatesNewRoute: typeof AppLabelTemplatesNewRoute
   AppProductsProductIdRoute: typeof AppProductsProductIdRoute
   AppRevaluationsRevaluationIdRoute: typeof AppRevaluationsRevaluationIdRoute
   AppRevaluationsNewRoute: typeof AppRevaluationsNewRoute
   AppStoresStoreIdRoute: typeof AppStoresStoreIdRoute
+  AppLabelTemplatesIndexRoute: typeof AppLabelTemplatesIndexRoute
   AppProductsIndexRoute: typeof AppProductsIndexRoute
   AppRevaluationsIndexRoute: typeof AppRevaluationsIndexRoute
   AppStoresIndexRoute: typeof AppStoresIndexRoute
@@ -409,10 +470,13 @@ const AppRouteChildren: AppRouteChildren = {
   AppLabelsRoute: AppLabelsRoute,
   AppPriceTypesRoute: AppPriceTypesRoute,
   AppIndexRoute: AppIndexRoute,
+  AppLabelTemplatesTemplateIdRoute: AppLabelTemplatesTemplateIdRoute,
+  AppLabelTemplatesNewRoute: AppLabelTemplatesNewRoute,
   AppProductsProductIdRoute: AppProductsProductIdRoute,
   AppRevaluationsRevaluationIdRoute: AppRevaluationsRevaluationIdRoute,
   AppRevaluationsNewRoute: AppRevaluationsNewRoute,
   AppStoresStoreIdRoute: AppStoresStoreIdRoute,
+  AppLabelTemplatesIndexRoute: AppLabelTemplatesIndexRoute,
   AppProductsIndexRoute: AppProductsIndexRoute,
   AppRevaluationsIndexRoute: AppRevaluationsIndexRoute,
   AppStoresIndexRoute: AppStoresIndexRoute,

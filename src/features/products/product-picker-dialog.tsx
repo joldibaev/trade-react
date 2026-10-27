@@ -78,6 +78,8 @@ export function ProductPickerDialog({
   chosen,
   onPick,
   initialSearch,
+  title,
+  hint,
 }: {
   open: boolean
   onOpenChange: (open: boolean) => void
@@ -86,6 +88,9 @@ export function ProductPickerDialog({
   onPick: (product: ProductListItem) => void
   /** What was already typed elsewhere (a scan that named no product exactly). */
   initialSearch?: string
+  /** For a picker that takes one product and closes (the label editor's sample). */
+  title?: string
+  hint?: string
 }) {
   const t = useT()
   const [draft, setDraft] = useState(initialSearch ?? "")
@@ -107,8 +112,8 @@ export function ProductPickerDialog({
         className="flex h-[min(40rem,calc(100dvh-2rem))] flex-col sm:max-w-2xl"
       >
         <DialogHeader>
-          <DialogTitle>{t.productPicker.title}</DialogTitle>
-          <DialogDescription>{t.productPicker.hint}</DialogDescription>
+          <DialogTitle>{title ?? t.productPicker.title}</DialogTitle>
+          <DialogDescription>{hint ?? t.productPicker.hint}</DialogDescription>
         </DialogHeader>
         <form
           role="search"
