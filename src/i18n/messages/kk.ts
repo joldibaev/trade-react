@@ -7,6 +7,7 @@ export const kk: Messages = {
     retry: "Қайталау",
     loading: "Жүктелуде…",
     signOut: "Шығу",
+    signOutFailed: "Шыға алмадық",
     language: "Тіл",
     theme: "Тақырып",
     supportId: "Қолдау қызметі үшін код:",

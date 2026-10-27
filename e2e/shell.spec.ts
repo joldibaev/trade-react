@@ -41,3 +41,24 @@ test("on a phone the menu is a sheet behind a button", async ({
   await page.getByRole("link", { name: "Товары" }).click()
   await expect(page.getByRole("dialog", { name: "Разделы" })).toBeHidden()
 })
+
+test("signing out that fails says so, and works on the next try", async ({
+  page,
+  isMobile,
+}) => {
+  let reachable = false
+  await page.route("**/api/auth/sessions/current", (route) =>
+    reachable ? route.fulfill({ status: 204 }) : route.abort()
+  )
+  await page.goto("/products")
+  if (isMobile) await page.getByRole("button", { name: "Открыть меню" }).click()
+
+  await page.getByRole("button", { name: "Выйти" }).click()
+  await expect(page.getByText("Не удалось выйти")).toBeVisible()
+  await expect(page.getByText("Нет связи с сервером.")).toBeVisible()
+  await expect(page).toHaveURL(/\/products/)
+
+  reachable = true
+  await page.getByRole("button", { name: "Выйти" }).click()
+  await expect(page).toHaveURL(/\/login/)
+})

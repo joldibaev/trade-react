@@ -7,6 +7,7 @@ export const uz: Messages = {
     retry: "Qayta urinish",
     loading: "Yuklanmoqda…",
     signOut: "Chiqish",
+    signOutFailed: "Chiqib boʻlmadi",
     language: "Til",
     theme: "Mavzu",
     supportId: "Yordam xizmati uchun kod:",

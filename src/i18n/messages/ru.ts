@@ -8,6 +8,7 @@ export const ru = {
     retry: "Повторить",
     loading: "Загрузка…",
     signOut: "Выйти",
+    signOutFailed: "Не удалось выйти",
     language: "Язык",
     theme: "Тема",
     supportId: "Код для поддержки:",

@@ -1,4 +1,4 @@
-import { useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Link, useNavigate, type LinkProps } from "@tanstack/react-router"
 import {
   FileSpreadsheetIcon,
@@ -15,6 +15,7 @@ import {
 } from "lucide-react"
 import type { ReactNode } from "react"
 
+import { ProblemAlert } from "@/components/problem-alert"
 import { LanguageMenu, ThemeMenu } from "@/components/preference-menus"
 import {
   Sidebar,
@@ -229,12 +230,24 @@ function SignOutButton() {
   const queryClient = useQueryClient()
   const navigate = useNavigate()
 
+  const signOutMutation = useMutation({
+    mutationFn: () => signOut(queryClient),
+    onSuccess: () => navigate({ to: "/login" }),
+  })
+
   return (
     <SidebarMenu>
+      {signOutMutation.isError && (
+        <ProblemAlert
+          title={t.common.signOutFailed}
+          error={signOutMutation.error}
+        />
+      )}
       <SidebarMenuItem>
         <SidebarMenuButton
+          disabled={signOutMutation.isPending}
           onClick={() => {
-            void signOut(queryClient).then(() => navigate({ to: "/login" }))
+            signOutMutation.mutate()
           }}
         >
           <LogOutIcon aria-hidden />
