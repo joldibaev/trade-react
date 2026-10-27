@@ -14,6 +14,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as AppIndexRouteImport } from './routes/_app/index'
 import { Route as AppAdminRouteImport } from './routes/_app/_admin'
 import { Route as AppAccountRouteImport } from './routes/_app/account'
+import { Route as AppLabelsRouteImport } from './routes/_app/labels'
 import { Route as AppPriceTypesRouteImport } from './routes/_app/price-types'
 import { Route as AppProductsIndexRouteImport } from './routes/_app/products/index'
 import { Route as AppProductsProductIdRouteImport } from './routes/_app/products/$productId'
@@ -48,6 +49,11 @@ const AppAdminRoute = AppAdminRouteImport.update({
 const AppAccountRoute = AppAccountRouteImport.update({
   id: '/account',
   path: '/account',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppLabelsRoute = AppLabelsRouteImport.update({
+  id: '/labels',
+  path: '/labels',
   getParentRoute: () => AppRoute,
 } as any)
 const AppPriceTypesRoute = AppPriceTypesRouteImport.update({
@@ -116,6 +122,7 @@ export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
   '/login': typeof LoginRoute
   '/account': typeof AppAccountRoute
+  '/labels': typeof AppLabelsRoute
   '/price-types': typeof AppPriceTypesRoute
   '/products/$productId': typeof AppProductsProductIdRoute
   '/revaluations/$revaluationId': typeof AppRevaluationsRevaluationIdRoute
@@ -133,6 +140,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/': typeof AppIndexRoute
   '/account': typeof AppAccountRoute
+  '/labels': typeof AppLabelsRoute
   '/price-types': typeof AppPriceTypesRoute
   '/products/$productId': typeof AppProductsProductIdRoute
   '/revaluations/$revaluationId': typeof AppRevaluationsRevaluationIdRoute
@@ -152,6 +160,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/_app/_admin': typeof AppAdminRouteWithChildren
   '/_app/account': typeof AppAccountRoute
+  '/_app/labels': typeof AppLabelsRoute
   '/_app/price-types': typeof AppPriceTypesRoute
   '/_app/': typeof AppIndexRoute
   '/_app/products/$productId': typeof AppProductsProductIdRoute
@@ -172,6 +181,7 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/account'
+    | '/labels'
     | '/price-types'
     | '/products/$productId'
     | '/revaluations/$revaluationId'
@@ -189,6 +199,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/'
     | '/account'
+    | '/labels'
     | '/price-types'
     | '/products/$productId'
     | '/revaluations/$revaluationId'
@@ -207,6 +218,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/_app/_admin'
     | '/_app/account'
+    | '/_app/labels'
     | '/_app/price-types'
     | '/_app/'
     | '/_app/products/$productId'
@@ -262,6 +274,13 @@ declare module '@tanstack/react-router' {
       path: '/account'
       fullPath: '/account'
       preLoaderRoute: typeof AppAccountRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/labels': {
+      id: '/_app/labels'
+      path: '/labels'
+      fullPath: '/labels'
+      preLoaderRoute: typeof AppLabelsRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/price-types': {
@@ -372,6 +391,7 @@ const AppAdminRouteWithChildren = AppAdminRoute._addFileChildren(
 interface AppRouteChildren {
   AppAdminRoute: typeof AppAdminRouteWithChildren
   AppAccountRoute: typeof AppAccountRoute
+  AppLabelsRoute: typeof AppLabelsRoute
   AppPriceTypesRoute: typeof AppPriceTypesRoute
   AppIndexRoute: typeof AppIndexRoute
   AppProductsProductIdRoute: typeof AppProductsProductIdRoute
@@ -386,6 +406,7 @@ interface AppRouteChildren {
 const AppRouteChildren: AppRouteChildren = {
   AppAdminRoute: AppAdminRouteWithChildren,
   AppAccountRoute: AppAccountRoute,
+  AppLabelsRoute: AppLabelsRoute,
   AppPriceTypesRoute: AppPriceTypesRoute,
   AppIndexRoute: AppIndexRoute,
   AppProductsProductIdRoute: AppProductsProductIdRoute,

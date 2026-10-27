@@ -93,7 +93,13 @@ export async function mockProducts(
       const items = Array.from({ length: total }, (_, i) =>
         product(i + 1, prices)
       )
-        .filter((p) => p.name.includes(search))
+        // As TradeNet: an exact code or barcode first, then names.
+        .filter(
+          (p) =>
+            p.barcode === search ||
+            String(p.code) === search ||
+            p.name.includes(search)
+        )
         .slice(0, limit)
       return route.fulfill({ json: { items, nextCursor: null } })
     }
@@ -137,3 +143,25 @@ export const cashier: Me = {
 
 export const uuid = (n: number) =>
   `00000000-0000-7000-8000-${String(n).padStart(12, "0")}`
+
+/** The card of product `index` (as GET /api/products/{id} answers): its one barcode, its prices, no packages. */
+export function productCard(
+  index: number,
+  prices: ReadonlyMap<string, string> = new Map(),
+  extraBarcodes: string[] = []
+): components["schemas"]["ProductResponse"] {
+  const item = product(index, prices)
+  return {
+    id: item.id,
+    code: item.code,
+    name: item.name,
+    categoryId: item.categoryId,
+    isActive: item.isActive,
+    packages: [],
+    barcodes: [item.barcode, ...extraBarcodes].flatMap((value) =>
+      value === null ? [] : [{ value, package: null }]
+    ),
+    prices: item.prices,
+    version: 1,
+  }
+}

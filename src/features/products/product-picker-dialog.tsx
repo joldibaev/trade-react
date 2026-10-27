@@ -77,16 +77,21 @@ export function ProductPickerDialog({
   onOpenChange,
   chosen,
   onPick,
+  initialSearch,
 }: {
   open: boolean
   onOpenChange: (open: boolean) => void
   /** Products already in the document: shown as added. */
   chosen: ReadonlySet<string>
   onPick: (product: ProductListItem) => void
+  /** What was already typed elsewhere (a scan that named no product exactly). */
+  initialSearch?: string
 }) {
   const t = useT()
-  const [draft, setDraft] = useState("")
-  const [search, setSearch] = useState<string | undefined>(undefined)
+  const [draft, setDraft] = useState(initialSearch ?? "")
+  const [search, setSearch] = useState<string | undefined>(
+    initialSearch || undefined
+  )
   const columns = useMemo(
     () => pickerColumns(t, chosen, onPick),
     [t, chosen, onPick]

@@ -3270,6 +3270,612 @@ export type paths = {
     patch?: never
     trace?: never
   }
+  "/api/label-templates": {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            "text/plain": components["schemas"]["CursorPageOfLabelTemplateListItem"]
+            "application/json": components["schemas"]["CursorPageOfLabelTemplateListItem"]
+            "text/json": components["schemas"]["CursorPageOfLabelTemplateListItem"]
+          }
+        }
+        /** @description Unauthorized. Codes: `UNAUTHENTICATED`. */
+        401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Unauthorized",
+             *       "status": 401,
+             *       "code": "UNAUTHENTICATED",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Too Many Requests. Codes: `TOO_MANY_REQUESTS`. */
+        429: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Too Many Requests",
+             *       "status": 429,
+             *       "code": "TOO_MANY_REQUESTS",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Internal Server Error. Codes: `INTERNAL_SERVER_ERROR`. */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Internal Server Error",
+             *       "status": 500,
+             *       "code": "INTERNAL_SERVER_ERROR",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Service Unavailable. Codes: `SERVICE_UNAVAILABLE`. */
+        503: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Service Unavailable",
+             *       "status": 503,
+             *       "code": "SERVICE_UNAVAILABLE",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+      }
+    }
+    put?: never
+    post: {
+      parameters: {
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody: {
+        content: {
+          "application/json": components["schemas"]["CreateLabelTemplateRequest"]
+          "application/*+json": components["schemas"]["CreateLabelTemplateRequest"]
+        }
+      }
+      responses: {
+        /** @description Created */
+        201: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            "text/plain": components["schemas"]["LabelTemplateResponse"]
+            "application/json": components["schemas"]["LabelTemplateResponse"]
+            "text/json": components["schemas"]["LabelTemplateResponse"]
+          }
+        }
+        /** @description Bad Request. Codes: `PRICE_TYPE_NOT_FOUND`, `VALIDATION_ERROR`. */
+        400: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Bad Request",
+             *       "status": 400,
+             *       "code": "PRICE_TYPE_NOT_FOUND",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Unauthorized. Codes: `UNAUTHENTICATED`. */
+        401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Unauthorized",
+             *       "status": 401,
+             *       "code": "UNAUTHENTICATED",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Forbidden. Codes: `FORBIDDEN`, `CSRF_REJECTED`. */
+        403: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Forbidden",
+             *       "status": 403,
+             *       "code": "FORBIDDEN",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Conflict. Codes: `LABEL_TEMPLATE_NAME_TAKEN`. */
+        409: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Conflict",
+             *       "status": 409,
+             *       "code": "LABEL_TEMPLATE_NAME_TAKEN",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Payload Too Large. Codes: `PAYLOAD_TOO_LARGE`. */
+        413: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Payload Too Large",
+             *       "status": 413,
+             *       "code": "PAYLOAD_TOO_LARGE",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Unsupported Media Type. Codes: `UNSUPPORTED_MEDIA_TYPE`. */
+        415: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Unsupported Media Type",
+             *       "status": 415,
+             *       "code": "UNSUPPORTED_MEDIA_TYPE",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Too Many Requests. Codes: `TOO_MANY_REQUESTS`. */
+        429: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Too Many Requests",
+             *       "status": 429,
+             *       "code": "TOO_MANY_REQUESTS",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Internal Server Error. Codes: `INTERNAL_SERVER_ERROR`. */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Internal Server Error",
+             *       "status": 500,
+             *       "code": "INTERNAL_SERVER_ERROR",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Service Unavailable. Codes: `SERVICE_UNAVAILABLE`. */
+        503: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Service Unavailable",
+             *       "status": 503,
+             *       "code": "SERVICE_UNAVAILABLE",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+      }
+    }
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  "/api/label-templates/{id}": {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          id: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            "text/plain": components["schemas"]["LabelTemplateResponse"]
+            "application/json": components["schemas"]["LabelTemplateResponse"]
+            "text/json": components["schemas"]["LabelTemplateResponse"]
+          }
+        }
+        /** @description Unauthorized. Codes: `UNAUTHENTICATED`. */
+        401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Unauthorized",
+             *       "status": 401,
+             *       "code": "UNAUTHENTICATED",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Not Found. Codes: `LABEL_TEMPLATE_NOT_FOUND`. */
+        404: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Not Found",
+             *       "status": 404,
+             *       "code": "LABEL_TEMPLATE_NOT_FOUND",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Too Many Requests. Codes: `TOO_MANY_REQUESTS`. */
+        429: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Too Many Requests",
+             *       "status": 429,
+             *       "code": "TOO_MANY_REQUESTS",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Internal Server Error. Codes: `INTERNAL_SERVER_ERROR`. */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Internal Server Error",
+             *       "status": 500,
+             *       "code": "INTERNAL_SERVER_ERROR",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Service Unavailable. Codes: `SERVICE_UNAVAILABLE`. */
+        503: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Service Unavailable",
+             *       "status": 503,
+             *       "code": "SERVICE_UNAVAILABLE",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          id: string
+        }
+        cookie?: never
+      }
+      requestBody: {
+        content: {
+          "application/json": components["schemas"]["UpdateLabelTemplateRequest"]
+          "application/*+json": components["schemas"]["UpdateLabelTemplateRequest"]
+        }
+      }
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            "text/plain": components["schemas"]["LabelTemplateResponse"]
+            "application/json": components["schemas"]["LabelTemplateResponse"]
+            "text/json": components["schemas"]["LabelTemplateResponse"]
+          }
+        }
+        /** @description Bad Request. Codes: `PRICE_TYPE_NOT_FOUND`, `VALIDATION_ERROR`. */
+        400: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Bad Request",
+             *       "status": 400,
+             *       "code": "PRICE_TYPE_NOT_FOUND",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Unauthorized. Codes: `UNAUTHENTICATED`. */
+        401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Unauthorized",
+             *       "status": 401,
+             *       "code": "UNAUTHENTICATED",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Forbidden. Codes: `FORBIDDEN`, `CSRF_REJECTED`. */
+        403: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Forbidden",
+             *       "status": 403,
+             *       "code": "FORBIDDEN",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Not Found. Codes: `LABEL_TEMPLATE_NOT_FOUND`. */
+        404: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Not Found",
+             *       "status": 404,
+             *       "code": "LABEL_TEMPLATE_NOT_FOUND",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Conflict. Codes: `VERSION_CONFLICT`, `LABEL_TEMPLATE_NAME_TAKEN`. */
+        409: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Conflict",
+             *       "status": 409,
+             *       "code": "VERSION_CONFLICT",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Payload Too Large. Codes: `PAYLOAD_TOO_LARGE`. */
+        413: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Payload Too Large",
+             *       "status": 413,
+             *       "code": "PAYLOAD_TOO_LARGE",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Unsupported Media Type. Codes: `UNSUPPORTED_MEDIA_TYPE`. */
+        415: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Unsupported Media Type",
+             *       "status": 415,
+             *       "code": "UNSUPPORTED_MEDIA_TYPE",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Too Many Requests. Codes: `TOO_MANY_REQUESTS`. */
+        429: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Too Many Requests",
+             *       "status": 429,
+             *       "code": "TOO_MANY_REQUESTS",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Internal Server Error. Codes: `INTERNAL_SERVER_ERROR`. */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Internal Server Error",
+             *       "status": 500,
+             *       "code": "INTERNAL_SERVER_ERROR",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Service Unavailable. Codes: `SERVICE_UNAVAILABLE`. */
+        503: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Service Unavailable",
+             *       "status": 503,
+             *       "code": "SERVICE_UNAVAILABLE",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+      }
+    }
+    trace?: never
+  }
   "/api/categories": {
     parameters: {
       query?: never
@@ -8375,6 +8981,10 @@ export type components = {
       permissions: components["schemas"]["Permission"][]
       reason?: null | string
     }
+    CreateLabelTemplateRequest: {
+      name: string
+      layout: components["schemas"]["LabelLayout"]
+    }
     CreatePriceTypeRequest: {
       name: string
     }
@@ -8410,6 +9020,10 @@ export type components = {
     }
     CursorPageOfGroupDetailsResponse: {
       items: components["schemas"]["GroupDetailsResponse"][]
+      nextCursor: null | string
+    }
+    CursorPageOfLabelTemplateListItem: {
+      items: components["schemas"]["LabelTemplateListItem"][]
       nextCursor: null | string
     }
     CursorPageOfPermission: {
@@ -8484,6 +9098,131 @@ export type components = {
       name: string
     }
     JsonElement: unknown
+    /** @enum {unknown} */
+    LabelAlign: "START" | "CENTER" | "END"
+    LabelElement:
+      | components["schemas"]["LabelElementText"]
+      | components["schemas"]["LabelElementPrice"]
+      | components["schemas"]["LabelElementBarcode"]
+      | components["schemas"]["LabelElementShape"]
+      | components["schemas"]["LabelElementImage"]
+    LabelElementBarcode: {
+      /** @enum {string} */
+      type: "BARCODE"
+      digits: boolean
+      /** @description Exact decimal as a string, at most 2 fraction digits; responses always print 2. */
+      xMm: string
+      /** @description Exact decimal as a string, at most 2 fraction digits; responses always print 2. */
+      yMm: string
+      /** @description Exact decimal as a string, at most 2 fraction digits; responses always print 2. */
+      widthMm: string
+      /** @description Exact decimal as a string, at most 2 fraction digits; responses always print 2. */
+      heightMm: string
+    }
+    LabelElementImage: {
+      /** @enum {string} */
+      type: "IMAGE"
+      src: string
+      /** @description Exact decimal as a string, at most 2 fraction digits; responses always print 2. */
+      xMm: string
+      /** @description Exact decimal as a string, at most 2 fraction digits; responses always print 2. */
+      yMm: string
+      /** @description Exact decimal as a string, at most 2 fraction digits; responses always print 2. */
+      widthMm: string
+      /** @description Exact decimal as a string, at most 2 fraction digits; responses always print 2. */
+      heightMm: string
+    }
+    LabelElementPrice: {
+      /** @enum {string} */
+      type: "PRICE"
+      /** Format: uuid */
+      priceTypeId?: null | string
+      split: boolean
+      currency: boolean
+      style: components["schemas"]["LabelTextStyle"]
+      /** @description Exact decimal as a string, at most 2 fraction digits; responses always print 2. */
+      xMm: string
+      /** @description Exact decimal as a string, at most 2 fraction digits; responses always print 2. */
+      yMm: string
+      /** @description Exact decimal as a string, at most 2 fraction digits; responses always print 2. */
+      widthMm: string
+      /** @description Exact decimal as a string, at most 2 fraction digits; responses always print 2. */
+      heightMm: string
+    }
+    LabelElementShape: {
+      /** @enum {string} */
+      type: "SHAPE"
+      /** @description Exact decimal as a string, at most 2 fraction digits; responses always print 2. */
+      borderMm: string
+      filled: boolean
+      /** @description Exact decimal as a string, at most 2 fraction digits; responses always print 2. */
+      xMm: string
+      /** @description Exact decimal as a string, at most 2 fraction digits; responses always print 2. */
+      yMm: string
+      /** @description Exact decimal as a string, at most 2 fraction digits; responses always print 2. */
+      widthMm: string
+      /** @description Exact decimal as a string, at most 2 fraction digits; responses always print 2. */
+      heightMm: string
+    }
+    LabelElementText: {
+      /** @enum {string} */
+      type: "TEXT"
+      text: string
+      style: components["schemas"]["LabelTextStyle"]
+      /** @description Exact decimal as a string, at most 2 fraction digits; responses always print 2. */
+      xMm: string
+      /** @description Exact decimal as a string, at most 2 fraction digits; responses always print 2. */
+      yMm: string
+      /** @description Exact decimal as a string, at most 2 fraction digits; responses always print 2. */
+      widthMm: string
+      /** @description Exact decimal as a string, at most 2 fraction digits; responses always print 2. */
+      heightMm: string
+    }
+    /** @enum {unknown} */
+    LabelFont: "SANS" | "SERIF" | "MONO"
+    LabelLayout: {
+      /** @description Exact decimal as a string, at most 2 fraction digits; responses always print 2. */
+      widthMm: string
+      /** @description Exact decimal as a string, at most 2 fraction digits; responses always print 2. */
+      heightMm: string
+      elements: components["schemas"]["LabelElement"][]
+    }
+    LabelTemplateListItem: {
+      /** Format: uuid */
+      id: string
+      name: string
+      /** @description Exact decimal as a string, at most 2 fraction digits; responses always print 2. */
+      widthMm: string
+      /** @description Exact decimal as a string, at most 2 fraction digits; responses always print 2. */
+      heightMm: string
+      isActive: boolean
+      /** Format: uint32 */
+      version: number
+    }
+    LabelTemplateResponse: {
+      /** Format: uuid */
+      id: string
+      name: string
+      layout: components["schemas"]["LabelLayout"]
+      isActive: boolean
+      /** Format: uint32 */
+      version: number
+    }
+    LabelTextStyle: {
+      font: components["schemas"]["LabelFont"]
+      /** Format: int32 */
+      fontSizePt: number
+      bold: boolean
+      italic: boolean
+      underline: boolean
+      strike: boolean
+      align: components["schemas"]["LabelAlign"]
+      verticalAlign: components["schemas"]["LabelVerticalAlign"]
+      fit: boolean
+      inverted: boolean
+    }
+    /** @enum {unknown} */
+    LabelVerticalAlign: "TOP" | "MIDDLE" | "BOTTOM"
     LoginRequest: {
       login: string
       password: string
@@ -8599,6 +9338,8 @@ export type components = {
       | "PACKAGE_NOT_FOUND"
       | "BARCODE_TAKEN"
       | "GENERATED_BARCODES_TAKEN"
+      | "LABEL_TEMPLATE_NOT_FOUND"
+      | "LABEL_TEMPLATE_NAME_TAKEN"
       | "PRICE_TYPE_NOT_FOUND"
       | "PRICE_TYPE_NAME_TAKEN"
       | "PRICE_TYPE_IS_DEFAULT"
@@ -8816,6 +9557,13 @@ export type components = {
       reason?: null | string
       name?: null | string
       permissions?: null | components["schemas"]["Permission"][]
+    }
+    UpdateLabelTemplateRequest: {
+      /** Format: uint32 */
+      version: number
+      name?: null | string
+      layout?: null | components["schemas"]["LabelLayout"]
+      isActive?: null | boolean
     }
     UpdatePriceTypeRequest: {
       /** Format: uint32 */

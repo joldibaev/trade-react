@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 import { Link } from "@tanstack/react-router"
-import { ArrowLeftIcon, PencilIcon } from "lucide-react"
+import { ArrowLeftIcon, PencilIcon, PrinterIcon } from "lucide-react"
 import { useMemo, useState } from "react"
 
 import { ActiveBadge, DetailsList, PageHeader } from "@/components/page"
@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useCan } from "@/features/auth/permissions"
+import { PrintLabelsDialog } from "@/features/labels/print-labels-dialog"
 import {
   CurrentPricesCard,
   PriceHistory,
@@ -60,6 +61,7 @@ function ProductDetails({ product }: { product: Product }) {
   const t = useT()
   const can = useCan()
   const [editing, setEditing] = useState(false)
+  const [printing, setPrinting] = useState(false)
   const categories = useQuery(categoriesQuery).data
   const byId = useMemo(
     () => new Map((categories ?? []).map((c) => [c.id, c])),
@@ -78,6 +80,15 @@ function ProductDetails({ product }: { product: Product }) {
           />
         }
       >
+        <Button
+          variant="outline"
+          onClick={() => {
+            setPrinting(true)
+          }}
+        >
+          <PrinterIcon data-icon="inline-start" aria-hidden />
+          {t.labels.title}
+        </Button>
         {can("CATALOG_MANAGE") && (
           <Button
             variant="outline"
@@ -168,6 +179,9 @@ function ProductDetails({ product }: { product: Product }) {
       </div>
       <CurrentPricesCard prices={product.prices} />
       <PriceHistory productId={product.id} />
+      {printing && (
+        <PrintLabelsDialog product={product} open onOpenChange={setPrinting} />
+      )}
       {editing && (
         <ProductFormDialog product={product} open onOpenChange={setEditing} />
       )}

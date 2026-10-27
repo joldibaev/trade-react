@@ -19,6 +19,9 @@ export default defineConfig({
       "@": resolve(import.meta.dirname, "./src"),
     },
   },
+  // Bundled at start: route chunks load lazily, and a dependency first met on opening a page (the product card's
+  // label printing) would make Vite re-bundle and reload the page in the middle of work, or of a browser test.
+  optimizeDeps: { include: ["jsbarcode"] },
   server: {
     port: 5173,
     strictPort: true,

@@ -52,6 +52,7 @@ export const uz: Messages = {
     priceTypes: "Narx turlari",
     users: "Foydalanuvchilar",
     groups: "Guruhlar va huquqlar",
+    labels: "Yorliqlarni chop etish",
   },
   auth: {
     title: "Kirish",
@@ -406,6 +407,49 @@ export const uz: Messages = {
       "Bundan boshqa barcha qurilmalarda qaytadan kirishga toʻgʻri keladi.",
     appearance: "Til va koʻrinish",
   },
+  labels: {
+    title: "Yorliqlarni chop etish",
+    pageTitle: "Yorliqlarni chop etish",
+    preview: "Yorliqni oldindan koʻrish",
+    barcode: "Shtrix-kod",
+    noBarcodes: "Shtrix-kod yoʻq",
+    priceType: "Narx turi",
+    noPriceTypes: "Narx turlari yoʻq",
+    noPrice: "Narx yoʻq",
+    copies: "Nusxa",
+    print: "Chop etish",
+    printFailed: "Chop etib boʻlmadi",
+    line: "Qator",
+    lineShort: "№",
+    scan: "Shtrix-kodni skanerlang yoki kodni kiriting",
+    findProduct: "Tovar topish",
+    findFailed: "Tovarni topib boʻlmadi",
+    sent: "Chop etishga yuborildi. Roʻyxat qoladi: agar yorliqlar chiqmagan boʻlsa, «Chop etish»ni yana bosing.",
+    emptyList: "Roʻyxat boʻsh.",
+    emptyListHint:
+      "Shtrix-kodni skanerlang yoki tovarni toping. Oʻsha shtrix-kodni qayta skanerlash yana bitta yorliq qoʻshadi.",
+    showPreview: "Yorliqni koʻrsatish",
+    removeLine: "Roʻyxatdan olib tashlash",
+    leaveList: "Yorliqlar roʻyxati saqlanmaydi. Sahifadan chiqasizmi?",
+    warnings: {
+      clipped: "Matn sigʻmaydi va kesiladi.",
+      barcodeDigitsOnly:
+        "Shtrix-kod yorliqqa sigʻmaydi: faqat raqamlar chop etiladi.",
+    },
+    refusals: {
+      empty: "Roʻyxatda birorta yorliq yoʻq.",
+      tooMany: "Bir martada yorliqlar juda koʻp; koʻpi bilan",
+      noPrice: "narx yoʻq",
+      noBarcode: "tovarda tanlangan shtrix-kod yoʻq",
+      productGone: "tovar endi yoʻq",
+      templateGone: "Andoza topilmadi yoki oʻchirilgan. Boshqasini tanlang.",
+    },
+    template: "Andoza",
+    noTemplates: "Andozalar yoʻq",
+    noTemplatesHint:
+      "Faol yorliq andozalari yoʻq. Ular «Katalog → Yorliq andozalari»da yaratiladi.",
+    currency: "soʻm",
+  },
   fields: {
     REQUIRED: "Maydonni toʻldiring.",
     INVALID_FORMAT: "Notoʻgʻri format.",
@@ -481,5 +525,8 @@ export const uz: Messages = {
     SESSION_NOT_FOUND: "Seans topilmadi: ehtimol, u allaqachon tugatilgan.",
     GENERATED_BARCODES_TAKEN:
       "Boʻsh shtrix-kod raqami topilmadi: ketma-ket import qilingan tovarlar band qilgan. Qayta urinib koʻring — odatda ikkinchi marta chiqadi.",
+    LABEL_TEMPLATE_NOT_FOUND: "Andoza topilmadi.",
+    LABEL_TEMPLATE_NAME_TAKEN:
+      "Bunday nomli andoza allaqachon bor (balki oʻchirilgani).",
   },
 }
