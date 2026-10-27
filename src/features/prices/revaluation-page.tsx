@@ -629,7 +629,7 @@ function gridColumns({
     column.accessor("name", {
       header: t.products.name,
       size: 220,
-      meta: { grow: true },
+      meta: { grow: true, pinned: true },
     }),
     ...types.flatMap((type, c) => [
       column.display({

@@ -11,6 +11,11 @@ export type DataTableColumnMeta = {
   grow?: boolean
   /** Numbers, money and codes line up on the right. */
   align?: "end"
+  /**
+   * The column stays at the left edge while the table scrolls sideways (the product in a grid of prices). Pinned
+   * columns stack in column order; a pinned column covers the unpinned ones that scroll under it.
+   */
+  pinned?: boolean
 }
 
 // A type-only slot: it tells TanStack Table what `columnDef.meta` holds.

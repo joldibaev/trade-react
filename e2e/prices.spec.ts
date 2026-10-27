@@ -133,6 +133,35 @@ test("a new revaluation sends only the cells that were touched, a removal as nul
   await expect(page.getByRole("link", { name: "черновик" })).toBeVisible()
 })
 
+test("on a phone the product name stays in view while the prices scroll sideways", async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(!isMobile, "phone layout only")
+  await mockSession(page, admin)
+  await mockPriceTypes(page, priceTypes())
+  await mockProducts(page, { total: 30 })
+  await mockRevaluations(page, { prices: new Map() })
+  await page.goto("/revaluations/new")
+  await addProducts(page, ["Товар 3"])
+
+  const grid = page.getByRole("region", { name: "Товары переоценки" })
+  const name = grid.getByRole("cell", { name: "Товар 3", exact: true })
+  const lastPrice = grid.getByRole("columnheader", { name: /Опт: стало/ })
+  await expect(name).toBeVisible()
+  await expect(lastPrice).not.toBeInViewport()
+
+  await grid.evaluate((element) => {
+    element.scrollLeft = element.scrollWidth
+  })
+  // The prices came into view and the product is still at the left edge, over the code that went under it.
+  await expect(lastPrice).toBeInViewport()
+  await expect(name).toBeInViewport({ ratio: 1 })
+  const gridBox = await grid.boundingBox()
+  const nameBox = await name.boundingBox()
+  expect(Math.abs((nameBox?.x ?? -1) - (gridBox?.x ?? 0))).toBeLessThan(4)
+})
+
 test("a wrong price is refused on the screen and nothing is sent", async ({
   page,
 }) => {

@@ -109,6 +109,7 @@ export function DataTable<T extends { id: string | number }>({
   if (!source.isPending && rows.length === 0) return <>{empty}</>
 
   const headers = table.getHeaderGroups()[0]?.headers ?? []
+  const pinnedLeft = pinnedOffsets(headers)
   const paddingTop = virtualRows[0]?.start ?? 0
   const paddingBottom =
     virtualizer.getTotalSize() - (virtualRows.at(-1)?.end ?? 0)
@@ -143,7 +144,11 @@ export function DataTable<T extends { id: string | number }>({
         <TableHeader className="sticky top-0 z-10 bg-background">
           <TableRow aria-rowindex={1}>
             {headers.map((header) => (
-              <DataTableHead key={header.id} header={header} />
+              <DataTableHead
+                key={header.id}
+                header={header}
+                left={pinnedLeft.get(header.column.id)}
+              />
             ))}
           </TableRow>
         </TableHeader>
@@ -169,7 +174,11 @@ export function DataTable<T extends { id: string | number }>({
                 aria-rowindex={virtualRow.index + 2}
               >
                 {row.getAllCells().map((cell) => (
-                  <DataTableCell key={cell.id} cell={cell} />
+                  <DataTableCell
+                    key={cell.id}
+                    cell={cell}
+                    left={pinnedLeft.get(cell.column.id)}
+                  />
                 ))}
               </TableRow>
             )
@@ -198,18 +207,44 @@ export function DataTable<T extends { id: string | number }>({
   )
 }
 
+/** Where each pinned column sticks: after the pinned columns before it. */
+function pinnedOffsets<T extends RowData>(
+  headers: Header<typeof dataTableFeatures, T>[]
+) {
+  const offsets = new Map<string, number>()
+  let left = 0
+  for (const { column } of headers) {
+    if (!column.columnDef.meta?.pinned) continue
+    offsets.set(column.id, left)
+    left += column.getSize()
+  }
+  return offsets
+}
+
+// An opaque background, or the cells scrolling underneath show through; the shadow is the edge between them.
+const pinnedClass =
+  "sticky z-[1] bg-background shadow-[1px_0_0_0_var(--border)]"
+
 function SpacerRow({ height }: { height: number }) {
   return <tr aria-hidden style={{ height }} />
 }
 
 function DataTableHead<T extends RowData>({
   header,
+  left,
 }: {
   header: Header<typeof dataTableFeatures, T>
+  left: number | undefined
 }) {
   const align = header.column.columnDef.meta?.align
   return (
-    <TableHead className={cn(align === "end" && "text-right")}>
+    <TableHead
+      className={cn(
+        align === "end" && "text-right",
+        left !== undefined && pinnedClass
+      )}
+      style={left === undefined ? undefined : { left }}
+    >
       {header.isPlaceholder
         ? null
         : flexRender(header.column.columnDef.header, header.getContext())}
@@ -219,16 +254,20 @@ function DataTableHead<T extends RowData>({
 
 function DataTableCell<T extends RowData>({
   cell,
+  left,
 }: {
   cell: Cell<typeof dataTableFeatures, T>
+  left: number | undefined
 }) {
   const align = cell.column.columnDef.meta?.align
   return (
     <TableCell
       className={cn(
         "truncate py-0",
-        align === "end" && "text-right tabular-nums"
+        align === "end" && "text-right tabular-nums",
+        left !== undefined && pinnedClass
       )}
+      style={left === undefined ? undefined : { left }}
     >
       {flexRender(cell.column.columnDef.cell, cell.getContext())}
     </TableCell>
