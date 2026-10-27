@@ -45,7 +45,7 @@ export async function createTemplate(
   )
 }
 
-/** `layout` replaces the size and every element together; a template is deactivated, never deleted. */
+/** `layout` replaces the size and every element together. */
 export async function updateTemplate(
   queryClient: QueryClient,
   template: Pick<LabelTemplate, "id" | "version">,
@@ -64,4 +64,25 @@ export async function updateTemplate(
       )
     )
   )
+}
+
+/** Deleting forgets the template; a print screen that remembered it falls back to the first active one. */
+export async function deleteTemplate(
+  queryClient: QueryClient,
+  template: Pick<LabelTemplate, "id" | "version">
+) {
+  await readAgainOnConflict(
+    queryClient,
+    ["label-templates"],
+    unwrap(
+      api.DELETE("/api/label-templates/{id}", {
+        params: {
+          path: { id: template.id },
+          query: { version: template.version },
+        },
+      })
+    )
+  )
+  queryClient.removeQueries({ queryKey: templateQuery(template.id).queryKey })
+  await queryClient.invalidateQueries({ queryKey: ["label-templates", "list"] })
 }

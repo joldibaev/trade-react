@@ -26,18 +26,36 @@ export function priceTypes(): PriceType[] {
   ]
 }
 
-/** The price types API: PATCH applies the change and keeps exactly one default, as TradeNet does. */
-export async function mockPriceTypes(page: Page, types: PriceType[]) {
+/**
+ * The price types API: PATCH applies the change and keeps exactly one default, as TradeNet does; DELETE refuses
+ * the default and the types named in `used` (409 PRICE_TYPE_HAS_PRICES).
+ */
+export async function mockPriceTypes(
+  page: Page,
+  types: PriceType[],
+  used: string[] = []
+) {
   const patches: unknown[] = []
-  await page.route(/\/api\/price-types(\/[^?]*)?$/, async (route) => {
+  await page.route(/\/api\/price-types(\/[^?]*)?(\?.*)?$/, async (route) => {
     const request = route.request()
     if (request.method() === "GET")
       return route.fulfill({ json: { items: types, nextCursor: null } })
-    const id = new URL(request.url()).pathname.split("/")[3]
-    const body = request.postDataJSON() as Partial<PriceType>
-    patches.push(body)
+    const url = new URL(request.url())
+    const id = url.pathname.split("/")[3]
     const target = types.find((t) => t.id === id)
     if (!target) return problem(route, 404, "PRICE_TYPE_NOT_FOUND")
+    if (request.method() === "DELETE") {
+      patches.push({ deleted: id, version: url.searchParams.get("version") })
+      if (url.searchParams.get("version") !== String(target.version))
+        return problem(route, 409, "VERSION_CONFLICT")
+      if (target.isDefault) return problem(route, 409, "PRICE_TYPE_IS_DEFAULT")
+      if (used.includes(target.id))
+        return problem(route, 409, "PRICE_TYPE_HAS_PRICES")
+      types.splice(types.indexOf(target), 1)
+      return route.fulfill({ status: 204 })
+    }
+    const body = request.postDataJSON() as Partial<PriceType>
+    patches.push(body)
     if (body.isDefault) for (const t of types) t.isDefault = false
     Object.assign(target, body, { version: target.version + 1 })
     return route.fulfill({ json: target })

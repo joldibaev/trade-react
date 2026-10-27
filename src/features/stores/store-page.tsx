@@ -1,8 +1,9 @@
-import { useQuery } from "@tanstack/react-query"
-import { Link } from "@tanstack/react-router"
-import { ArrowLeftIcon, PencilIcon, PlusIcon } from "lucide-react"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { Link, useNavigate } from "@tanstack/react-router"
+import { ArrowLeftIcon, PencilIcon, PlusIcon, Trash2Icon } from "lucide-react"
 import { useMemo, useState } from "react"
 
+import { ConfirmDialog } from "@/components/confirm-dialog"
 import { DataTable } from "@/components/data-table/data-table"
 import { dataTableColumns } from "@/components/data-table/columns"
 import { loadedSource } from "@/components/data-table/sources"
@@ -32,11 +33,20 @@ import {
   StoreActivationDialog,
 } from "./store-activation-dialog"
 import { StoreFormDialog } from "./store-form-dialog"
-import { storeQuery, type Cashbox, type Store } from "./stores-api"
+import {
+  deleteCashbox,
+  deleteStore,
+  storeQuery,
+  type Cashbox,
+  type Store,
+} from "./stores-api"
 
 const column = dataTableColumns<Cashbox>()
 
-type CashboxCommand = { kind: "rename" | "activation"; cashbox: Cashbox }
+type CashboxCommand = {
+  kind: "rename" | "activation" | "delete"
+  cashbox: Cashbox
+}
 
 function cashboxColumns(
   t: Messages,
@@ -85,6 +95,13 @@ function cashboxColumns(
                       destructive: cashbox.isActive,
                       onSelect: () => {
                         run({ kind: "activation", cashbox })
+                      },
+                    },
+                    {
+                      label: t.cashboxes.delete,
+                      destructive: true,
+                      onSelect: () => {
+                        run({ kind: "delete", cashbox })
                       },
                     },
                   ]
@@ -136,8 +153,10 @@ function StoreDetails({ store }: { store: Store }) {
   // A manager bound to some stores edits them and their tills, but only someone with all stores closes one.
   const me = useMe()
   const canManage = can("STORES_MANAGE")
+  const queryClient = useQueryClient()
+  const navigate = useNavigate()
   const [dialog, setDialog] = useState<
-    "edit" | "activation" | "newCashbox" | null
+    "edit" | "activation" | "delete" | "newCashbox" | null
   >(null)
   const [command, setCommand] = useState<CashboxCommand | null>(null)
   const columns = useMemo(
@@ -173,14 +192,25 @@ function StoreDetails({ store }: { store: Store }) {
               {t.common.edit}
             </Button>
             {me.stores.all && (
-              <Button
-                variant="outline"
-                onClick={() => {
-                  setDialog("activation")
-                }}
-              >
-                {store.isActive ? t.stores.deactivate : t.stores.activate}
-              </Button>
+              <>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setDialog("activation")
+                  }}
+                >
+                  {store.isActive ? t.stores.deactivate : t.stores.activate}
+                </Button>
+                <Button
+                  variant="ghost"
+                  onClick={() => {
+                    setDialog("delete")
+                  }}
+                >
+                  <Trash2Icon data-icon="inline-start" aria-hidden />
+                  {t.stores.delete}
+                </Button>
+              </>
             )}
           </>
         )}
@@ -231,6 +261,24 @@ function StoreDetails({ store }: { store: Store }) {
       {dialog === "activation" && (
         <StoreActivationDialog store={store} open onOpenChange={close} />
       )}
+      {dialog === "delete" && (
+        <ConfirmDialog
+          open
+          onOpenChange={close}
+          title={`${t.stores.delete}: ${store.name}`}
+          description={t.stores.deleteHint}
+          confirmLabel={t.stores.delete}
+          destructive
+          failedTitle={t.common.deleteFailed}
+          action={async () => {
+            await deleteStore(queryClient, store)
+            await navigate({ to: "/stores" })
+            queryClient.removeQueries({
+              queryKey: storeQuery(store.id).queryKey,
+            })
+          }}
+        />
+      )}
       {dialog === "newCashbox" && (
         <CashboxFormDialog storeId={store.id} open onOpenChange={close} />
       )}
@@ -242,6 +290,20 @@ function StoreDetails({ store }: { store: Store }) {
           onOpenChange={() => {
             setCommand(null)
           }}
+        />
+      )}
+      {command?.kind === "delete" && (
+        <ConfirmDialog
+          open
+          onOpenChange={() => {
+            setCommand(null)
+          }}
+          title={`${t.cashboxes.delete}: ${command.cashbox.name}`}
+          description={t.cashboxes.deleteHint}
+          confirmLabel={t.cashboxes.delete}
+          destructive
+          failedTitle={t.common.deleteFailed}
+          action={() => deleteCashbox(queryClient, command.cashbox)}
         />
       )}
       {command?.kind === "activation" && (

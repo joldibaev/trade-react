@@ -68,6 +68,27 @@ export async function updateStore(
   return updated
 }
 
+/**
+ * Only a store with no cashboxes and nobody bound to it is deleted (409 `STORE_HAS_CASHBOXES`, `STORE_HAS_USERS`);
+ * it needs all stores, like opening and closing one. A store with a history is closed instead.
+ */
+export async function deleteStore(
+  queryClient: QueryClient,
+  store: Pick<Store, "id" | "version">
+) {
+  await readAgainOnConflict(
+    queryClient,
+    ["stores"],
+    unwrap(
+      api.DELETE("/api/stores/{id}", {
+        params: { path: { id: store.id }, query: { version: store.version } },
+      })
+    )
+  )
+  // The store's own page, when open, leaves first and then forgets it (a refetch now would show "not found").
+  await queryClient.invalidateQueries({ queryKey: ["stores", "list"] })
+}
+
 /** The store's answer lists its cashboxes, so after a cashbox write the stores are read again. */
 async function refreshStores(queryClient: QueryClient) {
   await queryClient.invalidateQueries({ queryKey: ["stores"] })
@@ -105,4 +126,23 @@ export async function updateCashbox(
   )
   await refreshStores(queryClient)
   return updated
+}
+
+export async function deleteCashbox(
+  queryClient: QueryClient,
+  cashbox: Pick<Cashbox, "id" | "version">
+) {
+  await readAgainOnConflict(
+    queryClient,
+    ["stores"],
+    unwrap(
+      api.DELETE("/api/cashboxes/{id}", {
+        params: {
+          path: { id: cashbox.id },
+          query: { version: cashbox.version },
+        },
+      })
+    )
+  )
+  await refreshStores(queryClient)
 }

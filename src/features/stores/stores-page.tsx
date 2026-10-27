@@ -1,8 +1,9 @@
-import { useQuery } from "@tanstack/react-query"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { Link, useNavigate } from "@tanstack/react-router"
 import { PlusIcon, StoreIcon } from "lucide-react"
 import { useMemo, useState } from "react"
 
+import { ConfirmDialog } from "@/components/confirm-dialog"
 import { DataTable } from "@/components/data-table/data-table"
 import { dataTableColumns } from "@/components/data-table/columns"
 import { useArraySource } from "@/components/data-table/sources"
@@ -27,11 +28,11 @@ import type { Messages } from "@/i18n/messages/ru"
 
 import { StoreActivationDialog } from "./store-activation-dialog"
 import { StoreFormDialog } from "./store-form-dialog"
-import { storesQuery, type Store } from "./stores-api"
+import { deleteStore, storesQuery, type Store } from "./stores-api"
 
 const column = dataTableColumns<Store>()
 
-type RowCommand = { kind: "edit" | "activation"; store: Store }
+type RowCommand = { kind: "edit" | "activation" | "delete"; store: Store }
 
 function storeColumns(
   t: Messages,
@@ -116,6 +117,13 @@ function storeColumns(
                               run({ kind: "activation", store })
                             },
                           },
+                          {
+                            label: t.stores.delete,
+                            destructive: true,
+                            onSelect: () => {
+                              run({ kind: "delete", store })
+                            },
+                          },
                         ]
                       : []),
                   ]
@@ -136,6 +144,7 @@ export function StoresPage({ status }: { status: ActiveStatus | undefined }) {
   const canManage = can("STORES_MANAGE")
   const canOpenClose = canManage && me.stores.all
   const navigate = useNavigate({ from: "/stores/" })
+  const queryClient = useQueryClient()
   const [creating, setCreating] = useState(false)
   const [command, setCommand] = useState<RowCommand | null>(null)
   const columns = useMemo(
@@ -212,6 +221,20 @@ export function StoresPage({ status }: { status: ActiveStatus | undefined }) {
           onOpenChange={() => {
             setCommand(null)
           }}
+        />
+      )}
+      {command?.kind === "delete" && (
+        <ConfirmDialog
+          open
+          onOpenChange={() => {
+            setCommand(null)
+          }}
+          title={`${t.stores.delete}: ${command.store.name}`}
+          description={t.stores.deleteHint}
+          confirmLabel={t.stores.delete}
+          destructive
+          failedTitle={t.common.deleteFailed}
+          action={() => deleteStore(queryClient, command.store)}
         />
       )}
     </>

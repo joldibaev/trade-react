@@ -32,6 +32,7 @@ export const uz: Messages = {
     leaveUnsaved: "Saqlanmagan oʻzgarishlar bor. Chiqib, ularni yoʻqotasizmi?",
     yes: "ha",
     no: "yoʻq",
+    deleteFailed: "Oʻchirib boʻlmadi",
   },
   theme: {
     system: "Tizimdagidek",
@@ -130,6 +131,9 @@ export const uz: Messages = {
     activateHint: "Doʻkon yana ishlaydigan boʻladi.",
     empty: "Hozircha doʻkonlar yoʻq.",
     loadFailed: "Doʻkonni yuklab boʻlmadi.",
+    delete: "Doʻkonni oʻchirib tashlash",
+    deleteHint:
+      "Faqat kassasi va unga biriktirilgan xodimlari yoʻq doʻkonni oʻchirib tashlash mumkin. Ular bor doʻkonni yopish mumkin.",
   },
   cashboxes: {
     name: "Kassa nomi",
@@ -147,6 +151,9 @@ export const uz: Messages = {
     activateHint: "Kassa yana ishlaydigan boʻladi.",
     empty: "Kassalar yoʻq.",
     emptyHint: "Kassasi yoʻq doʻkon ombor sifatida ishlaydi.",
+    delete: "Kassani oʻchirib tashlash",
+    deleteHint:
+      "Kassa butunlay oʻchib ketadi. Agar u yana kerak boʻlishi mumkin boʻlsa, uni faqat oʻchirib qoʻying.",
   },
   categories: {
     title: "Kategoriyalar",
@@ -191,6 +198,9 @@ export const uz: Messages = {
     activateHint: "Tur yana yangi qayta baholashlarda paydo boʻladi.",
     empty: "Hozircha narx turlari yoʻq. Birinchi yaratilgani asosiy boʻladi.",
     hint: "Tovar narxi faqat qayta baholash orqali oʻzgaradi: kim, qachon va qaysi narxdan qaysiga oʻzgartirgani koʻrinadi.",
+    delete: "Oʻchirib tashlash",
+    deleteHint:
+      "Faqat narxlari, qayta baholashlari va yorliq andozalari yoʻq turni oʻchirib tashlash mumkin. Aks holda uni faqat oʻchirib qoʻyish mumkin.",
   },
   revaluations: {
     title: "Qayta baholashlar",
@@ -466,6 +476,9 @@ export const uz: Messages = {
       "Andoza oʻchirilmaydi: chop etishda tanlovda boʻlmaydi, uni qayta yoqish mumkin.",
     activateHint: "Andoza chop etishda yana tanlovda paydo boʻladi.",
     empty: "Hozircha andozalar yoʻq.",
+    delete: "Oʻchirib tashlash",
+    deleteHint:
+      "Andoza butunlay oʻchib ketadi. Uni faqat chop etishdagi tanlovdan olib tashlash uchun oʻchirib qoʻying.",
   },
   labelEditor: {
     newTitle: "Yangi andoza",
@@ -651,7 +664,8 @@ export const uz: Messages = {
     BARCODE_TAKEN: "Bu shtrix-kod boshqa tovarga tegishli.",
     PRICE_TYPE_NOT_FOUND: "Narx turi topilmadi.",
     PRICE_TYPE_NAME_TAKEN: "Bunday nomli narx turi allaqachon bor.",
-    PRICE_TYPE_IS_DEFAULT: "Bu asosiy narx turi.",
+    PRICE_TYPE_IS_DEFAULT:
+      "Bu asosiy narx turi. Avval boshqasini asosiy qiling.",
     PRICE_TYPE_INACTIVE: "Narx turi oʻchirilgan.",
     REVALUATION_NOT_FOUND: "Qayta baholash topilmadi.",
     REVALUATION_NOT_DRAFT: "Qayta baholash endi qoralama emas.",
@@ -666,5 +680,15 @@ export const uz: Messages = {
     LABEL_TEMPLATE_NOT_FOUND: "Andoza topilmadi.",
     LABEL_TEMPLATE_NAME_TAKEN:
       "Bunday nomli andoza allaqachon bor (balki oʻchirilgani).",
+    STORE_HAS_CASHBOXES:
+      "Doʻkonda kassalar bor. Avval ularni oʻchirib tashlang yoki doʻkonni yoping.",
+    STORE_HAS_USERS:
+      "Doʻkonga xodimlar biriktirilgan. Ulardan bu doʻkonni olib tashlang yoki doʻkonni yoping.",
+    PRICE_TYPE_HAS_PRICES:
+      "Bu tur boʻyicha narxlar bor. Uni faqat oʻchirib qoʻyish mumkin.",
+    PRICE_TYPE_HAS_REVALUATIONS:
+      "Narx turi qayta baholashlarda bor. U bilan qoralamalarni oʻchirib tashlang yoki turni oʻchirib qoʻying.",
+    PRICE_TYPE_HAS_LABEL_TEMPLATES:
+      "Narx turi yorliq andozalarida tanlangan. Andozalarni oʻzgartiring yoki turni oʻchirib qoʻying.",
   },
 }

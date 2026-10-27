@@ -71,6 +71,39 @@ test("cashboxes: a taken name is refused, a new one appears, one is switched off
   ).toBeVisible()
 })
 
+test("a store with a cashbox is not deleted; without it, it is, and its page closes", async ({
+  page,
+}) => {
+  await mockSession(page, admin)
+  const stores = await mockStores(page, chain())
+  await page.goto(`/stores/${stores[2]?.id ?? ""}`)
+  const confirm = page.getByRole("alertdialog")
+
+  await page.getByRole("button", { name: "Удалить магазин" }).click()
+  await confirm.getByRole("button", { name: "Удалить магазин" }).click()
+  await expect(
+    confirm.getByText(
+      "У магазина есть кассы. Сначала удалите их или закройте магазин."
+    )
+  ).toBeVisible()
+  await confirm.getByRole("button", { name: "Отмена" }).click()
+
+  await page.getByRole("button", { name: "Действия: Касса 1" }).click()
+  await page.getByRole("menuitem", { name: "Удалить кассу" }).click()
+  await confirm.getByRole("button", { name: "Удалить кассу" }).click()
+  await expect(page.getByText("Касс нет.")).toBeVisible()
+
+  await page.getByRole("button", { name: "Удалить магазин" }).click()
+  await confirm.getByRole("button", { name: "Удалить магазин" }).click()
+  await expect(page).toHaveURL(/\/stores$/)
+  await expect(
+    page.getByRole("cell", { name: "Чиланзар", exact: true })
+  ).toBeVisible()
+  await expect(
+    page.getByRole("cell", { name: "Юнусабад", exact: true })
+  ).toHaveCount(0)
+})
+
 test("an edit over someone else's change keeps the person's text until they reload", async ({
   page,
 }) => {
@@ -122,6 +155,9 @@ test("a manager bound to some stores edits them but neither opens nor closes a s
   await expect(page.getByRole("menuitem", { name: "Изменить" })).toBeVisible()
   await expect(
     page.getByRole("menuitem", { name: "Закрыть магазин" })
+  ).toHaveCount(0)
+  await expect(
+    page.getByRole("menuitem", { name: "Удалить магазин" })
   ).toHaveCount(0)
 })
 

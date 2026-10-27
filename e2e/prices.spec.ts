@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "@playwright/test"
 
-import { admin, mockProducts, mockSession, product } from "./support/api"
+import { admin, mockProducts, mockSession, product, uuid } from "./support/api"
 import { mockPriceTypes, mockRevaluations, priceTypes } from "./support/prices"
 
 async function addProducts(page: Page, names: string[]) {
@@ -42,6 +42,46 @@ test("a type becomes the default; the default cannot be switched off", async ({
   await expect(
     page.getByRole("row", { name: /Розница/ }).getByText("Основной")
   ).toHaveCount(0)
+})
+
+test("a type is deleted after asking; one with prices is refused, the default has no delete", async ({
+  page,
+}) => {
+  await mockSession(page, admin)
+  const types = [
+    ...priceTypes(),
+    {
+      id: uuid(4003),
+      name: "Акция",
+      isActive: true,
+      isDefault: false,
+      version: 1,
+    },
+  ]
+  const sent = await mockPriceTypes(page, types, [uuid(4002)])
+  await page.goto("/price-types")
+  const confirm = page.getByRole("alertdialog")
+
+  await page.getByRole("button", { name: "Действия: Розница" }).click()
+  await expect(page.getByRole("menuitem", { name: "Удалить" })).toHaveCount(0)
+  await page.keyboard.press("Escape")
+
+  await page.getByRole("button", { name: "Действия: Опт" }).click()
+  await page.getByRole("menuitem", { name: "Удалить" }).click()
+  await confirm.getByRole("button", { name: "Удалить" }).click()
+  await expect(
+    confirm.getByText(
+      "По этому типу уже есть цены. Его можно только отключить."
+    )
+  ).toBeVisible()
+  await confirm.getByRole("button", { name: "Отмена" }).click()
+
+  await page.getByRole("button", { name: "Действия: Акция" }).click()
+  await page.getByRole("menuitem", { name: "Удалить" }).click()
+  await confirm.getByRole("button", { name: "Удалить" }).click()
+  await expect(confirm).toBeHidden()
+  await expect(page.getByRole("cell", { name: "Акция" })).toHaveCount(0)
+  expect(sent.at(-1)).toEqual({ deleted: uuid(4003), version: "1" })
 })
 
 test("a new revaluation sends only the cells that were touched, a removal as null", async ({

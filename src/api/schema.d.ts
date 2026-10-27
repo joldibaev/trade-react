@@ -119,7 +119,164 @@ export type paths = {
     }
     put?: never
     post?: never
-    delete?: never
+    delete: {
+      parameters: {
+        query: {
+          version: number
+        }
+        header?: never
+        path: {
+          id: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description No Content */
+        204: {
+          headers: {
+            [name: string]: unknown
+          }
+          content?: never
+        }
+        /** @description Bad Request. Codes: `VALIDATION_ERROR`. */
+        400: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Bad Request",
+             *       "status": 400,
+             *       "code": "VALIDATION_ERROR",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Unauthorized. Codes: `UNAUTHENTICATED`. */
+        401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Unauthorized",
+             *       "status": 401,
+             *       "code": "UNAUTHENTICATED",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Forbidden. Codes: `FORBIDDEN`, `CSRF_REJECTED`. */
+        403: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Forbidden",
+             *       "status": 403,
+             *       "code": "FORBIDDEN",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Not Found. Codes: `CASHBOX_NOT_FOUND`. */
+        404: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Not Found",
+             *       "status": 404,
+             *       "code": "CASHBOX_NOT_FOUND",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Conflict. Codes: `VERSION_CONFLICT`. */
+        409: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Conflict",
+             *       "status": 409,
+             *       "code": "VERSION_CONFLICT",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Too Many Requests. Codes: `TOO_MANY_REQUESTS`. */
+        429: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Too Many Requests",
+             *       "status": 429,
+             *       "code": "TOO_MANY_REQUESTS",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Internal Server Error. Codes: `INTERNAL_SERVER_ERROR`. */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Internal Server Error",
+             *       "status": 500,
+             *       "code": "INTERNAL_SERVER_ERROR",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Service Unavailable. Codes: `SERVICE_UNAVAILABLE`. */
+        503: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Service Unavailable",
+             *       "status": 503,
+             *       "code": "SERVICE_UNAVAILABLE",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+      }
+    }
     options?: never
     head?: never
     patch: {
@@ -958,7 +1115,164 @@ export type paths = {
     }
     put?: never
     post?: never
-    delete?: never
+    delete: {
+      parameters: {
+        query: {
+          version: number
+        }
+        header?: never
+        path: {
+          id: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description No Content */
+        204: {
+          headers: {
+            [name: string]: unknown
+          }
+          content?: never
+        }
+        /** @description Bad Request. Codes: `VALIDATION_ERROR`. */
+        400: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Bad Request",
+             *       "status": 400,
+             *       "code": "VALIDATION_ERROR",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Unauthorized. Codes: `UNAUTHENTICATED`. */
+        401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Unauthorized",
+             *       "status": 401,
+             *       "code": "UNAUTHENTICATED",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Forbidden. Codes: `ALL_STORES_REQUIRED`, `FORBIDDEN`, `CSRF_REJECTED`. */
+        403: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Forbidden",
+             *       "status": 403,
+             *       "code": "ALL_STORES_REQUIRED",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Not Found. Codes: `STORE_NOT_FOUND`. */
+        404: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Not Found",
+             *       "status": 404,
+             *       "code": "STORE_NOT_FOUND",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Conflict. Codes: `VERSION_CONFLICT`, `STORE_HAS_CASHBOXES`, `STORE_HAS_USERS`. */
+        409: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Conflict",
+             *       "status": 409,
+             *       "code": "VERSION_CONFLICT",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Too Many Requests. Codes: `TOO_MANY_REQUESTS`. */
+        429: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Too Many Requests",
+             *       "status": 429,
+             *       "code": "TOO_MANY_REQUESTS",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Internal Server Error. Codes: `INTERNAL_SERVER_ERROR`. */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Internal Server Error",
+             *       "status": 500,
+             *       "code": "INTERNAL_SERVER_ERROR",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Service Unavailable. Codes: `SERVICE_UNAVAILABLE`. */
+        503: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Service Unavailable",
+             *       "status": 503,
+             *       "code": "SERVICE_UNAVAILABLE",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+      }
+    }
     options?: never
     head?: never
     patch: {
@@ -1709,7 +2023,164 @@ export type paths = {
     }
     put?: never
     post?: never
-    delete?: never
+    delete: {
+      parameters: {
+        query: {
+          version: number
+        }
+        header?: never
+        path: {
+          id: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description No Content */
+        204: {
+          headers: {
+            [name: string]: unknown
+          }
+          content?: never
+        }
+        /** @description Bad Request. Codes: `VALIDATION_ERROR`. */
+        400: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Bad Request",
+             *       "status": 400,
+             *       "code": "VALIDATION_ERROR",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Unauthorized. Codes: `UNAUTHENTICATED`. */
+        401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Unauthorized",
+             *       "status": 401,
+             *       "code": "UNAUTHENTICATED",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Forbidden. Codes: `FORBIDDEN`, `CSRF_REJECTED`. */
+        403: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Forbidden",
+             *       "status": 403,
+             *       "code": "FORBIDDEN",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Not Found. Codes: `PRICE_TYPE_NOT_FOUND`. */
+        404: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Not Found",
+             *       "status": 404,
+             *       "code": "PRICE_TYPE_NOT_FOUND",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Conflict. Codes: `VERSION_CONFLICT`, `PRICE_TYPE_IS_DEFAULT`, `PRICE_TYPE_HAS_PRICES`, `PRICE_TYPE_HAS_REVALUATIONS`, `PRICE_TYPE_HAS_LABEL_TEMPLATES`. */
+        409: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Conflict",
+             *       "status": 409,
+             *       "code": "VERSION_CONFLICT",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Too Many Requests. Codes: `TOO_MANY_REQUESTS`. */
+        429: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Too Many Requests",
+             *       "status": 429,
+             *       "code": "TOO_MANY_REQUESTS",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Internal Server Error. Codes: `INTERNAL_SERVER_ERROR`. */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Internal Server Error",
+             *       "status": 500,
+             *       "code": "INTERNAL_SERVER_ERROR",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Service Unavailable. Codes: `SERVICE_UNAVAILABLE`. */
+        503: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Service Unavailable",
+             *       "status": 503,
+             *       "code": "SERVICE_UNAVAILABLE",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+      }
+    }
     options?: never
     head?: never
     patch: {
@@ -3672,7 +4143,164 @@ export type paths = {
     }
     put?: never
     post?: never
-    delete?: never
+    delete: {
+      parameters: {
+        query: {
+          version: number
+        }
+        header?: never
+        path: {
+          id: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description No Content */
+        204: {
+          headers: {
+            [name: string]: unknown
+          }
+          content?: never
+        }
+        /** @description Bad Request. Codes: `VALIDATION_ERROR`. */
+        400: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Bad Request",
+             *       "status": 400,
+             *       "code": "VALIDATION_ERROR",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Unauthorized. Codes: `UNAUTHENTICATED`. */
+        401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Unauthorized",
+             *       "status": 401,
+             *       "code": "UNAUTHENTICATED",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Forbidden. Codes: `FORBIDDEN`, `CSRF_REJECTED`. */
+        403: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Forbidden",
+             *       "status": 403,
+             *       "code": "FORBIDDEN",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Not Found. Codes: `LABEL_TEMPLATE_NOT_FOUND`. */
+        404: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Not Found",
+             *       "status": 404,
+             *       "code": "LABEL_TEMPLATE_NOT_FOUND",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Conflict. Codes: `VERSION_CONFLICT`. */
+        409: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Conflict",
+             *       "status": 409,
+             *       "code": "VERSION_CONFLICT",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Too Many Requests. Codes: `TOO_MANY_REQUESTS`. */
+        429: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Too Many Requests",
+             *       "status": 429,
+             *       "code": "TOO_MANY_REQUESTS",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Internal Server Error. Codes: `INTERNAL_SERVER_ERROR`. */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Internal Server Error",
+             *       "status": 500,
+             *       "code": "INTERNAL_SERVER_ERROR",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Service Unavailable. Codes: `SERVICE_UNAVAILABLE`. */
+        503: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Service Unavailable",
+             *       "status": 503,
+             *       "code": "SERVICE_UNAVAILABLE",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+      }
+    }
     options?: never
     head?: never
     patch: {
@@ -9330,6 +9958,8 @@ export type components = {
       | "ALL_STORES_REQUIRED"
       | "CASHBOX_NOT_FOUND"
       | "CASHBOX_NAME_TAKEN"
+      | "STORE_HAS_CASHBOXES"
+      | "STORE_HAS_USERS"
       | "CATEGORY_NOT_FOUND"
       | "CATEGORY_NAME_TAKEN"
       | "CATEGORY_CYCLE"
@@ -9344,6 +9974,9 @@ export type components = {
       | "PRICE_TYPE_NAME_TAKEN"
       | "PRICE_TYPE_IS_DEFAULT"
       | "PRICE_TYPE_INACTIVE"
+      | "PRICE_TYPE_HAS_PRICES"
+      | "PRICE_TYPE_HAS_REVALUATIONS"
+      | "PRICE_TYPE_HAS_LABEL_TEMPLATES"
       | "REVALUATION_NOT_FOUND"
       | "REVALUATION_NOT_DRAFT"
       | "REVALUATION_NOT_POSTED"

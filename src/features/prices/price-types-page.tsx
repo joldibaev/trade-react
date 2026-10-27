@@ -18,6 +18,7 @@ import type { Messages } from "@/i18n/messages/ru"
 
 import {
   createPriceType,
+  deletePriceType,
   priceTypesQuery,
   updatePriceType,
   type PriceType,
@@ -26,7 +27,7 @@ import {
 const column = dataTableColumns<PriceType>()
 
 type Command = {
-  kind: "rename" | "makeDefault" | "activation"
+  kind: "rename" | "makeDefault" | "activation" | "delete"
   priceType: PriceType
 }
 
@@ -71,7 +72,8 @@ function priceTypeColumns(
               run({ kind: "rename", priceType })
             },
           },
-          // An inactive type cannot become the default, and the default cannot be deactivated (TradeNet prices.md).
+          // An inactive type cannot become the default, and the default can be neither deactivated nor deleted
+          // (TradeNet prices.md).
           ...(priceType.isActive && !priceType.isDefault
             ? [
                 {
@@ -91,6 +93,13 @@ function priceTypeColumns(
                   destructive: priceType.isActive,
                   onSelect: () => {
                     run({ kind: "activation", priceType })
+                  },
+                },
+                {
+                  label: t.priceTypes.delete,
+                  destructive: true,
+                  onSelect: () => {
+                    run({ kind: "delete", priceType })
                   },
                 },
               ]
@@ -173,6 +182,18 @@ export function PriceTypesPage() {
               isDefault: true,
             })
           }
+        />
+      )}
+      {command?.kind === "delete" && (
+        <ConfirmDialog
+          open
+          onOpenChange={close}
+          title={`${t.priceTypes.delete}: ${command.priceType.name}`}
+          description={t.priceTypes.deleteHint}
+          confirmLabel={t.priceTypes.delete}
+          destructive
+          failedTitle={t.common.deleteFailed}
+          action={() => deletePriceType(queryClient, command.priceType)}
         />
       )}
       {command?.kind === "activation" && (

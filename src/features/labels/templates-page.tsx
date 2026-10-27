@@ -30,6 +30,7 @@ import { LabelPreview } from "./label-preview"
 import { printLabels } from "./print-frame"
 import { PriceTypeSelect, usePriceTypeChoice } from "./print-job"
 import {
+  deleteTemplate,
   templateQuery,
   templatesQuery,
   updateTemplate,
@@ -39,7 +40,7 @@ import {
 const column = dataTableColumns<LabelTemplateListItem>()
 
 type Command = {
-  kind: "test" | "activation"
+  kind: "test" | "activation" | "delete"
   template: LabelTemplateListItem
 }
 
@@ -126,6 +127,13 @@ function templateColumns(
                         run({ kind: "activation", template })
                       },
                     },
+                    {
+                      label: t.labelTemplates.delete,
+                      destructive: true,
+                      onSelect: () => {
+                        run({ kind: "delete", template })
+                      },
+                    },
                   ]
                 : []),
             ]}
@@ -136,7 +144,7 @@ function templateColumns(
   ])
 }
 
-/** The label templates; everyone may test-print one, `CATALOG_MANAGE` draws and changes them. Never deleted. */
+/** The label templates; everyone may test-print one, `CATALOG_MANAGE` draws, changes and deletes them. */
 export function TemplatesPage() {
   const t = useT()
   const can = useCan()
@@ -186,6 +194,18 @@ export function TemplatesPage() {
       />
       {command?.kind === "test" && (
         <TestPrintDialog id={command.template.id} onClose={close} />
+      )}
+      {command?.kind === "delete" && (
+        <ConfirmDialog
+          open
+          onOpenChange={close}
+          title={`${t.labelTemplates.delete}: ${command.template.name}`}
+          description={t.labelTemplates.deleteHint}
+          confirmLabel={t.labelTemplates.delete}
+          destructive
+          failedTitle={t.common.deleteFailed}
+          action={() => deleteTemplate(queryClient, command.template)}
+        />
       )}
       {command?.kind === "activation" && (
         <ConfirmDialog

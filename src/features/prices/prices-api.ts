@@ -49,6 +49,29 @@ export async function updatePriceType(
   return updated
 }
 
+/**
+ * Only a type nothing refers to is deleted: not the default, no prices or price history, in no revaluation (drafts
+ * included), fixed by no label template (409 `PRICE_TYPE_*` otherwise). A used type is deactivated instead.
+ */
+export async function deletePriceType(
+  queryClient: QueryClient,
+  priceType: Pick<PriceType, "id" | "version">
+) {
+  await readAgainOnConflict(
+    queryClient,
+    ["price-types"],
+    unwrap(
+      api.DELETE("/api/price-types/{id}", {
+        params: {
+          path: { id: priceType.id },
+          query: { version: priceType.version },
+        },
+      })
+    )
+  )
+  await queryClient.invalidateQueries({ queryKey: ["price-types"] })
+}
+
 // ---- Price history. The current prices travel with the product (`ProductResponse.prices`, list items too).
 
 export function priceHistoryOptions(productId: string) {

@@ -83,7 +83,8 @@ export function labelTemplates(): Template[] {
 }
 
 /**
- * The label templates API in memory: list, read, create, change (with the version check and the unique name).
+ * The label templates API in memory: list, read, create, change (with the version check and the unique name),
+ * delete.
  * Returns the bodies written, by method.
  */
 export async function mockLabelTemplates(page: Page, templates: Template[]) {
@@ -114,6 +115,15 @@ export async function mockLabelTemplates(page: Page, templates: Template[]) {
         return target
           ? route.fulfill({ json: target })
           : problem(route, 404, "LABEL_TEMPLATE_NOT_FOUND")
+      if (method === "DELETE") {
+        const version = new URL(request.url()).searchParams.get("version")
+        sent.push({ method, body: { id, version } })
+        if (!target) return problem(route, 404, "LABEL_TEMPLATE_NOT_FOUND")
+        if (version !== String(target.version))
+          return problem(route, 409, "VERSION_CONFLICT")
+        templates.splice(templates.indexOf(target), 1)
+        return route.fulfill({ status: 204 })
+      }
       const body = request.postDataJSON() as Record<string, unknown>
       sent.push({ method, body })
       const name = typeof body.name === "string" ? body.name : undefined

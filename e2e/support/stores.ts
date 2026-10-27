@@ -30,7 +30,8 @@ export function store(
 
 /**
  * The stores API over an in-memory list, with TradeNet's rules that a screen must handle: versions (409
- * VERSION_CONFLICT), names unique regardless of case (409), cashboxes inside the store's answer.
+ * VERSION_CONFLICT), names unique regardless of case (409), cashboxes inside the store's answer, and a store
+ * deleted only without cashboxes (409 STORE_HAS_CASHBOXES).
  */
 export async function mockStores(page: Page, stores: Store[]) {
   let nextId = 9000
@@ -48,6 +49,7 @@ export async function mockStores(page: Page, stores: Store[]) {
       isActive?: boolean
     } | null
     const method = request.method()
+    const version = url.searchParams.get("version")
 
     if (parts[1] === "cashboxes") {
       const owner = stores.find((s) =>
@@ -55,6 +57,13 @@ export async function mockStores(page: Page, stores: Store[]) {
       )
       const cashbox = owner?.cashboxes.find((c) => c.id === parts[2])
       if (!owner || !cashbox) return problem(route, 404, "CASHBOX_NOT_FOUND")
+      if (method === "DELETE") {
+        if (version !== String(cashbox.version))
+          return problem(route, 409, "VERSION_CONFLICT")
+        owner.cashboxes.splice(owner.cashboxes.indexOf(cashbox), 1)
+        bump(owner)
+        return route.fulfill({ status: 204 })
+      }
       if (body?.version !== cashbox.version)
         return problem(route, 409, "VERSION_CONFLICT")
       Object.assign(cashbox, { ...body, version: cashbox.version })
@@ -112,6 +121,14 @@ export async function mockStores(page: Page, stores: Store[]) {
     }
     if (!target) return problem(route, 404, "STORE_NOT_FOUND")
     if (method === "GET") return json(route, target)
+    if (method === "DELETE") {
+      if (version !== String(target.version))
+        return problem(route, 409, "VERSION_CONFLICT")
+      if (target.cashboxes.length > 0)
+        return problem(route, 409, "STORE_HAS_CASHBOXES")
+      stores.splice(stores.indexOf(target), 1)
+      return route.fulfill({ status: 204 })
+    }
     if (body?.version !== target.version)
       return problem(route, 409, "VERSION_CONFLICT")
     Object.assign(target, { ...body, version: target.version })

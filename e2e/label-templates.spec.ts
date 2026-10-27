@@ -76,6 +76,25 @@ test("the list switches a template off after asking, and test-prints one on any 
   await expect.poll(async () => (await printed(page)).at(0)).toMatch(/18\s790/)
 })
 
+test("the list deletes a template after asking", async ({ page }) => {
+  const { sent } = await setUp(page)
+  await page.goto("/label-templates")
+  await page.getByRole("button", { name: "Действия: Маленькая 40×30" }).click()
+  await page.getByRole("menuitem", { name: "Удалить" }).click()
+  await page
+    .getByRole("alertdialog")
+    .getByRole("button", { name: "Удалить" })
+    .click()
+  await expect(page.getByRole("link", { name: "Маленькая 40×30" })).toHaveCount(
+    0
+  )
+  await expect(page.getByRole("link", { name: "Стандарт 58×40" })).toBeVisible()
+  expect(sent.at(-1)).toEqual({
+    method: "DELETE",
+    body: { id: labelTemplates()[0]?.id, version: "1" },
+  })
+})
+
 test("without catalog rights the list only test-prints, and the editor says no access", async ({
   page,
 }) => {
