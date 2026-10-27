@@ -261,7 +261,7 @@ test("a generated barcode goes into the product form's list", async ({
   let answer: "ok" | "taken" = "taken"
   await page.route("**/api/products/barcodes/generate", (route) =>
     answer === "ok"
-      ? route.fulfill({ json: { value: "2000000000015" } })
+      ? route.fulfill({ json: { value: "2384017265934" } })
       : problem(route, 409, "GENERATED_BARCODES_TAKEN")
   )
   await page.goto("/products")
@@ -270,12 +270,12 @@ test("a generated barcode goes into the product form's list", async ({
 
   await dialog.getByRole("button", { name: "Сгенерировать штрихкод" }).click()
   await expect(
-    dialog.getByText("Свободный номер штрихкода не нашёлся", { exact: false })
+    dialog.getByText("Свободный штрихкод не нашёлся. Повторите.")
   ).toBeVisible()
 
   answer = "ok"
   await dialog.getByRole("button", { name: "Сгенерировать штрихкод" }).click()
   await expect(dialog.getByLabel("Штрихкод", { exact: true })).toHaveValue(
-    "2000000000015"
+    "2384017265934"
   )
 })

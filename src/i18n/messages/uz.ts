@@ -660,7 +660,7 @@ export const uz: Messages = {
       "Bu qayta baholashdan keyin narxlar allaqachon oʻzgargan.",
     SESSION_NOT_FOUND: "Seans topilmadi: ehtimol, u allaqachon tugatilgan.",
     GENERATED_BARCODES_TAKEN:
-      "Boʻsh shtrix-kod raqami topilmadi: ketma-ket import qilingan tovarlar band qilgan. Qayta urinib koʻring — odatda ikkinchi marta chiqadi.",
+      "Boʻsh shtrix-kod topilmadi. Qayta urinib koʻring.",
     LABEL_TEMPLATE_NOT_FOUND: "Andoza topilmadi.",
     LABEL_TEMPLATE_NAME_TAKEN:
       "Bunday nomli andoza allaqachon bor (balki oʻchirilgani).",
