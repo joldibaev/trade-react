@@ -12,6 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AppIndexRouteImport } from './routes/_app/index'
+import { Route as AppProductsIndexRouteImport } from './routes/_app/products/index'
+import { Route as AppProductsProductIdRouteImport } from './routes/_app/products/$productId'
 import { Route as AppStoresIndexRouteImport } from './routes/_app/stores/index'
 import { Route as AppStoresStoreIdRouteImport } from './routes/_app/stores/$storeId'
 
@@ -29,6 +31,16 @@ const AppIndexRoute = AppIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppRoute,
 } as any)
+const AppProductsIndexRoute = AppProductsIndexRouteImport.update({
+  id: '/products/',
+  path: '/products/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppProductsProductIdRoute = AppProductsProductIdRouteImport.update({
+  id: '/products/$productId',
+  path: '/products/$productId',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppStoresIndexRoute = AppStoresIndexRouteImport.update({
   id: '/stores/',
   path: '/stores/',
@@ -43,13 +55,17 @@ const AppStoresStoreIdRoute = AppStoresStoreIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
   '/login': typeof LoginRoute
+  '/products/$productId': typeof AppProductsProductIdRoute
   '/stores/$storeId': typeof AppStoresStoreIdRoute
+  '/products/': typeof AppProductsIndexRoute
   '/stores/': typeof AppStoresIndexRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/': typeof AppIndexRoute
+  '/products/$productId': typeof AppProductsProductIdRoute
   '/stores/$storeId': typeof AppStoresStoreIdRoute
+  '/products': typeof AppProductsIndexRoute
   '/stores': typeof AppStoresIndexRoute
 }
 export interface FileRoutesById {
@@ -57,20 +73,36 @@ export interface FileRoutesById {
   '/_app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
   '/_app/': typeof AppIndexRoute
+  '/_app/products/$productId': typeof AppProductsProductIdRoute
   '/_app/stores/$storeId': typeof AppStoresStoreIdRoute
+  '/_app/products/': typeof AppProductsIndexRoute
   '/_app/stores/': typeof AppStoresIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/stores/$storeId' | '/stores/'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/products/$productId'
+    | '/stores/$storeId'
+    | '/products/'
+    | '/stores/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/' | '/stores/$storeId' | '/stores'
+  to:
+    | '/login'
+    | '/'
+    | '/products/$productId'
+    | '/stores/$storeId'
+    | '/products'
+    | '/stores'
   id:
     | '__root__'
     | '/_app'
     | '/login'
     | '/_app/'
+    | '/_app/products/$productId'
     | '/_app/stores/$storeId'
+    | '/_app/products/'
     | '/_app/stores/'
   fileRoutesById: FileRoutesById
 }
@@ -102,6 +134,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/products/': {
+      id: '/_app/products/'
+      path: '/products'
+      fullPath: '/products/'
+      preLoaderRoute: typeof AppProductsIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/products/$productId': {
+      id: '/_app/products/$productId'
+      path: '/products/$productId'
+      fullPath: '/products/$productId'
+      preLoaderRoute: typeof AppProductsProductIdRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/stores/': {
       id: '/_app/stores/'
       path: '/stores'
@@ -121,13 +167,17 @@ declare module '@tanstack/react-router' {
 
 interface AppRouteChildren {
   AppIndexRoute: typeof AppIndexRoute
+  AppProductsProductIdRoute: typeof AppProductsProductIdRoute
   AppStoresStoreIdRoute: typeof AppStoresStoreIdRoute
+  AppProductsIndexRoute: typeof AppProductsIndexRoute
   AppStoresIndexRoute: typeof AppStoresIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppIndexRoute: AppIndexRoute,
+  AppProductsProductIdRoute: AppProductsProductIdRoute,
   AppStoresStoreIdRoute: AppStoresStoreIdRoute,
+  AppProductsIndexRoute: AppProductsIndexRoute,
   AppStoresIndexRoute: AppStoresIndexRoute,
 }
 

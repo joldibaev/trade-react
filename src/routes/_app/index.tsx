@@ -1,6 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router"
+import { createFileRoute, redirect } from "@tanstack/react-router"
 
-// No screen yet: the start page is the menu.
+// No dashboard yet: the start page is the product list.
 export const Route = createFileRoute("/_app/")({
-  component: () => null,
+  beforeLoad: () => {
+    throw redirect({ to: "/products", replace: true })
+  },
 })
