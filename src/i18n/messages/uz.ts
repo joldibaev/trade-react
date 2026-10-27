@@ -242,6 +242,8 @@ export const uz: Messages = {
     from: "Dan",
     to: "Gacha",
     period: "Davr",
+    draft: "qoralama",
+    draftTitle: "Qayta baholash qoralamasi",
   },
   prices: {
     current: "Narxlar",

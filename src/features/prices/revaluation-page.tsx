@@ -67,7 +67,7 @@ import {
   serverFieldName,
   type GridRow,
 } from "./revaluation-grid"
-import { RevaluationStatusBadge } from "./revaluation-status"
+import { RevaluationStatusBadge, revaluationNumber } from "./revaluation-status"
 
 /** An existing revaluation: a draft to edit, or a posted or reversed one to read (and reverse). */
 export function RevaluationPage({ revaluationId }: { revaluationId: string }) {
@@ -281,9 +281,11 @@ function RevaluationEditor({
   )
 
   const status = revaluation?.status ?? "DRAFT"
-  const title = revaluation
-    ? `${t.revaluations.document} №${String(revaluation.number)}`
-    : t.revaluations.createTitle
+  const title = !revaluation
+    ? t.revaluations.createTitle
+    : revaluation.number === null
+      ? t.revaluations.draftTitle
+      : `${t.revaluations.document} ${revaluationNumber(t, revaluation.number)}`
 
   return (
     <form
@@ -429,7 +431,7 @@ function RevaluationEditor({
           <ConfirmDialog
             open
             onOpenChange={close}
-            title={`${t.revaluations.post}: №${String(saved.number)}`}
+            title={`${t.revaluations.post}: ${t.revaluations.draftTitle}`}
             description={t.revaluations.postHint}
             confirmLabel={t.revaluations.post}
             failedTitle={t.revaluations.postFailed}
@@ -466,7 +468,7 @@ function RevaluationEditor({
           <ConfirmDialog
             open
             onOpenChange={close}
-            title={`${t.revaluations.deleteDraft}: №${String(saved.number)}`}
+            title={t.revaluations.deleteDraft}
             description={t.revaluations.deleteHint}
             confirmLabel={t.revaluations.deleteDraft}
             destructive
@@ -482,7 +484,7 @@ function RevaluationEditor({
           <ConfirmDialog
             open
             onOpenChange={close}
-            title={`${t.revaluations.reverse}: №${String(revaluation.number)}`}
+            title={`${t.revaluations.reverse}: ${revaluationNumber(t, revaluation.number)}`}
             description={t.revaluations.reverseHint}
             confirmLabel={t.revaluations.reverse}
             destructive

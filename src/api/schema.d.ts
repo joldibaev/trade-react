@@ -9439,7 +9439,7 @@ export type components = {
       /** Format: uuid */
       id: string
       /** Format: int32 */
-      number: number
+      number: null | number
       status: components["schemas"]["RevaluationStatus"]
       comment: null | string
       /** Format: date-time */
@@ -9458,7 +9458,7 @@ export type components = {
       /** Format: uuid */
       id: string
       /** Format: int32 */
-      number: number
+      number: null | number
       status: components["schemas"]["RevaluationStatus"]
       comment: null | string
       /** Format: date-time */

@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge"
 import { useT } from "@/i18n/i18n"
+import type { Messages } from "@/i18n/messages/ru"
 
 import type { RevaluationStatus } from "./prices-api"
 
@@ -20,3 +21,7 @@ export function RevaluationStatusBadge({
     <Badge variant={variants[status]}>{t.revaluations.statuses[status]}</Badge>
   )
 }
+
+/** A draft has no number yet: the next one is given at posting, so posted documents are numbered without gaps. */
+export const revaluationNumber = (t: Messages, number: number | null) =>
+  number === null ? t.revaluations.draft : `№${String(number)}`

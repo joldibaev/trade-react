@@ -63,7 +63,9 @@ export async function mockRevaluations(
   const prices = options.prices ?? new Map<string, string>()
   const sent: { path: string; body: unknown }[] = []
   const documents = new Map<string, Revaluation>()
-  let number = 1
+  let created = 0
+  // Numbers are given at posting, without gaps (a draft has none).
+  let posted = 0
   let conflicted = false
 
   const withOldPrices = (lines: Line[] = []) =>
@@ -100,9 +102,9 @@ export async function mockRevaluations(
         },
       })
     if (!id) {
-      const created: Revaluation = {
-        id: uuid(5000 + number),
-        number: number++,
+      const draft: Revaluation = {
+        id: uuid(5000 + ++created),
+        number: null,
         status: "DRAFT",
         comment: body?.comment ?? null,
         createdAt: "2026-10-27T09:30:00Z",
@@ -114,8 +116,8 @@ export async function mockRevaluations(
         lines: withOldPrices(body?.lines),
         version: 1,
       }
-      documents.set(created.id, created)
-      return route.fulfill({ status: 201, json: created })
+      documents.set(draft.id, draft)
+      return route.fulfill({ status: 201, json: draft })
     }
     const document = documents.get(id)
     if (!document) return problem(route, 404, "REVALUATION_NOT_FOUND")
@@ -159,6 +161,7 @@ export async function mockRevaluations(
         })
       }
       document.status = "POSTED"
+      document.number = ++posted
       document.postedAt = "2026-10-27T09:40:00Z"
       document.postedBy = { id: admin.id, fullName: admin.fullName }
     }

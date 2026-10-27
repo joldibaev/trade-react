@@ -23,7 +23,7 @@ import {
   type RevaluationListItem,
   type RevaluationStatus,
 } from "./prices-api"
-import { RevaluationStatusBadge } from "./revaluation-status"
+import { RevaluationStatusBadge, revaluationNumber } from "./revaluation-status"
 
 export const revaluationStatuses = [
   "DRAFT",
@@ -44,7 +44,7 @@ function revaluationColumns(t: Messages) {
           params={{ revaluationId: info.row.original.id }}
           className="font-medium underline-offset-4 hover:underline"
         >
-          {`№${String(info.getValue())}`}
+          {revaluationNumber(t, info.getValue())}
         </Link>
       ),
     }),

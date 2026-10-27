@@ -73,8 +73,9 @@ test("a new revaluation sends only the cells that were touched, a removal as nul
   await page.getByRole("button", { name: "Сохранить" }).click()
 
   await expect(page).toHaveURL(/\/revaluations\/[0-9a-f-]+$/)
+  // A draft has no number yet.
   await expect(
-    page.getByRole("heading", { name: "Переоценка №1" })
+    page.getByRole("heading", { name: "Черновик переоценки" })
   ).toBeVisible()
   expect(sent[0]?.body).toEqual({
     comment: null,
@@ -87,6 +88,9 @@ test("a new revaluation sends only the cells that were touched, a removal as nul
       { productId: product(7).id, priceTypeId: types[1]?.id, newPrice: null },
     ],
   })
+
+  await page.goto("/revaluations")
+  await expect(page.getByRole("link", { name: "черновик" })).toBeVisible()
 })
 
 test("a wrong price is refused on the screen and nothing is sent", async ({
@@ -119,7 +123,7 @@ test("posting over a price changed meanwhile shows it and refreshes the old pric
   await page.getByLabel("Товар 3, Розница").fill("12500")
   await page.getByRole("button", { name: "Сохранить" }).click()
   await expect(
-    page.getByRole("heading", { name: "Переоценка №1" })
+    page.getByRole("heading", { name: "Черновик переоценки" })
   ).toBeVisible()
 
   await page.getByRole("button", { name: "Провести" }).click()
@@ -138,6 +142,10 @@ test("posting over a price changed meanwhile shows it and refreshes the old pric
     .getByRole("button", { name: "Провести" })
     .click()
   await expect(page.getByText("Проведена").first()).toBeVisible()
+  // The number is given at posting.
+  await expect(
+    page.getByRole("heading", { name: "Переоценка №1" })
+  ).toBeVisible()
   expect(sent.map((s) => s.path.split("/").at(-1))).toEqual([
     "revaluations",
     "post",

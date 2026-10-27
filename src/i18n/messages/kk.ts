@@ -241,6 +241,8 @@ export const kk: Messages = {
     from: "Бастап",
     to: "Дейін",
     period: "Кезең",
+    draft: "жоба",
+    draftTitle: "Қайта бағалау жобасы",
   },
   prices: {
     current: "Бағалар",

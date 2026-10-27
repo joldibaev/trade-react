@@ -242,6 +242,8 @@ export const ru = {
     from: "С",
     to: "По",
     period: "Период",
+    draft: "черновик",
+    draftTitle: "Черновик переоценки",
   },
   prices: {
     current: "Цены",
