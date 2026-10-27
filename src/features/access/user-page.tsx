@@ -13,6 +13,7 @@ import { useMe } from "@/features/auth/permissions"
 import { storesQuery } from "@/features/stores/stores-api"
 import { useT } from "@/i18n/i18n"
 import { formatInstant } from "@/lib/instant"
+import { formatPhone } from "@/lib/phone"
 
 import {
   securityEventsOptions,
@@ -150,7 +151,7 @@ function UserDetails({
           <DetailsList
             items={[
               { label: t.users.login, value: user.login },
-              { label: t.users.phone, value: user.phone },
+              { label: t.users.phone, value: formatPhone(user.phone) },
               {
                 label: t.users.group,
                 value: (

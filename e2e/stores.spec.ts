@@ -33,7 +33,7 @@ test("an admin opens a store and lands on its page", async ({ page }) => {
 
   await expect(page).toHaveURL(/\/stores\/[0-9a-f-]+$/)
   await expect(page.getByRole("heading", { name: "Сергели" })).toBeVisible()
-  await expect(page.getByText("+998712000103")).toBeVisible()
+  await expect(page.getByText(/^\+998\s71\s200\s01\s03$/)).toBeVisible()
 })
 
 test("cashboxes: a taken name is refused, a new one appears, one is switched off", async ({

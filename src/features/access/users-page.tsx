@@ -25,6 +25,7 @@ import {
 import { useMe } from "@/features/auth/permissions"
 import { useT } from "@/i18n/i18n"
 import type { Messages } from "@/i18n/messages/ru"
+import { formatPhone } from "@/lib/phone"
 
 import {
   groupsQuery,
@@ -64,7 +65,11 @@ function userColumns(t: Messages, meId: string) {
       ),
     }),
     column.accessor("login", { header: t.users.login, size: 140 }),
-    column.accessor("phone", { header: t.users.phone, size: 150 }),
+    column.accessor("phone", {
+      header: t.users.phone,
+      size: 150,
+      cell: (info) => formatPhone(info.getValue()),
+    }),
     column.accessor((row) => row.group.name, {
       id: "group",
       header: t.users.group,

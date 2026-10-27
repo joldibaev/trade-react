@@ -25,6 +25,7 @@ import {
 import { useCan, useMe } from "@/features/auth/permissions"
 import { useT } from "@/i18n/i18n"
 import type { Messages } from "@/i18n/messages/ru"
+import { formatPhone } from "@/lib/phone"
 
 import { StoreActivationDialog } from "./store-activation-dialog"
 import { StoreFormDialog } from "./store-form-dialog"
@@ -64,7 +65,10 @@ function storeColumns(
     column.accessor("phone", {
       header: t.stores.phone,
       size: 160,
-      cell: (info) => info.getValue() ?? "",
+      cell: (info) => {
+        const phone = info.getValue()
+        return phone === null ? "" : formatPhone(phone)
+      },
     }),
     column.accessor("cashboxes", {
       header: t.stores.cashboxes,

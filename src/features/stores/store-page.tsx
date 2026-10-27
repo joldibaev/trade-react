@@ -26,6 +26,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { useCan, useMe } from "@/features/auth/permissions"
 import { useT } from "@/i18n/i18n"
 import type { Messages } from "@/i18n/messages/ru"
+import { formatPhone } from "@/lib/phone"
 
 import { CashboxFormDialog } from "./cashbox-form-dialog"
 import {
@@ -220,7 +221,10 @@ function StoreDetails({ store }: { store: Store }) {
           <DetailsList
             items={[
               { label: t.stores.address, value: store.address ?? "—" },
-              { label: t.stores.phone, value: store.phone ?? "—" },
+              {
+                label: t.stores.phone,
+                value: store.phone === null ? "—" : formatPhone(store.phone),
+              },
             ]}
           />
         </CardContent>
