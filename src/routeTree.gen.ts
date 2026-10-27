@@ -12,8 +12,12 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AppIndexRouteImport } from './routes/_app/index'
+import { Route as AppPriceTypesRouteImport } from './routes/_app/price-types'
 import { Route as AppProductsIndexRouteImport } from './routes/_app/products/index'
 import { Route as AppProductsProductIdRouteImport } from './routes/_app/products/$productId'
+import { Route as AppRevaluationsIndexRouteImport } from './routes/_app/revaluations/index'
+import { Route as AppRevaluationsRevaluationIdRouteImport } from './routes/_app/revaluations/$revaluationId'
+import { Route as AppRevaluationsNewRouteImport } from './routes/_app/revaluations/new'
 import { Route as AppStoresIndexRouteImport } from './routes/_app/stores/index'
 import { Route as AppStoresStoreIdRouteImport } from './routes/_app/stores/$storeId'
 
@@ -31,6 +35,11 @@ const AppIndexRoute = AppIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppRoute,
 } as any)
+const AppPriceTypesRoute = AppPriceTypesRouteImport.update({
+  id: '/price-types',
+  path: '/price-types',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppProductsIndexRoute = AppProductsIndexRouteImport.update({
   id: '/products/',
   path: '/products/',
@@ -39,6 +48,22 @@ const AppProductsIndexRoute = AppProductsIndexRouteImport.update({
 const AppProductsProductIdRoute = AppProductsProductIdRouteImport.update({
   id: '/products/$productId',
   path: '/products/$productId',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppRevaluationsIndexRoute = AppRevaluationsIndexRouteImport.update({
+  id: '/revaluations/',
+  path: '/revaluations/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppRevaluationsRevaluationIdRoute =
+  AppRevaluationsRevaluationIdRouteImport.update({
+    id: '/revaluations/$revaluationId',
+    path: '/revaluations/$revaluationId',
+    getParentRoute: () => AppRoute,
+  } as any)
+const AppRevaluationsNewRoute = AppRevaluationsNewRouteImport.update({
+  id: '/revaluations/new',
+  path: '/revaluations/new',
   getParentRoute: () => AppRoute,
 } as any)
 const AppStoresIndexRoute = AppStoresIndexRouteImport.update({
@@ -55,27 +80,39 @@ const AppStoresStoreIdRoute = AppStoresStoreIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
   '/login': typeof LoginRoute
+  '/price-types': typeof AppPriceTypesRoute
   '/products/$productId': typeof AppProductsProductIdRoute
+  '/revaluations/$revaluationId': typeof AppRevaluationsRevaluationIdRoute
+  '/revaluations/new': typeof AppRevaluationsNewRoute
   '/stores/$storeId': typeof AppStoresStoreIdRoute
   '/products/': typeof AppProductsIndexRoute
+  '/revaluations/': typeof AppRevaluationsIndexRoute
   '/stores/': typeof AppStoresIndexRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
+  '/price-types': typeof AppPriceTypesRoute
   '/': typeof AppIndexRoute
   '/products/$productId': typeof AppProductsProductIdRoute
+  '/revaluations/$revaluationId': typeof AppRevaluationsRevaluationIdRoute
+  '/revaluations/new': typeof AppRevaluationsNewRoute
   '/stores/$storeId': typeof AppStoresStoreIdRoute
   '/products': typeof AppProductsIndexRoute
+  '/revaluations': typeof AppRevaluationsIndexRoute
   '/stores': typeof AppStoresIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
+  '/_app/price-types': typeof AppPriceTypesRoute
   '/_app/': typeof AppIndexRoute
   '/_app/products/$productId': typeof AppProductsProductIdRoute
+  '/_app/revaluations/$revaluationId': typeof AppRevaluationsRevaluationIdRoute
+  '/_app/revaluations/new': typeof AppRevaluationsNewRoute
   '/_app/stores/$storeId': typeof AppStoresStoreIdRoute
   '/_app/products/': typeof AppProductsIndexRoute
+  '/_app/revaluations/': typeof AppRevaluationsIndexRoute
   '/_app/stores/': typeof AppStoresIndexRoute
 }
 export interface FileRouteTypes {
@@ -83,26 +120,38 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/login'
+    | '/price-types'
     | '/products/$productId'
+    | '/revaluations/$revaluationId'
+    | '/revaluations/new'
     | '/stores/$storeId'
     | '/products/'
+    | '/revaluations/'
     | '/stores/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
+    | '/price-types'
     | '/'
     | '/products/$productId'
+    | '/revaluations/$revaluationId'
+    | '/revaluations/new'
     | '/stores/$storeId'
     | '/products'
+    | '/revaluations'
     | '/stores'
   id:
     | '__root__'
     | '/_app'
     | '/login'
+    | '/_app/price-types'
     | '/_app/'
     | '/_app/products/$productId'
+    | '/_app/revaluations/$revaluationId'
+    | '/_app/revaluations/new'
     | '/_app/stores/$storeId'
     | '/_app/products/'
+    | '/_app/revaluations/'
     | '/_app/stores/'
   fileRoutesById: FileRoutesById
 }
@@ -134,6 +183,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/price-types': {
+      id: '/_app/price-types'
+      path: '/price-types'
+      fullPath: '/price-types'
+      preLoaderRoute: typeof AppPriceTypesRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/products/': {
       id: '/_app/products/'
       path: '/products'
@@ -146,6 +202,27 @@ declare module '@tanstack/react-router' {
       path: '/products/$productId'
       fullPath: '/products/$productId'
       preLoaderRoute: typeof AppProductsProductIdRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/revaluations/': {
+      id: '/_app/revaluations/'
+      path: '/revaluations'
+      fullPath: '/revaluations/'
+      preLoaderRoute: typeof AppRevaluationsIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/revaluations/$revaluationId': {
+      id: '/_app/revaluations/$revaluationId'
+      path: '/revaluations/$revaluationId'
+      fullPath: '/revaluations/$revaluationId'
+      preLoaderRoute: typeof AppRevaluationsRevaluationIdRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/revaluations/new': {
+      id: '/_app/revaluations/new'
+      path: '/revaluations/new'
+      fullPath: '/revaluations/new'
+      preLoaderRoute: typeof AppRevaluationsNewRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/stores/': {
@@ -166,18 +243,26 @@ declare module '@tanstack/react-router' {
 }
 
 interface AppRouteChildren {
+  AppPriceTypesRoute: typeof AppPriceTypesRoute
   AppIndexRoute: typeof AppIndexRoute
   AppProductsProductIdRoute: typeof AppProductsProductIdRoute
+  AppRevaluationsRevaluationIdRoute: typeof AppRevaluationsRevaluationIdRoute
+  AppRevaluationsNewRoute: typeof AppRevaluationsNewRoute
   AppStoresStoreIdRoute: typeof AppStoresStoreIdRoute
   AppProductsIndexRoute: typeof AppProductsIndexRoute
+  AppRevaluationsIndexRoute: typeof AppRevaluationsIndexRoute
   AppStoresIndexRoute: typeof AppStoresIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppPriceTypesRoute: AppPriceTypesRoute,
   AppIndexRoute: AppIndexRoute,
   AppProductsProductIdRoute: AppProductsProductIdRoute,
+  AppRevaluationsRevaluationIdRoute: AppRevaluationsRevaluationIdRoute,
+  AppRevaluationsNewRoute: AppRevaluationsNewRoute,
   AppStoresStoreIdRoute: AppStoresStoreIdRoute,
   AppProductsIndexRoute: AppProductsIndexRoute,
+  AppRevaluationsIndexRoute: AppRevaluationsIndexRoute,
   AppStoresIndexRoute: AppStoresIndexRoute,
 }
 

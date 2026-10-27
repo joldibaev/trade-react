@@ -10,6 +10,10 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useCan } from "@/features/auth/permissions"
+import {
+  CurrentPricesCard,
+  PriceHistory,
+} from "@/features/prices/product-prices"
 import { categoriesQuery } from "@/features/catalog/categories-api"
 import { categoryPath } from "@/features/catalog/category-tree"
 import { useT } from "@/i18n/i18n"
@@ -162,6 +166,8 @@ function ProductDetails({ product }: { product: Product }) {
           </CardContent>
         </Card>
       </div>
+      <CurrentPricesCard productId={product.id} />
+      <PriceHistory productId={product.id} />
       {editing && (
         <ProductFormDialog product={product} open onOpenChange={setEditing} />
       )}

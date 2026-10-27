@@ -1,9 +1,11 @@
 import { useQueryClient } from "@tanstack/react-query"
 import { Link, useNavigate, type LinkProps } from "@tanstack/react-router"
 import {
+  FileSpreadsheetIcon,
   LogOutIcon,
   PackageIcon,
   StoreIcon,
+  TagsIcon,
 } from "lucide-react"
 import type { ReactNode } from "react"
 
@@ -47,6 +49,21 @@ const navigation: NavGroup[] = [
         to: "/products",
         label: (t) => t.shell.products,
         icon: <PackageIcon aria-hidden />,
+      },
+    ],
+  },
+  {
+    label: (t) => t.shell.prices,
+    items: [
+      {
+        to: "/revaluations",
+        label: (t) => t.shell.revaluations,
+        icon: <FileSpreadsheetIcon aria-hidden />,
+      },
+      {
+        to: "/price-types",
+        label: (t) => t.shell.priceTypes,
+        icon: <TagsIcon aria-hidden />,
       },
     ],
   },
