@@ -143,11 +143,11 @@ export const kk: Messages = {
     renameTitle: "Кассаның атауын өзгерту",
     rename: "Атауын өзгерту",
     active: "Жұмыс істейді",
-    inactive: "Өшірілген",
+    inactive: "Белсенді емес",
     deactivate: "Кассаны өшіру",
-    activate: "Кассаны қосу",
+    activate: "Кассаны іске қосу",
     deactivateHint:
-      "Касса дүкен тізімінде өшірілген күйде қалады; оны қайта қосуға болады.",
+      "Касса дүкен тізімінде белсенді емес күйде қалады; оны қайта іске қосуға болады.",
     activateHint: "Касса қайтадан жұмыс істейтін болады.",
     empty: "Кассалар жоқ.",
     emptyHint: "Кассасы жоқ дүкен қойма ретінде жұмыс істейді.",
@@ -186,7 +186,7 @@ export const kk: Messages = {
     nameHint: "Мысалы «Бөлшек» немесе «Көтерме».",
     default: "Негізгі",
     active: "Қолданыста",
-    inactive: "Өшірілген",
+    inactive: "Белсенді емес",
     makeDefault: "Негізгі ету",
     makeDefaultHint:
       "Касса әр чекті негізгі баға түрінен бастайды. Бұрынғы негізгі түр қарапайым болып қалады.",
@@ -288,7 +288,7 @@ export const kk: Messages = {
     someStores: "Дүкендер",
     you: "Сіз",
     active: "Белсенді",
-    inactive: "Өшірілген",
+    inactive: "Белсенді емес",
     search: "Аты, логин немесе телефон",
     allGroups: "Барлық топтар",
     password: "Құпиясөз",
@@ -337,7 +337,7 @@ export const kk: Messages = {
     deleteHint: "Топ жойылады; оның қауіпсіздік тарихы қалады.",
     deleteFailed: "Жою мүмкін болмады",
     deleteNeedsEmpty:
-      "Тек ешкім жоқ топты жоюға болады — өшірілгендер де болмауы керек.",
+      "Тек ешкім жоқ топты жоюға болады — белсенді еместер де болмауы керек.",
     empty: "Әзірге топтар жоқ.",
     loadFailed: "Топты жүктеу мүмкін болмады.",
     reasonHint:
@@ -452,7 +452,7 @@ export const kk: Messages = {
       noPrice: "баға жоқ",
       noBarcode: "тауарда таңдалған штрихкод жоқ",
       productGone: "тауар енді жоқ",
-      templateGone: "Үлгі табылмады немесе өшірілген. Басқасын таңдаңыз.",
+      templateGone: "Үлгі табылмады немесе белсенді емес. Басқасын таңдаңыз.",
     },
     template: "Үлгі",
     noTemplates: "Үлгілер жоқ",
@@ -466,7 +466,7 @@ export const kk: Messages = {
     name: "Атауы",
     size: "Өлшемі",
     active: "Қолданылады",
-    inactive: "Өшірілген",
+    inactive: "Белсенді емес",
     deactivate: "Өшіру",
     activate: "Қосу",
     deactivateHint:
@@ -657,7 +657,7 @@ export const kk: Messages = {
     PRICE_TYPE_NAME_TAKEN: "Мұндай атаулы баға түрі бар.",
     PRICE_TYPE_IS_DEFAULT:
       "Бұл негізгі баға түрі. Алдымен басқасын негізгі етіңіз.",
-    PRICE_TYPE_INACTIVE: "Баға түрі өшірілген.",
+    PRICE_TYPE_INACTIVE: "Баға түрі белсенді емес.",
     REVALUATION_NOT_FOUND: "Қайта бағалау табылмады.",
     REVALUATION_NOT_DRAFT: "Қайта бағалау енді жоба емес.",
     REVALUATION_NOT_POSTED: "Қайта бағалау өткізілмеген.",
@@ -667,7 +667,8 @@ export const kk: Messages = {
     SESSION_NOT_FOUND: "Сеанс табылмады: мүмкін, ол аяқталған.",
     GENERATED_BARCODES_TAKEN: "Бос штрихкод табылмады. Қайталаңыз.",
     LABEL_TEMPLATE_NOT_FOUND: "Үлгі табылмады.",
-    LABEL_TEMPLATE_NAME_TAKEN: "Мұндай атаумен үлгі бар (мүмкін, өшірілгені).",
+    LABEL_TEMPLATE_NAME_TAKEN:
+      "Мұндай атаумен үлгі бар (мүмкін, белсенді емес).",
     STORE_HAS_CASHBOXES:
       "Дүкенде кассалар бар. Алдымен оларды жойыңыз немесе дүкенді жабыңыз.",
     STORE_HAS_USERS:

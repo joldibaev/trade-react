@@ -131,9 +131,9 @@ export const uz: Messages = {
     activateHint: "Doʻkon yana ishlaydigan boʻladi.",
     empty: "Hozircha doʻkonlar yoʻq.",
     loadFailed: "Doʻkonni yuklab boʻlmadi.",
-    delete: "Doʻkonni oʻchirib tashlash",
+    delete: "Doʻkonni oʻchirish",
     deleteHint:
-      "Faqat kassasi va unga biriktirilgan xodimlari yoʻq doʻkonni oʻchirib tashlash mumkin. Ular bor doʻkonni yopish mumkin.",
+      "Faqat kassasi va unga biriktirilgan xodimlari yoʻq doʻkonni oʻchirish mumkin. Ular bor doʻkonni yopish mumkin.",
   },
   cashboxes: {
     name: "Kassa nomi",
@@ -143,17 +143,17 @@ export const uz: Messages = {
     renameTitle: "Kassa nomini oʻzgartirish",
     rename: "Nomini oʻzgartirish",
     active: "Ishlamoqda",
-    inactive: "Oʻchirilgan",
-    deactivate: "Kassani oʻchirish",
-    activate: "Kassani yoqish",
+    inactive: "Nofaol",
+    deactivate: "Kassani nofaol qilish",
+    activate: "Kassani faol qilish",
     deactivateHint:
-      "Kassa doʻkon roʻyxatida oʻchirilgan holda qoladi; uni qayta yoqish mumkin.",
+      "Kassa doʻkon roʻyxatida nofaol holda qoladi; uni qayta faol qilish mumkin.",
     activateHint: "Kassa yana ishlaydigan boʻladi.",
     empty: "Kassalar yoʻq.",
     emptyHint: "Kassasi yoʻq doʻkon ombor sifatida ishlaydi.",
-    delete: "Kassani oʻchirib tashlash",
+    delete: "Kassani oʻchirish",
     deleteHint:
-      "Kassa butunlay oʻchib ketadi. Agar u yana kerak boʻlishi mumkin boʻlsa, uni faqat oʻchirib qoʻying.",
+      "Kassa butunlay oʻchiriladi. Agar u yana kerak boʻlishi mumkin boʻlsa, yaxshisi, uni nofaol qiling.",
   },
   categories: {
     title: "Kategoriyalar",
@@ -187,18 +187,18 @@ export const uz: Messages = {
     nameHint: "Masalan «Chakana» yoki «Ulgurji».",
     default: "Asosiy",
     active: "Amalda",
-    inactive: "Oʻchirilgan",
+    inactive: "Nofaol",
     makeDefault: "Asosiy qilish",
     makeDefaultHint:
       "Kassa har bir chekni asosiy narx turidan boshlaydi. Avvalgi asosiy tur oddiy boʻlib qoladi.",
-    deactivate: "Oʻchirish",
-    activate: "Yoqish",
+    deactivate: "Nofaol qilish",
+    activate: "Faol qilish",
     deactivateHint:
-      "Tur oʻchirilmaydi: narxlar va tarix saqlanadi, lekin yangi qayta baholashlarda u boʻlmaydi. Asosiy turni oʻchirib boʻlmaydi — avval boshqasini asosiy qiling.",
+      "Tur oʻchirilmaydi: narxlar va tarix saqlanadi, lekin yangi qayta baholashlarda u boʻlmaydi. Asosiy turni nofaol qilib boʻlmaydi — avval boshqasini asosiy qiling.",
     activateHint: "Tur yana yangi qayta baholashlarda paydo boʻladi.",
     empty: "Hozircha narx turlari yoʻq. Birinchi yaratilgani asosiy boʻladi.",
     hint: "Tovar narxi faqat qayta baholash orqali oʻzgaradi: kim, qachon va qaysi narxdan qaysiga oʻzgartirgani koʻrinadi.",
-    delete: "Oʻchirib tashlash",
+    delete: "Oʻchirish",
     deleteHint:
       "Faqat narxlari, qayta baholashlari va yorliq andozalari yoʻq turni oʻchirib tashlash mumkin. Aks holda uni faqat oʻchirib qoʻyish mumkin.",
   },
@@ -230,7 +230,7 @@ export const uz: Messages = {
     deleteHint: "Qoralama oʻchiriladi; u narxlarni oʻzgartirmagan.",
     reverse: "Storno qilish",
     reverseHint:
-      "Eski narxlar qaytadi: yaratilgan narx oʻchadi, oʻchirilgani qaytadi. Oʻtkazilgan qayta baholashni tuzatib boʻlmaydi — faqat storno va yangisi.",
+      "Eski narxlar qaytadi: yaratilgan narx oʻchiriladi, oʻchirilgani qaytadi. Oʻtkazilgan qayta baholashni tuzatib boʻlmaydi — faqat storno va yangisi.",
     reverseFailed: "Storno qilib boʻlmadi",
     refresh: "Eski narxlarni yangilash",
     now: "hozir",
@@ -289,7 +289,7 @@ export const uz: Messages = {
     someStores: "Doʻkonlar",
     you: "Siz",
     active: "Faol",
-    inactive: "Oʻchirilgan",
+    inactive: "Nofaol",
     search: "Ism, login yoki telefon",
     allGroups: "Barcha guruhlar",
     password: "Parol",
@@ -307,8 +307,8 @@ export const uz: Messages = {
     reason: "Sabab",
     reasonRequired: "Sabab (majburiy)",
     reasonHint: "Xavfsizlik tarixiga yoziladi: kim, qachon va nima uchun.",
-    deactivate: "Oʻchirish",
-    activate: "Qayta yoqish",
+    deactivate: "Nofaol qilish",
+    activate: "Qayta faol qilish",
     deactivateHint:
       "Xodimning barcha seanslari darhol tugaydi, u kira olmaydi. Maʼlumotlar va tarix saqlanadi.",
     activateHint: "Xodim yana oʻz paroli bilan kira oladi.",
@@ -338,7 +338,7 @@ export const uz: Messages = {
     deleteHint: "Guruh oʻchiriladi; uning xavfsizlik tarixi qoladi.",
     deleteFailed: "Oʻchirib boʻlmadi",
     deleteNeedsEmpty:
-      "Faqat hech kim yoʻq guruhni oʻchirish mumkin — oʻchirilgan xodimlar ham boʻlmasligi kerak.",
+      "Faqat hech kim yoʻq guruhni oʻchirish mumkin — nofaol xodimlar ham boʻlmasligi kerak.",
     empty: "Hozircha guruhlar yoʻq.",
     loadFailed: "Guruhni yuklab boʻlmadi.",
     reasonHint:
@@ -455,7 +455,7 @@ export const uz: Messages = {
       noPrice: "narx yoʻq",
       noBarcode: "tovarda tanlangan shtrix-kod yoʻq",
       productGone: "tovar endi yoʻq",
-      templateGone: "Andoza topilmadi yoki oʻchirilgan. Boshqasini tanlang.",
+      templateGone: "Andoza topilmadi yoki nofaol. Boshqasini tanlang.",
     },
     template: "Andoza",
     noTemplates: "Andozalar yoʻq",
@@ -469,16 +469,16 @@ export const uz: Messages = {
     name: "Nomi",
     size: "Oʻlcham",
     active: "Ishlatiladi",
-    inactive: "Oʻchirilgan",
-    deactivate: "Oʻchirish",
-    activate: "Yoqish",
+    inactive: "Nofaol",
+    deactivate: "Nofaol qilish",
+    activate: "Faol qilish",
     deactivateHint:
-      "Andoza oʻchirilmaydi: chop etishda tanlovda boʻlmaydi, uni qayta yoqish mumkin.",
+      "Andoza oʻchirilmaydi: chop etishda tanlovda boʻlmaydi, uni qayta faol qilish mumkin.",
     activateHint: "Andoza chop etishda yana tanlovda paydo boʻladi.",
     empty: "Hozircha andozalar yoʻq.",
-    delete: "Oʻchirib tashlash",
+    delete: "Oʻchirish",
     deleteHint:
-      "Andoza butunlay oʻchib ketadi. Uni faqat chop etishdagi tanlovdan olib tashlash uchun oʻchirib qoʻying.",
+      "Andoza butunlay oʻchiriladi. Uni faqat chop etishdagi tanlovdan olib tashlash uchun nofaol qiling.",
   },
   labelEditor: {
     newTitle: "Yangi andoza",
@@ -666,7 +666,7 @@ export const uz: Messages = {
     PRICE_TYPE_NAME_TAKEN: "Bunday nomli narx turi allaqachon bor.",
     PRICE_TYPE_IS_DEFAULT:
       "Bu asosiy narx turi. Avval boshqasini asosiy qiling.",
-    PRICE_TYPE_INACTIVE: "Narx turi oʻchirilgan.",
+    PRICE_TYPE_INACTIVE: "Narx turi nofaol.",
     REVALUATION_NOT_FOUND: "Qayta baholash topilmadi.",
     REVALUATION_NOT_DRAFT: "Qayta baholash endi qoralama emas.",
     REVALUATION_NOT_POSTED: "Qayta baholash oʻtkazilmagan.",
@@ -679,15 +679,15 @@ export const uz: Messages = {
       "Boʻsh shtrix-kod topilmadi. Qayta urinib koʻring.",
     LABEL_TEMPLATE_NOT_FOUND: "Andoza topilmadi.",
     LABEL_TEMPLATE_NAME_TAKEN:
-      "Bunday nomli andoza allaqachon bor (balki oʻchirilgani).",
+      "Bunday nomli andoza allaqachon bor (ehtimol, nofaol).",
     STORE_HAS_CASHBOXES:
-      "Doʻkonda kassalar bor. Avval ularni oʻchirib tashlang yoki doʻkonni yoping.",
+      "Doʻkonda kassalar bor. Avval ularni oʻchiring yoki doʻkonni yoping.",
     STORE_HAS_USERS:
       "Doʻkonga xodimlar biriktirilgan. Ulardan bu doʻkonni olib tashlang yoki doʻkonni yoping.",
     PRICE_TYPE_HAS_PRICES:
-      "Bu tur boʻyicha narxlar bor. Uni faqat oʻchirib qoʻyish mumkin.",
+      "Bu tur boʻyicha narxlar bor. Uni faqat nofaol qilish mumkin.",
     PRICE_TYPE_HAS_REVALUATIONS:
-      "Narx turi qayta baholashlarda bor. U bilan qoralamalarni oʻchirib tashlang yoki turni oʻchirib qoʻying.",
+      "Narx turi qayta baholashlarda bor. U bilan qoralamalarni oʻchiring yoki turni nofaol qiling.",
     PRICE_TYPE_HAS_LABEL_TEMPLATES:
       "Narx turi yorliq andozalarida tanlangan. Andozalarni oʻzgartiring yoki turni oʻchirib qoʻying.",
   },
