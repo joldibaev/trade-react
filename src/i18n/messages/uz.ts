@@ -106,6 +106,8 @@ export const uz: Messages = {
     loadFailed: "Tovarni yuklab boʻlmadi.",
     packageGone: "bunday qadoq endi yoʻq",
     barcodeTakenBy: "allaqachon tovarda bor",
+    generateBarcode: "Shtrix-kod yaratish",
+    generateFailed: "Shtrix-kod yaratib boʻlmadi",
   },
   stores: {
     title: "Doʻkonlar",
@@ -477,5 +479,7 @@ export const uz: Messages = {
     PRICES_CHANGED_LATER:
       "Bu qayta baholashdan keyin narxlar allaqachon oʻzgargan.",
     SESSION_NOT_FOUND: "Seans topilmadi: ehtimol, u allaqachon tugatilgan.",
+    GENERATED_BARCODES_TAKEN:
+      "Boʻsh shtrix-kod raqami topilmadi: ketma-ket import qilingan tovarlar band qilgan. Qayta urinib koʻring — odatda ikkinchi marta chiqadi.",
   },
 }

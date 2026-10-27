@@ -40,3 +40,13 @@ export async function updateProduct(
   remember(queryClient, updated)
   return updated
 }
+
+/**
+ * A fresh in-store EAN-13 from TradeNet ("2" + 11 digits + check digit, as iBox makes them). The number is not
+ * reserved: it goes into the form's barcode list and is saved with the product as usual (which may still answer 409
+ * BARCODE_TAKEN); an abandoned form leaves an unused number.
+ */
+export async function generateBarcode() {
+  const generated = await unwrap(api.POST("/api/products/barcodes/generate"))
+  return generated.value
+}

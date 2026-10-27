@@ -106,6 +106,8 @@ export const kk: Messages = {
     loadFailed: "Тауарды жүктеу мүмкін болмады.",
     packageGone: "мұндай қаптама енді жоқ",
     barcodeTakenBy: "тауарында бар",
+    generateBarcode: "Штрихкод жасау",
+    generateFailed: "Штрихкод жасау мүмкін болмады",
   },
   stores: {
     title: "Дүкендер",
@@ -469,5 +471,7 @@ export const kk: Messages = {
     PRICES_CHANGED: "Бағалар өзгерді. Жолдарды тексеріңіз.",
     PRICES_CHANGED_LATER: "Осы қайта бағалаудан кейін бағалар өзгерген.",
     SESSION_NOT_FOUND: "Сеанс табылмады: мүмкін, ол аяқталған.",
+    GENERATED_BARCODES_TAKEN:
+      "Бос штрихкод нөмірі табылмады: қатарынан импортталған тауарлар алып қойған. Қайталаңыз — әдетте екінші реттен шығады.",
   },
 }

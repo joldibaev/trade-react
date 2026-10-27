@@ -4665,6 +4665,145 @@ export type paths = {
     }
     trace?: never
   }
+  "/api/products/barcodes/generate": {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post: {
+      parameters: {
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            "text/plain": components["schemas"]["GeneratedBarcodeResponse"]
+            "application/json": components["schemas"]["GeneratedBarcodeResponse"]
+            "text/json": components["schemas"]["GeneratedBarcodeResponse"]
+          }
+        }
+        /** @description Unauthorized. Codes: `UNAUTHENTICATED`. */
+        401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Unauthorized",
+             *       "status": 401,
+             *       "code": "UNAUTHENTICATED",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Forbidden. Codes: `FORBIDDEN`, `CSRF_REJECTED`. */
+        403: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Forbidden",
+             *       "status": 403,
+             *       "code": "FORBIDDEN",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Conflict. Codes: `GENERATED_BARCODES_TAKEN`. */
+        409: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Conflict",
+             *       "status": 409,
+             *       "code": "GENERATED_BARCODES_TAKEN",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Too Many Requests. Codes: `TOO_MANY_REQUESTS`. */
+        429: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Too Many Requests",
+             *       "status": 429,
+             *       "code": "TOO_MANY_REQUESTS",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Internal Server Error. Codes: `INTERNAL_SERVER_ERROR`. */
+        500: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Internal Server Error",
+             *       "status": 500,
+             *       "code": "INTERNAL_SERVER_ERROR",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+        /** @description Service Unavailable. Codes: `SERVICE_UNAVAILABLE`. */
+        503: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            /**
+             * @example {
+             *       "title": "Service Unavailable",
+             *       "status": 503,
+             *       "code": "SERVICE_UNAVAILABLE",
+             *       "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-00"
+             *     }
+             */
+            "application/problem+json": components["schemas"]["ProblemDetails"]
+          }
+        }
+      }
+    }
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   "/api/auth/login": {
     parameters: {
       query?: never
@@ -8325,6 +8464,9 @@ export type components = {
       | "OUT_OF_RANGE"
       | "PASSWORD_TOO_SHORT"
       | "REQUIRED"
+    GeneratedBarcodeResponse: {
+      value: string
+    }
     GroupDetailsResponse: {
       /** Format: uuid */
       id: string
@@ -8456,6 +8598,7 @@ export type components = {
       | "PRODUCT_NOT_FOUND"
       | "PACKAGE_NOT_FOUND"
       | "BARCODE_TAKEN"
+      | "GENERATED_BARCODES_TAKEN"
       | "PRICE_TYPE_NOT_FOUND"
       | "PRICE_TYPE_NAME_TAKEN"
       | "PRICE_TYPE_IS_DEFAULT"

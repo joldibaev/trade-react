@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { useSelector } from "@tanstack/react-form"
-import { PlusIcon, Trash2Icon } from "lucide-react"
+import { PlusIcon, Trash2Icon, WandSparklesIcon } from "lucide-react"
 import { useMemo, useState } from "react"
 
 import { problemWith, type FieldCode } from "@/api/errors"
@@ -10,7 +10,9 @@ import {
 } from "@/components/form/form-checks"
 import { allOf, decimal, required, useAppForm } from "@/components/form/form"
 import { FormDialog, useRefusal } from "@/components/form/form-dialog"
+import { ProblemAlert } from "@/components/problem-alert"
 import { Button } from "@/components/ui/button"
+import { Spinner } from "@/components/ui/spinner"
 import { FieldDescription, FieldLegend, FieldSet } from "@/components/ui/field"
 import { categoriesQuery } from "@/features/catalog/categories-api"
 import {
@@ -21,7 +23,7 @@ import {
 import { useT } from "@/i18n/i18n"
 import { decimalForInput, parseDecimalInput } from "@/lib/decimal"
 
-import { createProduct, updateProduct } from "./products-api"
+import { createProduct, generateBarcode, updateProduct } from "./products-api"
 import { productQuery, type Product } from "./products-query"
 
 /** Select values for "nothing": a select item needs a non-empty value. */
@@ -104,6 +106,8 @@ export function ProductFormDialog({
   const refusal = useRefusal()
   const checks = useFormChecks()
   const [base, setBase] = useState(product)
+  const [generating, setGenerating] = useState(false)
+  const [generateError, setGenerateError] = useState<unknown>(null)
   const categories = useQuery(categoriesQuery).data
 
   const categoryOptions = useMemo(() => {
@@ -342,17 +346,50 @@ export function ProductFormDialog({
                   </Button>
                 </div>
               ))}
-              <Button
-                type="button"
-                variant="outline"
-                className="self-start"
-                onClick={() => {
-                  list.pushValue({ value: "", package: piece })
-                }}
-              >
-                <PlusIcon data-icon="inline-start" aria-hidden />
-                {t.products.addBarcode}
-              </Button>
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => {
+                    list.pushValue({ value: "", package: piece })
+                  }}
+                >
+                  <PlusIcon data-icon="inline-start" aria-hidden />
+                  {t.products.addBarcode}
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={generating}
+                  onClick={() => {
+                    setGenerating(true)
+                    setGenerateError(null)
+                    generateBarcode()
+                      .then((value) => {
+                        list.pushValue({ value, package: piece })
+                      })
+                      .catch((error: unknown) => {
+                        setGenerateError(error)
+                      })
+                      .finally(() => {
+                        setGenerating(false)
+                      })
+                  }}
+                >
+                  {generating ? (
+                    <Spinner data-icon="inline-start" aria-hidden />
+                  ) : (
+                    <WandSparklesIcon data-icon="inline-start" aria-hidden />
+                  )}
+                  {t.products.generateBarcode}
+                </Button>
+              </div>
+              {generateError !== null && (
+                <ProblemAlert
+                  title={t.products.generateFailed}
+                  error={generateError}
+                />
+              )}
             </FieldSet>
           )}
         </form.AppField>

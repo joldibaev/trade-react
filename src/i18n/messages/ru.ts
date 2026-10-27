@@ -107,6 +107,8 @@ export const ru = {
     loadFailed: "Не удалось загрузить товар.",
     packageGone: "упаковки больше нет",
     barcodeTakenBy: "уже у товара",
+    generateBarcode: "Сгенерировать штрихкод",
+    generateFailed: "Не удалось сгенерировать штрихкод",
   },
   stores: {
     title: "Магазины",
@@ -470,6 +472,8 @@ export const ru = {
     PRICES_CHANGED: "Цены изменились. Проверьте строки.",
     PRICES_CHANGED_LATER: "После этой переоценки цены уже менялись.",
     SESSION_NOT_FOUND: "Сеанс не найден: возможно, он уже завершён.",
+    GENERATED_BARCODES_TAKEN:
+      "Свободный номер штрихкода не нашёлся: подряд заняты импортированными товарами. Повторите — обычно со второго раза получается.",
   } satisfies Record<ErrorCode, string>,
 }
 

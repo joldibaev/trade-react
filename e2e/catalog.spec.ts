@@ -5,6 +5,7 @@ import {
   cashier,
   mockProducts,
   mockSession,
+  problem,
   product,
 } from "./support/api"
 import {
@@ -249,4 +250,32 @@ test("the list shows each product's price of the default type", async ({
       name: "12 500,00",
     })
   ).toBeVisible()
+})
+
+test("a generated barcode goes into the product form's list", async ({
+  page,
+}) => {
+  await mockSession(page, admin)
+  await mockCategories(page, categoryTree())
+  await mockProducts(page, { total: 5 })
+  let answer: "ok" | "taken" = "taken"
+  await page.route("**/api/products/barcodes/generate", (route) =>
+    answer === "ok"
+      ? route.fulfill({ json: { value: "2000000000015" } })
+      : problem(route, 409, "GENERATED_BARCODES_TAKEN")
+  )
+  await page.goto("/products")
+  await page.getByRole("button", { name: "Новый товар" }).click()
+  const dialog = page.getByRole("dialog", { name: "Новый товар" })
+
+  await dialog.getByRole("button", { name: "Сгенерировать штрихкод" }).click()
+  await expect(
+    dialog.getByText("Свободный номер штрихкода не нашёлся", { exact: false })
+  ).toBeVisible()
+
+  answer = "ok"
+  await dialog.getByRole("button", { name: "Сгенерировать штрихкод" }).click()
+  await expect(dialog.getByLabel("Штрихкод", { exact: true })).toHaveValue(
+    "2000000000015"
+  )
 })
