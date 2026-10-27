@@ -1,6 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query"
 import { Link, useNavigate, type LinkProps } from "@tanstack/react-router"
-import { LogOutIcon } from "lucide-react"
+import { LogOutIcon, StoreIcon } from "lucide-react"
 import type { ReactNode } from "react"
 
 import { LanguageMenu, ThemeMenu } from "@/components/preference-menus"
@@ -35,7 +35,18 @@ type NavItem = {
 
 type NavGroup = { label: (t: Messages) => string; items: NavItem[] }
 
-const navigation: NavGroup[] = []
+const navigation: NavGroup[] = [
+  {
+    label: (t) => t.shell.settings,
+    items: [
+      {
+        to: "/stores",
+        label: (t) => t.shell.stores,
+        icon: <StoreIcon aria-hidden />,
+      },
+    ],
+  },
+]
 
 /**
  * The frame of every signed-in page: the menu on the left (a sheet behind a button on phones and tablets),

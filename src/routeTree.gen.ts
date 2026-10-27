@@ -12,6 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AppIndexRouteImport } from './routes/_app/index'
+import { Route as AppStoresIndexRouteImport } from './routes/_app/stores/index'
+import { Route as AppStoresStoreIdRouteImport } from './routes/_app/stores/$storeId'
 
 const AppRoute = AppRouteImport.update({
   id: '/_app',
@@ -27,27 +29,49 @@ const AppIndexRoute = AppIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppRoute,
 } as any)
+const AppStoresIndexRoute = AppStoresIndexRouteImport.update({
+  id: '/stores/',
+  path: '/stores/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppStoresStoreIdRoute = AppStoresStoreIdRouteImport.update({
+  id: '/stores/$storeId',
+  path: '/stores/$storeId',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
   '/login': typeof LoginRoute
+  '/stores/$storeId': typeof AppStoresStoreIdRoute
+  '/stores/': typeof AppStoresIndexRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/': typeof AppIndexRoute
+  '/stores/$storeId': typeof AppStoresStoreIdRoute
+  '/stores': typeof AppStoresIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
   '/_app/': typeof AppIndexRoute
+  '/_app/stores/$storeId': typeof AppStoresStoreIdRoute
+  '/_app/stores/': typeof AppStoresIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login'
+  fullPaths: '/' | '/login' | '/stores/$storeId' | '/stores/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/'
-  id: '__root__' | '/_app' | '/login' | '/_app/'
+  to: '/login' | '/' | '/stores/$storeId' | '/stores'
+  id:
+    | '__root__'
+    | '/_app'
+    | '/login'
+    | '/_app/'
+    | '/_app/stores/$storeId'
+    | '/_app/stores/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -78,15 +102,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/stores/': {
+      id: '/_app/stores/'
+      path: '/stores'
+      fullPath: '/stores/'
+      preLoaderRoute: typeof AppStoresIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/stores/$storeId': {
+      id: '/_app/stores/$storeId'
+      path: '/stores/$storeId'
+      fullPath: '/stores/$storeId'
+      preLoaderRoute: typeof AppStoresStoreIdRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
 interface AppRouteChildren {
   AppIndexRoute: typeof AppIndexRoute
+  AppStoresStoreIdRoute: typeof AppStoresStoreIdRoute
+  AppStoresIndexRoute: typeof AppStoresIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppIndexRoute: AppIndexRoute,
+  AppStoresStoreIdRoute: AppStoresStoreIdRoute,
+  AppStoresIndexRoute: AppStoresIndexRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
