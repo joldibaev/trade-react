@@ -243,6 +243,22 @@ test.describe("the editor", () => {
     ).toHaveCount(1)
   })
 
+  test("a corrupt image with a valid header is refused", async ({ page }) => {
+    await setUp(page)
+    await page.goto(`/label-templates/${standard}`)
+    // The PNG signature and nothing a decoder can use.
+    const broken = Buffer.from("iVBORw0KGgoAAAANSUhEUgAA", "base64")
+    await page.locator('input[type="file"]').first().setInputFiles({
+      name: "logo.png",
+      mimeType: "image/png",
+      buffer: broken,
+    })
+    await expect(
+      page.getByText("Файл повреждён: браузер не смог открыть картинку.")
+    ).toBeVisible()
+    await expect(layer(page, "4. Картинка")).toHaveCount(0)
+  })
+
   test("a new template starts from a preset and opens as itself once saved", async ({
     page,
   }) => {

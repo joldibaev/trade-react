@@ -2,7 +2,7 @@ import { limits } from "./draft"
 
 export type ImageResult =
   | { ok: true; src: string }
-  | { ok: false; reason: "type" | "tooBig" | "unreadable" }
+  | { ok: false; reason: "type" | "tooBig" | "unreadable" | "broken" }
 
 const asDataUrl = (file: Blob) =>
   new Promise<string>((resolve, reject) => {
@@ -18,6 +18,18 @@ const asDataUrl = (file: Blob) =>
     reader.readAsDataURL(file)
   })
 
+/** TradeNet checks only the type, size and file signature, so a damaged file with a valid header must fail here. */
+async function decodes(src: string): Promise<boolean> {
+  const image = new Image()
+  image.src = src
+  try {
+    await image.decode()
+    return true
+  } catch {
+    return false
+  }
+}
+
 /**
  * A logo for a label, kept in the template as a data URL of at most 48,000 characters (TradeNet `LabelLimits`). A
  * bigger picture is drawn smaller, halving its size up to five times, rather than refused outright: a label printer
@@ -32,12 +44,15 @@ export async function readImage(file: File): Promise<ImageResult> {
   } catch {
     return { ok: false, reason: "unreadable" }
   }
-  if (src.length <= limits.imageMaxLength) return { ok: true, src }
+  if (src.length <= limits.imageMaxLength)
+    return (await decodes(src))
+      ? { ok: true, src }
+      : { ok: false, reason: "broken" }
   let bitmap: ImageBitmap
   try {
     bitmap = await createImageBitmap(file)
   } catch {
-    return { ok: false, reason: "unreadable" }
+    return { ok: false, reason: "broken" }
   }
   let width = bitmap.width
   let height = bitmap.height

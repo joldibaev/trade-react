@@ -631,6 +631,7 @@ export const uz: Messages = {
       tooBig:
         "Rasm kichraytirilgandan keyin ham juda katta. Soddaroq yoki kichikroq rasm oling.",
       unreadable: "Rasmni oʻqib boʻlmadi.",
+      broken: "Fayl shikastlangan: brauzer rasmni ocha olmadi.",
     },
     presets: {
       standard: "Oddiy: nomi, narx, shtrix-kod",
