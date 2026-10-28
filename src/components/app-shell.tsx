@@ -7,6 +7,7 @@ import {
   LogOutIcon,
   PackageIcon,
   PrinterIcon,
+  ReceiptTextIcon,
   ShieldIcon,
   StoreIcon,
   TagsIcon,
@@ -102,6 +103,11 @@ const navigation: NavGroup[] = [
         to: "/payment-methods",
         label: (t) => t.shell.paymentMethods,
         icon: <WalletIcon aria-hidden />,
+      },
+      {
+        to: "/receipt-templates",
+        label: (t) => t.shell.receiptTemplates,
+        icon: <ReceiptTextIcon aria-hidden />,
       },
       {
         to: "/users",

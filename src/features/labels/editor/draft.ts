@@ -1,5 +1,7 @@
 import type { FieldCode } from "@/api/errors"
 
+import { imageMaxLength } from "@/features/printing/image"
+
 import { unknownVariables } from "../label-data"
 import { mm, mmText } from "../mm"
 import type {
@@ -18,7 +20,7 @@ export const limits = {
   minFontPt: 4,
   maxFontPt: 96,
   maxBorderMm: 5,
-  imageMaxLength: 48_000,
+  imageMaxLength,
   nameMaxLength: 100,
 }
 

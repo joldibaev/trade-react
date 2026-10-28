@@ -33,9 +33,9 @@ import {
   type ElementKind,
   type PresetName,
 } from "./draft"
-import { NumberField, Section } from "./fields"
+import { NumberField, Section } from "@/features/printing/fields"
 import { canAdd, itemTitle, type ItemAction } from "./items"
-import { ImagePicker } from "./properties-panel"
+import { ImagePicker } from "@/features/printing/image-picker"
 
 const kindIcons = {
   TEXT: TypeIcon,

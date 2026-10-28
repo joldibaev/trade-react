@@ -23,6 +23,9 @@ import { Route as AppLabelTemplatesTemplateIdRouteImport } from './routes/_app/l
 import { Route as AppLabelTemplatesNewRouteImport } from './routes/_app/label-templates/new'
 import { Route as AppProductsIndexRouteImport } from './routes/_app/products/index'
 import { Route as AppProductsProductIdRouteImport } from './routes/_app/products/$productId'
+import { Route as AppReceiptTemplatesIndexRouteImport } from './routes/_app/receipt-templates/index'
+import { Route as AppReceiptTemplatesTemplateIdRouteImport } from './routes/_app/receipt-templates/$templateId'
+import { Route as AppReceiptTemplatesNewRouteImport } from './routes/_app/receipt-templates/new'
 import { Route as AppRevaluationsIndexRouteImport } from './routes/_app/revaluations/index'
 import { Route as AppRevaluationsRevaluationIdRouteImport } from './routes/_app/revaluations/$revaluationId'
 import { Route as AppRevaluationsNewRouteImport } from './routes/_app/revaluations/new'
@@ -102,6 +105,23 @@ const AppProductsProductIdRoute = AppProductsProductIdRouteImport.update({
   path: '/products/$productId',
   getParentRoute: () => AppRoute,
 } as any)
+const AppReceiptTemplatesIndexRoute =
+  AppReceiptTemplatesIndexRouteImport.update({
+    id: '/receipt-templates/',
+    path: '/receipt-templates/',
+    getParentRoute: () => AppRoute,
+  } as any)
+const AppReceiptTemplatesTemplateIdRoute =
+  AppReceiptTemplatesTemplateIdRouteImport.update({
+    id: '/receipt-templates/$templateId',
+    path: '/receipt-templates/$templateId',
+    getParentRoute: () => AppRoute,
+  } as any)
+const AppReceiptTemplatesNewRoute = AppReceiptTemplatesNewRouteImport.update({
+  id: '/receipt-templates/new',
+  path: '/receipt-templates/new',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppRevaluationsIndexRoute = AppRevaluationsIndexRouteImport.update({
   id: '/revaluations/',
   path: '/revaluations/',
@@ -160,11 +180,14 @@ export interface FileRoutesByFullPath {
   '/label-templates/$templateId': typeof AppLabelTemplatesTemplateIdRoute
   '/label-templates/new': typeof AppLabelTemplatesNewRoute
   '/products/$productId': typeof AppProductsProductIdRoute
+  '/receipt-templates/$templateId': typeof AppReceiptTemplatesTemplateIdRoute
+  '/receipt-templates/new': typeof AppReceiptTemplatesNewRoute
   '/revaluations/$revaluationId': typeof AppRevaluationsRevaluationIdRoute
   '/revaluations/new': typeof AppRevaluationsNewRoute
   '/stores/$storeId': typeof AppStoresStoreIdRoute
   '/label-templates/': typeof AppLabelTemplatesIndexRoute
   '/products/': typeof AppProductsIndexRoute
+  '/receipt-templates/': typeof AppReceiptTemplatesIndexRoute
   '/revaluations/': typeof AppRevaluationsIndexRoute
   '/stores/': typeof AppStoresIndexRoute
   '/groups/$groupId': typeof AppAdminGroupsGroupIdRoute
@@ -183,11 +206,14 @@ export interface FileRoutesByTo {
   '/label-templates/$templateId': typeof AppLabelTemplatesTemplateIdRoute
   '/label-templates/new': typeof AppLabelTemplatesNewRoute
   '/products/$productId': typeof AppProductsProductIdRoute
+  '/receipt-templates/$templateId': typeof AppReceiptTemplatesTemplateIdRoute
+  '/receipt-templates/new': typeof AppReceiptTemplatesNewRoute
   '/revaluations/$revaluationId': typeof AppRevaluationsRevaluationIdRoute
   '/revaluations/new': typeof AppRevaluationsNewRoute
   '/stores/$storeId': typeof AppStoresStoreIdRoute
   '/label-templates': typeof AppLabelTemplatesIndexRoute
   '/products': typeof AppProductsIndexRoute
+  '/receipt-templates': typeof AppReceiptTemplatesIndexRoute
   '/revaluations': typeof AppRevaluationsIndexRoute
   '/stores': typeof AppStoresIndexRoute
   '/groups/$groupId': typeof AppAdminGroupsGroupIdRoute
@@ -209,11 +235,14 @@ export interface FileRoutesById {
   '/_app/label-templates/$templateId': typeof AppLabelTemplatesTemplateIdRoute
   '/_app/label-templates/new': typeof AppLabelTemplatesNewRoute
   '/_app/products/$productId': typeof AppProductsProductIdRoute
+  '/_app/receipt-templates/$templateId': typeof AppReceiptTemplatesTemplateIdRoute
+  '/_app/receipt-templates/new': typeof AppReceiptTemplatesNewRoute
   '/_app/revaluations/$revaluationId': typeof AppRevaluationsRevaluationIdRoute
   '/_app/revaluations/new': typeof AppRevaluationsNewRoute
   '/_app/stores/$storeId': typeof AppStoresStoreIdRoute
   '/_app/label-templates/': typeof AppLabelTemplatesIndexRoute
   '/_app/products/': typeof AppProductsIndexRoute
+  '/_app/receipt-templates/': typeof AppReceiptTemplatesIndexRoute
   '/_app/revaluations/': typeof AppRevaluationsIndexRoute
   '/_app/stores/': typeof AppStoresIndexRoute
   '/_app/_admin/groups/$groupId': typeof AppAdminGroupsGroupIdRoute
@@ -234,11 +263,14 @@ export interface FileRouteTypes {
     | '/label-templates/$templateId'
     | '/label-templates/new'
     | '/products/$productId'
+    | '/receipt-templates/$templateId'
+    | '/receipt-templates/new'
     | '/revaluations/$revaluationId'
     | '/revaluations/new'
     | '/stores/$storeId'
     | '/label-templates/'
     | '/products/'
+    | '/receipt-templates/'
     | '/revaluations/'
     | '/stores/'
     | '/groups/$groupId'
@@ -257,11 +289,14 @@ export interface FileRouteTypes {
     | '/label-templates/$templateId'
     | '/label-templates/new'
     | '/products/$productId'
+    | '/receipt-templates/$templateId'
+    | '/receipt-templates/new'
     | '/revaluations/$revaluationId'
     | '/revaluations/new'
     | '/stores/$storeId'
     | '/label-templates'
     | '/products'
+    | '/receipt-templates'
     | '/revaluations'
     | '/stores'
     | '/groups/$groupId'
@@ -282,11 +317,14 @@ export interface FileRouteTypes {
     | '/_app/label-templates/$templateId'
     | '/_app/label-templates/new'
     | '/_app/products/$productId'
+    | '/_app/receipt-templates/$templateId'
+    | '/_app/receipt-templates/new'
     | '/_app/revaluations/$revaluationId'
     | '/_app/revaluations/new'
     | '/_app/stores/$storeId'
     | '/_app/label-templates/'
     | '/_app/products/'
+    | '/_app/receipt-templates/'
     | '/_app/revaluations/'
     | '/_app/stores/'
     | '/_app/_admin/groups/$groupId'
@@ -400,6 +438,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppProductsProductIdRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/receipt-templates/': {
+      id: '/_app/receipt-templates/'
+      path: '/receipt-templates'
+      fullPath: '/receipt-templates/'
+      preLoaderRoute: typeof AppReceiptTemplatesIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/receipt-templates/$templateId': {
+      id: '/_app/receipt-templates/$templateId'
+      path: '/receipt-templates/$templateId'
+      fullPath: '/receipt-templates/$templateId'
+      preLoaderRoute: typeof AppReceiptTemplatesTemplateIdRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/receipt-templates/new': {
+      id: '/_app/receipt-templates/new'
+      path: '/receipt-templates/new'
+      fullPath: '/receipt-templates/new'
+      preLoaderRoute: typeof AppReceiptTemplatesNewRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/revaluations/': {
       id: '/_app/revaluations/'
       path: '/revaluations'
@@ -495,11 +554,14 @@ interface AppRouteChildren {
   AppLabelTemplatesTemplateIdRoute: typeof AppLabelTemplatesTemplateIdRoute
   AppLabelTemplatesNewRoute: typeof AppLabelTemplatesNewRoute
   AppProductsProductIdRoute: typeof AppProductsProductIdRoute
+  AppReceiptTemplatesTemplateIdRoute: typeof AppReceiptTemplatesTemplateIdRoute
+  AppReceiptTemplatesNewRoute: typeof AppReceiptTemplatesNewRoute
   AppRevaluationsRevaluationIdRoute: typeof AppRevaluationsRevaluationIdRoute
   AppRevaluationsNewRoute: typeof AppRevaluationsNewRoute
   AppStoresStoreIdRoute: typeof AppStoresStoreIdRoute
   AppLabelTemplatesIndexRoute: typeof AppLabelTemplatesIndexRoute
   AppProductsIndexRoute: typeof AppProductsIndexRoute
+  AppReceiptTemplatesIndexRoute: typeof AppReceiptTemplatesIndexRoute
   AppRevaluationsIndexRoute: typeof AppRevaluationsIndexRoute
   AppStoresIndexRoute: typeof AppStoresIndexRoute
 }
@@ -515,11 +577,14 @@ const AppRouteChildren: AppRouteChildren = {
   AppLabelTemplatesTemplateIdRoute: AppLabelTemplatesTemplateIdRoute,
   AppLabelTemplatesNewRoute: AppLabelTemplatesNewRoute,
   AppProductsProductIdRoute: AppProductsProductIdRoute,
+  AppReceiptTemplatesTemplateIdRoute: AppReceiptTemplatesTemplateIdRoute,
+  AppReceiptTemplatesNewRoute: AppReceiptTemplatesNewRoute,
   AppRevaluationsRevaluationIdRoute: AppRevaluationsRevaluationIdRoute,
   AppRevaluationsNewRoute: AppRevaluationsNewRoute,
   AppStoresStoreIdRoute: AppStoresStoreIdRoute,
   AppLabelTemplatesIndexRoute: AppLabelTemplatesIndexRoute,
   AppProductsIndexRoute: AppProductsIndexRoute,
+  AppReceiptTemplatesIndexRoute: AppReceiptTemplatesIndexRoute,
   AppRevaluationsIndexRoute: AppRevaluationsIndexRoute,
   AppStoresIndexRoute: AppStoresIndexRoute,
 }

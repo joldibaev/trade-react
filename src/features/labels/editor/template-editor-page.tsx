@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query"
-import { Link, useBlocker, useNavigate } from "@tanstack/react-router"
+import { Link, useNavigate } from "@tanstack/react-router"
 import {
   ArrowLeftIcon,
   CircleAlertIcon,
@@ -15,7 +15,6 @@ import { useMemo, useState } from "react"
 import { isApiError, type FieldCode } from "@/api/errors"
 import { focusFirstInvalid, required, useAppForm } from "@/components/form/form"
 import { useRefusal } from "@/components/form/form-dialog"
-import { ConfirmDialog } from "@/components/confirm-dialog"
 import { PageHeader } from "@/components/page"
 import { ProblemAlert } from "@/components/problem-alert"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
@@ -51,7 +50,13 @@ import {
   type Draft,
   type ElementKind,
 } from "./draft"
-import { useHistory } from "./history"
+import {
+  SaveRefusal,
+  snapshotOf,
+  TemplateLoader,
+  useLeaveGuard,
+} from "@/features/printing/editor-shell"
+import { useHistory } from "@/features/printing/history"
 import { applyAction, type ItemAction } from "./items"
 import { PropertiesPanel } from "./properties-panel"
 import { sampleData } from "./sample"
@@ -72,46 +77,47 @@ export function TemplateEditorPage({
     enabled: source !== undefined,
   })
   const priceTypes = usePriceTypeChoice()
-  if (source !== undefined && query.isError)
-    return (
-      <ProblemAlert
-        title={t.labelEditor.loadFailed}
-        error={query.error}
-        onRetry={() => void query.refetch()}
-      />
-    )
-  if ((source !== undefined && !query.data) || priceTypes.query.isPending)
-    return <Skeleton className="h-96 w-full" />
-  const template = templateId ? query.data : undefined
-  const initial: { name: string; layout: LabelLayout } =
-    query.data && copyFrom
-      ? {
-          name: `${query.data.name} ${t.labelEditor.copySuffix}`,
-          layout: query.data.layout,
-        }
-      : query.data
-        ? { name: query.data.name, layout: query.data.layout }
-        : {
-            name: "",
-            layout: presetLayout(
-              "standard",
-              58,
-              40,
-              { sale: t.labelEditor.saleBanner },
-              null
-            ),
-          }
   return (
-    <Editor
-      key={template?.id ?? copyFrom ?? "new"}
-      template={template}
-      initial={initial}
-    />
+    <TemplateLoader
+      source={source}
+      query={query}
+      failedTitle={t.labelEditor.loadFailed}
+    >
+      {(loaded) => {
+        if (priceTypes.query.isPending)
+          return <Skeleton className="h-96 w-full" />
+        const template = templateId ? loaded : undefined
+        const initial: { name: string; layout: LabelLayout } =
+          loaded && copyFrom
+            ? {
+                name: `${loaded.name} ${t.labelEditor.copySuffix}`,
+                layout: loaded.layout,
+              }
+            : loaded
+              ? { name: loaded.name, layout: loaded.layout }
+              : {
+                  name: "",
+                  layout: presetLayout(
+                    "standard",
+                    58,
+                    40,
+                    { sale: t.labelEditor.saleBanner },
+                    null
+                  ),
+                }
+        return (
+          <Editor
+            key={template?.id ?? copyFrom ?? "new"}
+            template={template}
+            initial={initial}
+          />
+        )
+      }}
+    </TemplateLoader>
   )
 }
 
-const snapshot = (name: string, layout: LabelLayout) =>
-  JSON.stringify({ name: name.trim(), layout })
+const snapshot = snapshotOf
 
 function Editor({
   template,
@@ -226,11 +232,7 @@ function Editor({
 
   const dirty = (name: string) =>
     saved === null || saved !== snapshot(name, layoutOf(draft))
-  useBlocker({
-    shouldBlockFn: () =>
-      dirty(form.state.values.name) && !window.confirm(t.common.leaveUnsaved),
-    enableBeforeUnload: () => dirty(form.state.values.name),
-  })
+  useLeaveGuard(() => dirty(form.state.values.name))
 
   const change = (next: Draft, step: string | null) => {
     history.change(next, step)
@@ -274,7 +276,6 @@ function Editor({
     clearRefusal()
   }
 
-  const conflict = isApiError(refusal) && refusal.code === "VERSION_CONFLICT"
   const header = (
     <PageHeader
       title={base ? base.name : t.labelEditor.newTitle}
@@ -365,28 +366,13 @@ function Editor({
           {(field) => <field.TextField label={t.labelEditor.name} required />}
         </form.AppField>
       </div>
-      {refusal !== null && (
-        <ProblemAlert
-          title={t.common.saveFailed}
-          error={refusal}
-          onRetry={
-            conflict
-              ? () => {
-                  setReloading(true)
-                }
-              : undefined
-          }
-          retryLabel={t.common.loadCurrent}
-        />
-      )}
-      <ConfirmDialog
-        open={reloading}
-        onOpenChange={setReloading}
-        title={t.common.loadCurrent}
-        description={t.labelEditor.reloadConfirm}
-        confirmLabel={t.common.loadCurrent}
-        action={reload}
+      <SaveRefusal
+        refusal={refusal}
+        reloading={reloading}
+        onReloading={setReloading}
+        confirmText={t.labelEditor.reloadConfirm}
         failedTitle={t.labelEditor.loadFailed}
+        onReload={reload}
       />
       {blocked && errors.size > 0 && (
         <Alert variant="destructive">

@@ -1,4 +1,4 @@
-import { barcodeSvg } from "./barcode"
+import { barcodeSvg } from "@/features/printing/barcode"
 import { fillVariables, labelPrice, type LabelData } from "./label-data"
 import { mm } from "./mm"
 import type { LabelElement, LabelLayout, LabelTextStyle } from "./templates-api"

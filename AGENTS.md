@@ -147,10 +147,11 @@ an i18n library. Reasons and rejected options: `docs/decisions/0001-stack.md`.
   check guards this).
 - Loading, empty and error states are part of every screen: `DataTable` has
   them; elsewhere use `Skeleton`, `Empty` and `ProblemAlert`.
-- Labels print only through `src/features/labels`: a hidden frame, one label
-  per page, no CSS `@page size` (the driver gives the paper), barcode bars in
-  whole printer dots, a preview that is the printed drawing, products and
-  prices read again before every job. Why: `docs/printing.md`.
+- Labels and receipts print only through `src/features/printing`
+  (`printInFrame`): a hidden frame, no CSS `@page size` (the driver gives the
+  paper), barcode bars and QR modules in whole printer dots, a preview that
+  is the printed drawing; labels print one per page and read products and
+  prices again before every job. Why: `docs/printing.md`, `docs/receipts.md`.
 
 ## Rules live in checks
 

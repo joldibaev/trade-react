@@ -1,4 +1,4 @@
-import { BracesIcon, ImageUpIcon } from "lucide-react"
+import { BracesIcon } from "lucide-react"
 import { useId, useRef, useState } from "react"
 
 import type { FieldCode } from "@/api/errors"
@@ -37,8 +37,8 @@ import {
 import { mm, mmText } from "../mm"
 import type { LabelElement, LabelTextStyle } from "../templates-api"
 import { boxOf, fitInside, limits, withBox, type DraftItem } from "./draft"
-import { CheckField, NumberField, Section } from "./fields"
-import { readImage } from "./image"
+import { CheckField, NumberField, Section } from "@/features/printing/fields"
+import { ImagePicker } from "@/features/printing/image-picker"
 
 type Props = {
   item: DraftItem
@@ -458,54 +458,6 @@ function StyleProperties({
         ))}
       </ToggleGroup>
     </Section>
-  )
-}
-
-/** Picks a PNG or JPEG for an image element; one that is too big (as text) is refused with the limit named. */
-export function ImagePicker({
-  label,
-  onImage,
-  onError,
-  disabled,
-}: {
-  label: string
-  onImage: (src: string) => void
-  onError: (message: string) => void
-  disabled?: boolean
-}) {
-  const t = useT()
-  const input = useRef<HTMLInputElement>(null)
-  return (
-    <>
-      <Button
-        type="button"
-        variant="outline"
-        disabled={disabled}
-        onClick={() => {
-          input.current?.click()
-        }}
-      >
-        <ImageUpIcon data-icon="inline-start" aria-hidden />
-        {label}
-      </Button>
-      <input
-        ref={input}
-        type="file"
-        accept="image/png,image/jpeg"
-        className="hidden"
-        tabIndex={-1}
-        aria-hidden
-        onChange={(event) => {
-          const file = event.target.files?.[0]
-          event.target.value = ""
-          if (!file) return
-          void readImage(file).then((result) => {
-            if (result.ok) onImage(result.src)
-            else onError(t.labelEditor.imageErrors[result.reason])
-          })
-        }}
-      />
-    </>
   )
 }
 

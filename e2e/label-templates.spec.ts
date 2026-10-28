@@ -119,6 +119,44 @@ test.describe("the editor", () => {
     "Editing is a wide-screen task; the phone gets the preview and a test print."
   )
 
+  test("a failed background refetch does not throw the edits away", async ({
+    page,
+  }) => {
+    const { templates } = await setUp(page)
+    let broken = false
+    await page.route(/\/api\/label-templates\/[^/?]+$/, (route) =>
+      broken && route.request().method() === "GET"
+        ? route.fulfill({
+            status: 404,
+            contentType: "application/problem+json",
+            json: {
+              title: "x",
+              status: 404,
+              code: "LABEL_TEMPLATE_NOT_FOUND",
+              traceId: "t",
+            },
+          })
+        : route.fallback()
+    )
+    await page.goto(`/label-templates/${standard}`)
+    await page
+      .getByRole("textbox", { name: "Название шаблона" })
+      .fill("Мои правки")
+
+    // Someone else changes the template; the refused save reads it again, and that read fails.
+    const target = templates[1]
+    if (!target) throw new Error("no template")
+    target.version += 1
+    broken = true
+    await page.getByRole("button", { name: "Сохранить" }).click()
+    await expect(
+      page.getByText("Данные изменил кто-то другой. Обновите и повторите.")
+    ).toBeVisible()
+    await expect(
+      page.getByRole("textbox", { name: "Название шаблона" })
+    ).toHaveValue("Мои правки")
+  })
+
   test("refuses an unknown variable at its element, then saves the layout", async ({
     page,
   }) => {

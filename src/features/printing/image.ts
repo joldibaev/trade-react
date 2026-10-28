@@ -1,4 +1,5 @@
-import { limits } from "./draft"
+/** The longest picture TradeNet keeps, as a data URL (`ImageDataUrlAttribute.MaxLength`, shared by label and receipt templates). */
+export const imageMaxLength = 48_000
 
 export type ImageResult =
   | { ok: true; src: string }
@@ -31,7 +32,7 @@ async function decodes(src: string): Promise<boolean> {
 }
 
 /**
- * A logo for a label, kept in the template as a data URL of at most 48,000 characters (TradeNet `LabelLimits`). A
+ * A logo for a label, kept in the template as a data URL of at most 48,000 characters (TradeNet `ImageDataUrlAttribute.MaxLength`, shared by label and receipt templates). A
  * bigger picture is drawn smaller, halving its size up to five times, rather than refused outright: a label printer
  * has 8 dots per millimetre, so a 200-pixel logo is already 25 mm wide.
  */
@@ -44,7 +45,7 @@ export async function readImage(file: File): Promise<ImageResult> {
   } catch {
     return { ok: false, reason: "unreadable" }
   }
-  if (src.length <= limits.imageMaxLength)
+  if (src.length <= imageMaxLength)
     return (await decodes(src))
       ? { ok: true, src }
       : { ok: false, reason: "broken" }
@@ -69,8 +70,7 @@ export async function readImage(file: File): Promise<ImageResult> {
     context.fillRect(0, 0, width, height)
     context.drawImage(bitmap, 0, 0, width, height)
     const smaller = canvas.toDataURL(file.type)
-    if (smaller.length <= limits.imageMaxLength)
-      return { ok: true, src: smaller }
+    if (smaller.length <= imageMaxLength) return { ok: true, src: smaller }
   }
   return { ok: false, reason: "tooBig" }
 }

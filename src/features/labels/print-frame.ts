@@ -5,6 +5,8 @@ import {
   labelWarnings,
   type LabelWarning,
 } from "./label"
+import { printInFrame } from "@/features/printing/print-frame"
+
 import type { LabelData } from "./label-data"
 import type { LabelLayout } from "./templates-api"
 
@@ -32,59 +34,14 @@ export function drawLabels(
 }
 
 /**
- * Prints labels through the browser's print dialog, where the person picks the label printer. They are drawn into a
- * hidden frame, so the app around them does not print; one label per page, the page size from the driver.
- * Resolves once the dialog was opened: the browser cannot tell whether paper came out.
+ * Prints labels through the browser's print dialog, where the person picks the label printer: one label per page, the
+ * page size from the driver.
  */
 export function printLabels(
   layout: LabelLayout,
   labels: readonly LabelData[]
 ): Promise<void> {
-  return new Promise((resolve, reject) => {
-    const frame = document.createElement("iframe")
-    frame.setAttribute("aria-hidden", "true")
-    frame.tabIndex = -1
-    Object.assign(frame.style, {
-      position: "fixed",
-      width: "0",
-      height: "0",
-      border: "0",
-    })
-    frame.srcdoc = labelDocument
-    const prepare = async () => {
-      const target = frame.contentDocument
-      const view = frame.contentWindow
-      if (target === null || view === null) {
-        frame.remove()
-        reject(new Error("The print frame is unavailable."))
-        return
-      }
-      try {
-        drawLabels(target, layout, labels)
-        // Drawn after the frame's load event, so print() itself would not wait for them; a broken logo stops the job.
-        await target.fonts.ready
-        await Promise.all([...target.images].map((image) => image.decode()))
-        view.addEventListener(
-          "afterprint",
-          () => {
-            frame.remove()
-          },
-          { once: true }
-        )
-        view.print()
-        resolve()
-      } catch (error) {
-        frame.remove()
-        reject(error instanceof Error ? error : new Error(String(error)))
-      }
-    }
-    frame.addEventListener(
-      "load",
-      () => {
-        void prepare()
-      },
-      { once: true }
-    )
-    document.body.append(frame)
+  return printInFrame(labelDocument, (target) => {
+    drawLabels(target, layout, labels)
   })
 }

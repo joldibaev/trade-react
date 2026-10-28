@@ -51,9 +51,11 @@ export function barcodeSvg(
   document: Document,
   value: string,
   widthMm: number,
-  heightMm: number
+  heightMm: number,
+  /** For a value that must stay Code 128 (a receipt number) though its digits could pass for an EAN. */
+  forcedFormat?: BarcodeFormat
 ): SVGSVGElement | null {
-  const format = barcodeFormat(value)
+  const format = forcedFormat ?? barcodeFormat(value)
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg")
   // Set by JsBarcode's callback; an object, so the check below is not narrowed away.
   const result = { valid: true }
