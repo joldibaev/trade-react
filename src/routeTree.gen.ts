@@ -16,6 +16,7 @@ import { Route as AppAdminRouteImport } from './routes/_app/_admin'
 import { Route as AppAccountRouteImport } from './routes/_app/account'
 import { Route as AppCounterpartiesRouteImport } from './routes/_app/counterparties'
 import { Route as AppLabelsRouteImport } from './routes/_app/labels'
+import { Route as AppPaymentMethodsRouteImport } from './routes/_app/payment-methods'
 import { Route as AppPriceTypesRouteImport } from './routes/_app/price-types'
 import { Route as AppLabelTemplatesIndexRouteImport } from './routes/_app/label-templates/index'
 import { Route as AppLabelTemplatesTemplateIdRouteImport } from './routes/_app/label-templates/$templateId'
@@ -63,6 +64,11 @@ const AppCounterpartiesRoute = AppCounterpartiesRouteImport.update({
 const AppLabelsRoute = AppLabelsRouteImport.update({
   id: '/labels',
   path: '/labels',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPaymentMethodsRoute = AppPaymentMethodsRouteImport.update({
+  id: '/payment-methods',
+  path: '/payment-methods',
   getParentRoute: () => AppRoute,
 } as any)
 const AppPriceTypesRoute = AppPriceTypesRouteImport.update({
@@ -149,6 +155,7 @@ export interface FileRoutesByFullPath {
   '/account': typeof AppAccountRoute
   '/counterparties': typeof AppCounterpartiesRoute
   '/labels': typeof AppLabelsRoute
+  '/payment-methods': typeof AppPaymentMethodsRoute
   '/price-types': typeof AppPriceTypesRoute
   '/label-templates/$templateId': typeof AppLabelTemplatesTemplateIdRoute
   '/label-templates/new': typeof AppLabelTemplatesNewRoute
@@ -171,6 +178,7 @@ export interface FileRoutesByTo {
   '/account': typeof AppAccountRoute
   '/counterparties': typeof AppCounterpartiesRoute
   '/labels': typeof AppLabelsRoute
+  '/payment-methods': typeof AppPaymentMethodsRoute
   '/price-types': typeof AppPriceTypesRoute
   '/label-templates/$templateId': typeof AppLabelTemplatesTemplateIdRoute
   '/label-templates/new': typeof AppLabelTemplatesNewRoute
@@ -195,6 +203,7 @@ export interface FileRoutesById {
   '/_app/account': typeof AppAccountRoute
   '/_app/counterparties': typeof AppCounterpartiesRoute
   '/_app/labels': typeof AppLabelsRoute
+  '/_app/payment-methods': typeof AppPaymentMethodsRoute
   '/_app/price-types': typeof AppPriceTypesRoute
   '/_app/': typeof AppIndexRoute
   '/_app/label-templates/$templateId': typeof AppLabelTemplatesTemplateIdRoute
@@ -220,6 +229,7 @@ export interface FileRouteTypes {
     | '/account'
     | '/counterparties'
     | '/labels'
+    | '/payment-methods'
     | '/price-types'
     | '/label-templates/$templateId'
     | '/label-templates/new'
@@ -242,6 +252,7 @@ export interface FileRouteTypes {
     | '/account'
     | '/counterparties'
     | '/labels'
+    | '/payment-methods'
     | '/price-types'
     | '/label-templates/$templateId'
     | '/label-templates/new'
@@ -265,6 +276,7 @@ export interface FileRouteTypes {
     | '/_app/account'
     | '/_app/counterparties'
     | '/_app/labels'
+    | '/_app/payment-methods'
     | '/_app/price-types'
     | '/_app/'
     | '/_app/label-templates/$templateId'
@@ -337,6 +349,13 @@ declare module '@tanstack/react-router' {
       path: '/labels'
       fullPath: '/labels'
       preLoaderRoute: typeof AppLabelsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/payment-methods': {
+      id: '/_app/payment-methods'
+      path: '/payment-methods'
+      fullPath: '/payment-methods'
+      preLoaderRoute: typeof AppPaymentMethodsRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/price-types': {
@@ -470,6 +489,7 @@ interface AppRouteChildren {
   AppAccountRoute: typeof AppAccountRoute
   AppCounterpartiesRoute: typeof AppCounterpartiesRoute
   AppLabelsRoute: typeof AppLabelsRoute
+  AppPaymentMethodsRoute: typeof AppPaymentMethodsRoute
   AppPriceTypesRoute: typeof AppPriceTypesRoute
   AppIndexRoute: typeof AppIndexRoute
   AppLabelTemplatesTemplateIdRoute: typeof AppLabelTemplatesTemplateIdRoute
@@ -489,6 +509,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppAccountRoute: AppAccountRoute,
   AppCounterpartiesRoute: AppCounterpartiesRoute,
   AppLabelsRoute: AppLabelsRoute,
+  AppPaymentMethodsRoute: AppPaymentMethodsRoute,
   AppPriceTypesRoute: AppPriceTypesRoute,
   AppIndexRoute: AppIndexRoute,
   AppLabelTemplatesTemplateIdRoute: AppLabelTemplatesTemplateIdRoute,

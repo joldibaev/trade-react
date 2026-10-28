@@ -12,6 +12,7 @@ import {
   TagsIcon,
   UserRoundIcon,
   UsersIcon,
+  WalletIcon,
 } from "lucide-react"
 import type { ReactNode } from "react"
 
@@ -96,6 +97,11 @@ const navigation: NavGroup[] = [
         to: "/stores",
         label: (t) => t.shell.stores,
         icon: <StoreIcon aria-hidden />,
+      },
+      {
+        to: "/payment-methods",
+        label: (t) => t.shell.paymentMethods,
+        icon: <WalletIcon aria-hidden />,
       },
       {
         to: "/users",

@@ -96,6 +96,39 @@ export function SwitchField({
   )
 }
 
+/** One yes/no setting that applies on save, as a box to tick ("Наличные"). */
+export function CheckboxField({
+  label,
+  description,
+}: {
+  label: string
+  description?: string
+}) {
+  const state = useFieldState<boolean>(description)
+  const { field } = state
+
+  return (
+    <Field orientation="horizontal" data-invalid={state.invalid}>
+      <Checkbox
+        id={state.id}
+        aria-invalid={state.invalid}
+        aria-describedby={state.describedBy}
+        checked={field.state.value}
+        onCheckedChange={(checked) => {
+          state.change(checked)
+        }}
+        onBlur={field.handleBlur}
+      />
+      <FieldContent>
+        <FieldLabel htmlFor={state.id} className="font-normal">
+          {label}
+        </FieldLabel>
+        <FieldFeedback description={description} state={state} />
+      </FieldContent>
+    </Field>
+  )
+}
+
 /** Several of a known list (a group's permissions, a person's stores). The value is the chosen values, in list order. */
 export function CheckboxListField({
   legend,

@@ -131,7 +131,12 @@ export async function mockAccess(page: Page) {
     if (kind === "groups" && id === "permissions")
       return route.fulfill({
         json: {
-          items: ["STORES_MANAGE", "CATALOG_MANAGE", "PRICES_MANAGE"],
+          items: [
+            "STORES_MANAGE",
+            "CATALOG_MANAGE",
+            "PRICES_MANAGE",
+            "TILL_SETTINGS_MANAGE",
+          ],
           nextCursor: null,
         },
       })

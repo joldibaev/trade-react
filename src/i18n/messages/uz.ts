@@ -57,6 +57,8 @@ export const uz: Messages = {
     labels: "Yorliqlarni chop etish",
     labelTemplates: "Yorliq andozalari",
     counterparties: "Kontragentlar",
+    paymentMethods: "Toʻlov usullari",
+    receiptTemplates: "Chek andozalari",
   },
   auth: {
     title: "Kirish",
@@ -204,6 +206,30 @@ export const uz: Messages = {
     deleteHint:
       "Faqat narxlari, qayta baholashlari va yorliq andozalari yoʻq hamda hech bir kontragentda tanlanmagan turni oʻchirish mumkin. Aks holda uni nofaol qilish mumkin.",
     usedByCounterparties: "Tur tanlangan kontragentlar:",
+  },
+  paymentMethods: {
+    title: "Toʻlov usullari",
+    create: "Yangi toʻlov usuli",
+    createTitle: "Yangi toʻlov usuli",
+    editTitle: "Toʻlov usulini oʻzgartirish",
+    edit: "Oʻzgartirish",
+    name: "Nomi",
+    nameHint:
+      "Masalan «Naqd pul», «Karta» yoki «Click». Takrorlanmaydi, nofaollar orasida ham.",
+    cash: "Naqd pul",
+    cashHint: "Kassada faqat naqd pulda «Olingan» va «Qaytim» boʻladi.",
+    active: "Amalda",
+    inactive: "Nofaol",
+    deactivate: "Nofaol qilish",
+    activate: "Faol qilish",
+    deactivateHint:
+      "Usul oʻchirilmaydi: oldingi toʻlovlar saqlanadi, lekin kassada u endi taklif etilmaydi.",
+    activateHint: "Usul kassada yana paydo boʻladi.",
+    delete: "Oʻchirish",
+    deleteHint:
+      "Usul butunlay oʻchiriladi. Toʻlovlar tarixida qolishi uchun uni oʻchirmasdan nofaol qiling.",
+    empty: "Hozircha toʻlov usullari yoʻq.",
+    hint: "Kassa toʻlovni qaysi usullar bilan qabul qiladi. Roʻyxat butun tarmoq uchun umumiy.",
   },
   counterparties: {
     title: "Kontragentlar",
@@ -389,6 +415,8 @@ export const uz: Messages = {
     CATALOG_MANAGE: "Tovarlar katalogi",
     PRICES_MANAGE: "Narxlar va qayta baholashlar",
     COUNTERPARTIES_MANAGE: "Kontragentlar",
+    TILL_SETTINGS_MANAGE:
+      "Kassa sozlamalari: toʻlov usullari va chek andozalari",
   },
   permissionHints: {
     USERS_MANAGE: "Faqat administratorda.",
@@ -400,6 +428,8 @@ export const uz: Messages = {
       "Narx turlari va qayta baholashlar. Narxlarni hamma koʻra oladi.",
     COUNTERPARTIES_MANAGE:
       "Yetkazib beruvchilar va mijozlarni yaratish va tahrirlash. Roʻyxatni hamma koʻra oladi.",
+    TILL_SETTINGS_MANAGE:
+      "Toʻlov usullari va chek andozalarini yaratish va tahrirlash. Ularni hamma koʻra oladi.",
   },
   audit: {
     title: "Xavfsizlik tarixi",
@@ -708,6 +738,11 @@ export const uz: Messages = {
     BARCODE_TAKEN: "Bu shtrix-kod boshqa tovarga tegishli.",
     PRICE_TYPE_NOT_FOUND: "Narx turi topilmadi.",
     PRICE_TYPE_NAME_TAKEN: "Bunday nomli narx turi allaqachon bor.",
+    PAYMENT_METHOD_NOT_FOUND: "Toʻlov usuli topilmadi.",
+    PAYMENT_METHOD_NAME_TAKEN: "Bunday nomli toʻlov usuli allaqachon bor.",
+    RECEIPT_TEMPLATE_NOT_FOUND: "Chek andozasi topilmadi.",
+    RECEIPT_TEMPLATE_NAME_TAKEN:
+      "Bunday nomli chek andozasi allaqachon bor (nofaol boʻlishi mumkin).",
     PRICE_TYPE_IS_DEFAULT:
       "Bu asosiy narx turi. Avval boshqasini asosiy qiling.",
     PRICE_TYPE_INACTIVE: "Narx turi nofaol.",

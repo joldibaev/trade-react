@@ -3,7 +3,12 @@ import { createFormHook, type AnyFormApi } from "@tanstack/react-form"
 import { isApiError, type FieldCode } from "@/api/errors"
 import { parseDecimalInput } from "@/lib/decimal"
 
-import { CheckboxListField, SelectField, SwitchField } from "./choice-fields"
+import {
+  CheckboxField,
+  CheckboxListField,
+  SelectField,
+  SwitchField,
+} from "./choice-fields"
 import { DecimalField } from "./decimal-field"
 import { fieldContext, formContext } from "./form-context"
 import { SubmitButton } from "./submit-button"
@@ -22,6 +27,7 @@ export const { useAppForm } = createFormHook({
     DecimalField,
     SelectField,
     SwitchField,
+    CheckboxField,
     CheckboxListField,
   },
   formComponents: { SubmitButton },
