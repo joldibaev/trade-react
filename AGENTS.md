@@ -153,6 +153,19 @@ an i18n library. Reasons and rejected options: `docs/decisions/0001-stack.md`.
   is the printed drawing; labels print one per page and read products and
   prices again before every job. Why: `docs/printing.md`, `docs/receipts.md`.
 
+## After a review
+
+Every confirmed defect of a review or an audit is analyzed and reported to
+the owner with its fix (owner rule, 2026-10-28; TradeNet's AGENTS.md has
+the example). First, check trade4's code to see where the defect came from:
+trade4 had it too, trade4 protected against it and the port lost that, or
+it is new here. Next, say why our own brief, review or tests missed it.
+Last, name the test or check added in the same change that catches it now.
+Example: the receipt editor accepted text the server refuses. trade4 shared
+one Zod contract between client and server. Here `src/lib/text-rules.ts`
+copies TradeNet's `TextAttribute` by hand, so tests must hold the copy to
+the server's rules.
+
 ## Rules live in checks
 
 A rule a compiler, lint rule or test can check lives there, not here. When
