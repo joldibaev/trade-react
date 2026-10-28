@@ -41,6 +41,7 @@ import { useT } from "@/i18n/i18n"
 import type { Messages } from "@/i18n/messages/ru"
 import { formatDecimal } from "@/lib/decimal"
 import { formatInstant } from "@/lib/instant"
+import { textRule, textValidator } from "@/lib/text-rules"
 
 import {
   changedPrices,
@@ -68,6 +69,11 @@ import {
   type GridRow,
 } from "./revaluation-grid"
 import { RevaluationStatusBadge, revaluationNumber } from "./revaluation-status"
+
+const createRevaluationCommentCheck = textValidator(
+  textRule("CreateRevaluationRequest", "comment"),
+  { required: false }
+)
 
 /** An existing revaluation: a draft to edit, or a posted or reversed one to read (and reverse). */
 export function RevaluationPage({ revaluationId }: { revaluationId: string }) {
@@ -355,7 +361,13 @@ function RevaluationEditor({
 
         {revaluation && <DocumentDetails revaluation={revaluation} />}
         {editable ? (
-          <form.AppField name="comment">
+          <form.AppField
+            name="comment"
+            validators={{
+              onChange: createRevaluationCommentCheck,
+              onBlur: createRevaluationCommentCheck,
+            }}
+          >
             {(field) => <field.TextField label={t.revaluations.comment} />}
           </form.AppField>
         ) : null}

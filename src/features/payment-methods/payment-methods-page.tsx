@@ -16,7 +16,7 @@ import { useCan } from "@/features/auth/permissions"
 import { useT } from "@/i18n/i18n"
 import type { Messages } from "@/i18n/messages/ru"
 import { changedFields } from "@/lib/changes"
-import { nameError } from "@/lib/text-rules"
+import { textRule, textValidator } from "@/lib/text-rules"
 
 import {
   createPaymentMethod,
@@ -27,6 +27,8 @@ import {
 } from "./payment-methods-api"
 
 const column = dataTableColumns<PaymentMethod>()
+
+const nameCheck = textValidator(textRule("CreatePaymentMethodRequest", "name"))
 
 type Command = {
   kind: "edit" | "activation" | "delete"
@@ -269,7 +271,7 @@ function PaymentMethodFormDialog({
     >
       <form.AppField
         name="name"
-        validators={{ onChange: nameError, onBlur: nameError }}
+        validators={{ onChange: nameCheck, onBlur: nameCheck }}
       >
         {(field) => (
           <field.TextField

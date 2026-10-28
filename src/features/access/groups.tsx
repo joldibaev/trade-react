@@ -11,7 +11,7 @@ import {
   FormChecksProvider,
   useFormChecks,
 } from "@/components/form/form-checks"
-import { required, useAppForm } from "@/components/form/form"
+import { useAppForm } from "@/components/form/form"
 import { FormDialog, useRefusal } from "@/components/form/form-dialog"
 import { DetailsList, PageHeader } from "@/components/page"
 import { ProblemAlert } from "@/components/problem-alert"
@@ -22,6 +22,7 @@ import { Empty, EmptyHeader, EmptyTitle } from "@/components/ui/empty"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useT } from "@/i18n/i18n"
 import type { Messages } from "@/i18n/messages/ru"
+import { textRule, textValidator } from "@/lib/text-rules"
 
 import {
   createGroup,
@@ -36,6 +37,14 @@ import {
   type Permission,
 } from "./access-api"
 import { SecurityEvents } from "./security-events"
+
+const createGroupNameCheck = textValidator(
+  textRule("CreateGroupRequest", "name")
+)
+const createGroupReasonCheck = textValidator(
+  textRule("CreateGroupRequest", "reason"),
+  { required: false }
+)
 
 const column = dataTableColumns<Group>()
 
@@ -357,7 +366,10 @@ function GroupFormDialog({
       <FormChecksProvider value={checks}>
         <form.AppField
           name="name"
-          validators={{ onChange: required, onBlur: required }}
+          validators={{
+            onChange: createGroupNameCheck,
+            onBlur: createGroupNameCheck,
+          }}
         >
           {(field) => <field.TextField label={t.groups.name} required />}
         </form.AppField>
@@ -373,7 +385,13 @@ function GroupFormDialog({
             />
           )}
         </form.AppField>
-        <form.AppField name="reason">
+        <form.AppField
+          name="reason"
+          validators={{
+            onChange: createGroupReasonCheck,
+            onBlur: createGroupReasonCheck,
+          }}
+        >
           {(field) => (
             <field.TextareaField
               label={t.users.reason}

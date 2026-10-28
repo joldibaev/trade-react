@@ -162,9 +162,11 @@ trade4 had it too, trade4 protected against it and the port lost that, or
 it is new here. Next, say why our own brief, review or tests missed it.
 Last, name the test or check added in the same change that catches it now.
 Example: the receipt editor accepted text the server refuses. trade4 shared
-one Zod contract between client and server. Here `src/lib/text-rules.ts`
-copies TradeNet's `TextAttribute` by hand, so tests must hold the copy to
-the server's rules.
+one Zod contract between client and server; the port lost that, and the
+client copied TradeNet's text rules by hand. Now every text check reads the
+rules TradeNet publishes in OpenAPI (`src/api/text-rules.gen.ts`, written by
+`npm run api`), and a test fails when a source file declares its own text
+length or pattern.
 
 ## Rules live in checks
 

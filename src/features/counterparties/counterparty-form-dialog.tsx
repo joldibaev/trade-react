@@ -6,10 +6,11 @@ import {
   FormChecksProvider,
   useFormChecks,
 } from "@/components/form/form-checks"
-import { required, useAppForm } from "@/components/form/form"
+import { useAppForm } from "@/components/form/form"
 import { FormDialog, useRefusal } from "@/components/form/form-dialog"
 import { priceTypesQuery } from "@/features/prices/prices-api"
 import { useT } from "@/i18n/i18n"
+import { textRule, textValidator } from "@/lib/text-rules"
 
 import {
   counterpartyQuery,
@@ -24,6 +25,26 @@ import {
   toCreateRequest,
   valuesOf,
 } from "./counterparty-form"
+
+const createCounterpartyNameCheck = textValidator(
+  textRule("CreateCounterpartyRequest", "name")
+)
+const createCounterpartyPhoneCheck = textValidator(
+  textRule("CreateCounterpartyRequest", "phone"),
+  { required: false }
+)
+const createCounterpartyTaxIdCheck = textValidator(
+  textRule("CreateCounterpartyRequest", "taxId"),
+  { required: false }
+)
+const createCounterpartyAddressCheck = textValidator(
+  textRule("CreateCounterpartyRequest", "address"),
+  { required: false }
+)
+const createCounterpartyNoteCheck = textValidator(
+  textRule("CreateCounterpartyRequest", "note"),
+  { required: false }
+)
 
 /** Supplier, customer or both: TradeNet refuses a counterparty that is neither. */
 const someRole = ({ value }: { value: string[] }): FieldCode | undefined =>
@@ -122,7 +143,10 @@ export function CounterpartyFormDialog({
       <FormChecksProvider value={checks}>
         <form.AppField
           name="name"
-          validators={{ onChange: required, onBlur: required }}
+          validators={{
+            onChange: createCounterpartyNameCheck,
+            onBlur: createCounterpartyNameCheck,
+          }}
         >
           {(field) => (
             <field.TextField
@@ -156,7 +180,13 @@ export function CounterpartyFormDialog({
             />
           )}
         </form.AppField>
-        <form.AppField name="phone">
+        <form.AppField
+          name="phone"
+          validators={{
+            onChange: createCounterpartyPhoneCheck,
+            onBlur: createCounterpartyPhoneCheck,
+          }}
+        >
           {(field) => (
             <field.TextField
               label={t.counterparties.phone}
@@ -166,7 +196,13 @@ export function CounterpartyFormDialog({
             />
           )}
         </form.AppField>
-        <form.AppField name="taxId">
+        <form.AppField
+          name="taxId"
+          validators={{
+            onChange: createCounterpartyTaxIdCheck,
+            onBlur: createCounterpartyTaxIdCheck,
+          }}
+        >
           {(field) => (
             <field.TextField
               label={t.counterparties.taxId}
@@ -176,7 +212,13 @@ export function CounterpartyFormDialog({
             />
           )}
         </form.AppField>
-        <form.AppField name="address">
+        <form.AppField
+          name="address"
+          validators={{
+            onChange: createCounterpartyAddressCheck,
+            onBlur: createCounterpartyAddressCheck,
+          }}
+        >
           {(field) => (
             <field.TextField
               label={t.counterparties.address}
@@ -184,7 +226,13 @@ export function CounterpartyFormDialog({
             />
           )}
         </form.AppField>
-        <form.AppField name="note">
+        <form.AppField
+          name="note"
+          validators={{
+            onChange: createCounterpartyNoteCheck,
+            onBlur: createCounterpartyNoteCheck,
+          }}
+        >
           {(field) => <field.TextareaField label={t.counterparties.note} />}
         </form.AppField>
       </FormChecksProvider>

@@ -1,9 +1,9 @@
 import type { FieldCode } from "@/api/errors"
-import { imageMaxLength } from "@/features/printing/image"
 import { textError } from "@/lib/text-rules"
 
 import { unknownVariables } from "../receipt/data"
 import {
+  blockTextRules,
   limits,
   requiredBlocks,
   singleBlocks,
@@ -207,24 +207,21 @@ export function blockErrors(block: ReceiptBlock): BlockErrors {
     case "TEXT":
       refuse(
         "text",
-        textError(block.text, { max: limits.textLength, multiline: true }) ??
-          variables(block.text)
+        textError(block.text, blockTextRules.text) ?? variables(block.text)
       )
       break
     case "IMAGE":
-      if (block.src === "") refuse("src", "REQUIRED")
-      else if (block.src.length > imageMaxLength) refuse("src", "OUT_OF_RANGE")
+      refuse("src", textError(block.src, blockTextRules.imageSrc))
       if (!inRange(block.widthPercent, limits.imageWidthPercent))
         refuse("widthPercent", "OUT_OF_RANGE")
       break
     case "DOCUMENT":
-      refuse("title", textError(block.title, { max: limits.titleLength }))
+      refuse("title", textError(block.title, blockTextRules.title))
       break
     case "QR":
       refuse(
         "value",
-        textError(block.value, { max: limits.qrValueLength }) ??
-          variables(block.value)
+        textError(block.value, blockTextRules.qrValue) ?? variables(block.value)
       )
       if (!inRange(block.sizeMm, limits.qrSizeMm))
         refuse("sizeMm", "OUT_OF_RANGE")

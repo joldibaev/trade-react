@@ -17,6 +17,7 @@ import {
   type ReceiptData,
 } from "../receipt/data"
 import {
+  blockTextRules,
   limits,
   type BlockOf,
   type ReceiptBlock,
@@ -127,6 +128,7 @@ function TextProperties({
         label={t.receiptEditor.text}
         value={block.text}
         multiline
+        limit={blockTextRules.text.maxLength}
         error={error}
         preview={(text) =>
           fillVariables(text, textValues(sample, t.receipt.number))
@@ -479,6 +481,7 @@ function QrProperties({
         label={t.receiptEditor.qrValue}
         value={block.value}
         multiline={false}
+        limit={blockTextRules.qrValue.maxLength}
         hint={t.receiptEditor.qrHint}
         error={errors.value}
         preview={(value) => qrValue(value, sample, t.receipt.number)}
@@ -540,7 +543,11 @@ function TitleField({
       label={t.receiptEditor.title}
       hint={t.receiptEditor.titleHint}
       value={value}
-      error={error ? errorText(t, error, { length: limits.titleLength }) : null}
+      error={
+        error
+          ? errorText(t, error, { length: blockTextRules.title.maxLength })
+          : null
+      }
       onChange={onChange}
     />
   )

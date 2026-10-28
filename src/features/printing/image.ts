@@ -1,5 +1,10 @@
-/** The longest picture TradeNet keeps, as a data URL (`ImageDataUrlAttribute.MaxLength`, shared by label and receipt templates). */
-export const imageMaxLength = 48_000
+import { textRule } from "@/lib/text-rules"
+
+/**
+ * The longest picture TradeNet keeps, as a data URL: the API publishes it for the logo of a label and of a receipt
+ * alike (`ImageDataUrlAttribute.MaxLength`).
+ */
+export const imageMaxLength = textRule("ReceiptBlockImage", "src").maxLength
 
 export type ImageResult =
   | { ok: true; src: string }

@@ -1,9 +1,10 @@
 import { useQueryClient } from "@tanstack/react-query"
 import { useState } from "react"
 
-import { required, useAppForm } from "@/components/form/form"
+import { useAppForm } from "@/components/form/form"
 import { FormDialog, useRefusal } from "@/components/form/form-dialog"
 import { useT } from "@/i18n/i18n"
+import { textRule, textValidator } from "@/lib/text-rules"
 
 import {
   createCashbox,
@@ -11,6 +12,10 @@ import {
   updateCashbox,
   type Cashbox,
 } from "./stores-api"
+
+const createCashboxNameCheck = textValidator(
+  textRule("CreateCashboxRequest", "name")
+)
 
 /** Open a till in a store, or rename one. A cashbox never moves to another store. */
 export function CashboxFormDialog({
@@ -76,7 +81,10 @@ export function CashboxFormDialog({
     >
       <form.AppField
         name="name"
-        validators={{ onChange: required, onBlur: required }}
+        validators={{
+          onChange: createCashboxNameCheck,
+          onBlur: createCashboxNameCheck,
+        }}
       >
         {(field) => (
           <field.TextField

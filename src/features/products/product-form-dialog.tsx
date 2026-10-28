@@ -22,9 +22,16 @@ import {
 } from "@/features/catalog/category-tree"
 import { useT } from "@/i18n/i18n"
 import { decimalForInput, parseDecimalInput } from "@/lib/decimal"
+import { textRule, textValidator } from "@/lib/text-rules"
 
 import { createProduct, generateBarcode, updateProduct } from "./products-api"
 import { productQuery, type Product } from "./products-query"
+
+const packageNameCheck = textValidator(textRule("PackageRequest", "name"))
+const barcodeValueCheck = textValidator(textRule("BarcodeRequest", "value"))
+const createProductNameCheck = textValidator(
+  textRule("CreateProductRequest", "name")
+)
 
 /** Select values for "nothing": a select item needs a non-empty value. */
 const noCategory = "none"
@@ -216,7 +223,10 @@ export function ProductFormDialog({
       <FormChecksProvider value={checks}>
         <form.AppField
           name="name"
-          validators={{ onChange: required, onBlur: required }}
+          validators={{
+            onChange: createProductNameCheck,
+            onBlur: createProductNameCheck,
+          }}
         >
           {(field) => <field.TextField label={t.products.name} required />}
         </form.AppField>
@@ -251,7 +261,10 @@ export function ProductFormDialog({
                 >
                   <form.AppField
                     name={`packages[${index}].name`}
-                    validators={{ onChange: required, onBlur: required }}
+                    validators={{
+                      onChange: packageNameCheck,
+                      onBlur: packageNameCheck,
+                    }}
                   >
                     {(field) => (
                       <field.TextField
@@ -311,7 +324,10 @@ export function ProductFormDialog({
                 >
                   <form.AppField
                     name={`barcodes[${index}].value`}
-                    validators={{ onChange: required, onBlur: required }}
+                    validators={{
+                      onChange: barcodeValueCheck,
+                      onBlur: barcodeValueCheck,
+                    }}
                   >
                     {(field) => (
                       <field.TextField

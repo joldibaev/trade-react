@@ -3,15 +3,20 @@ import { useRef, useState } from "react"
 
 import {
   focusFirstInvalid,
-  required,
   showServerFieldErrors,
   useAppForm,
 } from "@/components/form/form"
 import { ProblemAlert } from "@/components/problem-alert"
 import { FieldGroup } from "@/components/ui/field"
 import { useT } from "@/i18n/i18n"
+import { textRule, textValidator } from "@/lib/text-rules"
 
 import { signIn, type LoginRequest } from "./session"
+
+const loginLoginCheck = textValidator(textRule("LoginRequest", "login"))
+const loginPasswordCheck = textValidator(textRule("LoginRequest", "password"), {
+  trim: false,
+})
 
 export function LoginForm({ onSignedIn }: { onSignedIn: () => void }) {
   const t = useT()
@@ -53,7 +58,7 @@ export function LoginForm({ onSignedIn }: { onSignedIn: () => void }) {
         )}
         <form.AppField
           name="login"
-          validators={{ onChange: required, onBlur: required }}
+          validators={{ onChange: loginLoginCheck, onBlur: loginLoginCheck }}
         >
           {(field) => (
             <field.TextField
@@ -65,7 +70,10 @@ export function LoginForm({ onSignedIn }: { onSignedIn: () => void }) {
         </form.AppField>
         <form.AppField
           name="password"
-          validators={{ onChange: required, onBlur: required }}
+          validators={{
+            onChange: loginPasswordCheck,
+            onBlur: loginPasswordCheck,
+          }}
         >
           {(field) => (
             <field.TextField

@@ -1,4 +1,4 @@
-// Regenerates src/api/schema.d.ts from TradeNet's OpenAPI document.
+// Regenerates src/api/schema.d.ts and src/api/text-rules.gen.ts from TradeNet's OpenAPI document.
 // The API must be running; OPENAPI_URL points at another copy (e.g. a second API on port 5199).
 import { writeFile } from "node:fs/promises"
 import openapiTS, { astToString } from "openapi-typescript"
@@ -7,6 +7,7 @@ import { format, resolveConfig } from "prettier"
 
 const url = process.env.OPENAPI_URL ?? "http://localhost:5129/openapi/v1.json"
 const target = new URL("../src/api/schema.d.ts", import.meta.url)
+const rulesTarget = new URL("../src/api/text-rules.gen.ts", import.meta.url)
 
 let ast
 try {
@@ -30,3 +31,61 @@ const source = await format(header + astToString(ast), {
 })
 await writeFile(path, source)
 console.log(`Wrote ${path}`)
+
+// The text rules the API publishes: every string property with `maxLength`, `minLength` or `pattern`. TradeNet's
+// semantics: the length is that of the NFC form in UTF-16 units; the pattern is ECMAScript, run with the `u` flag on
+// the NFC form; a field that takes "" to remove a value has the empty text inside its pattern.
+const document = await (await fetch(url)).json()
+const rules = {}
+for (const [schema, definition] of Object.entries(
+  document.components?.schemas ?? {}
+)) {
+  for (const [property, value] of Object.entries(definition.properties ?? {})) {
+    const { maxLength, minLength, pattern } = value
+    if (
+      maxLength === undefined &&
+      minLength === undefined &&
+      pattern === undefined
+    )
+      continue
+    const parts = [
+      maxLength === undefined ? null : `maxLength: ${maxLength}`,
+      minLength === undefined ? null : `minLength: ${minLength}`,
+      pattern === undefined
+        ? null
+        : `pattern: new RegExp(${JSON.stringify(pattern)}, "u")`,
+    ].filter(Boolean)
+    rules[schema] ??= {}
+    rules[schema][property] = `{ ${parts.join(", ")} }`
+  }
+}
+const body = Object.entries(rules)
+  .map(([schema, properties]) => {
+    const lines = Object.entries(properties).map(
+      ([property, rule]) => `    ${property}: ${rule},`
+    )
+    return `  ${schema}: {\n${lines.join("\n")}\n  },`
+  })
+  .join("\n")
+const rulesPath = fileURLToPath(rulesTarget)
+const rulesSource = await format(
+  [
+    header.trimEnd(),
+    "",
+    "/** One text field's rule as the API publishes it. `pattern` is run with the `u` flag on the NFC form. */",
+    "export type TextRule = {",
+    "  readonly maxLength?: number",
+    "  readonly minLength?: number",
+    "  readonly pattern?: RegExp",
+    "}",
+    "",
+    "/** By schema, then property: a misspelt name fails the typecheck. */",
+    "export const textRules = {",
+    body,
+    "} as const satisfies Record<string, Record<string, TextRule>>",
+    "",
+  ].join("\n"),
+  { ...(await resolveConfig(rulesPath)), filepath: rulesPath }
+)
+await writeFile(rulesPath, rulesSource)
+console.log(`Wrote ${rulesPath}`)

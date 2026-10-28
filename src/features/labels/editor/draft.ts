@@ -1,6 +1,5 @@
 import type { FieldCode } from "@/api/errors"
-
-import { imageMaxLength } from "@/features/printing/image"
+import { textError, textRule } from "@/lib/text-rules"
 
 import { unknownVariables } from "../label-data"
 import { mm, mmText } from "../mm"
@@ -10,18 +9,18 @@ import type {
   LabelTextStyle,
 } from "../templates-api"
 
+/** The rule of a text element, as the API publishes it: no copy of its limit or pattern here. */
+export const labelTextRule = textRule("LabelElementText", "text")
+
 /** TradeNet `LabelLimits`: what the server refuses, checked here first so the editor can say it at the element. */
 export const limits = {
   minSizeMm: 10,
   maxSizeMm: 120,
   maxElements: 40,
   maxImages: 3,
-  textMaxLength: 300,
   minFontPt: 4,
   maxFontPt: 96,
   maxBorderMm: 5,
-  imageMaxLength,
-  nameMaxLength: 100,
 }
 
 /** The rolls shops use (trade4's sizes). */
@@ -315,11 +314,9 @@ export function draftErrors(draft: Draft): Map<string, FieldCode> {
     if (b.x + b.w > width + 0.001 || b.y + b.h > height + 0.001)
       errors.set(key, "OUT_OF_RANGE")
     if (element.type === "TEXT") {
-      if (element.text.trim() === "") errors.set(key, "REQUIRED")
-      else if (
-        element.text.length > limits.textMaxLength ||
-        unknownVariables(element.text).length > 0
-      )
+      const refused = textError(element.text, labelTextRule)
+      if (refused) errors.set(key, refused)
+      else if (unknownVariables(element.text).length > 0)
         errors.set(key, "INVALID_VALUE")
     }
     if (

@@ -7,11 +7,12 @@ import {
   FormChecksProvider,
   useFormChecks,
 } from "@/components/form/form-checks"
-import { allOf, required, useAppForm } from "@/components/form/form"
+import { required, useAppForm } from "@/components/form/form"
 import { FormDialog, useRefusal } from "@/components/form/form-dialog"
 import { storesQuery } from "@/features/stores/stores-api"
 import { useT } from "@/i18n/i18n"
 import { changedFields } from "@/lib/changes"
+import { textRule, textValidator } from "@/lib/text-rules"
 
 import {
   createUser,
@@ -22,18 +23,21 @@ import {
   type User,
 } from "./access-api"
 
-/** TradeNet's only password rule: 15 characters or more (users.md). */
-export const passwordMinLength = 15
+/** The password the API takes (its only rule is the minimum length), checked as typed: a password is never trimmed. */
+export const newPasswordCheck = textValidator(
+  textRule("CreateUserRequest", "password"),
+  { trim: false }
+)
 
-export function longPassword({
-  value,
-}: {
-  value: string
-}): FieldCode | undefined {
-  return value.length > 0 && value.length < passwordMinLength
-    ? "PASSWORD_TOO_SHORT"
-    : undefined
-}
+const fullNameCheck = textValidator(textRule("CreateUserRequest", "fullName"))
+const phoneCheck = textValidator(textRule("CreateUserRequest", "phone"))
+const loginCheck = textValidator(textRule("CreateUserRequest", "login"))
+const deactivationReasonCheck = textValidator(
+  textRule("UpdateUserRequest", "reason")
+)
+const resetReasonCheck = textValidator(
+  textRule("ResetPasswordRequest", "reason")
+)
 
 /** For "repeat the password": the codes go under the repeat field. */
 export function passwordsDiffer(
@@ -184,7 +188,7 @@ export function UserFormDialog({
       <FormChecksProvider value={checks}>
         <form.AppField
           name="fullName"
-          validators={{ onChange: required, onBlur: required }}
+          validators={{ onChange: fullNameCheck, onBlur: fullNameCheck }}
         >
           {(field) => (
             <field.TextField
@@ -196,7 +200,7 @@ export function UserFormDialog({
         </form.AppField>
         <form.AppField
           name="phone"
-          validators={{ onChange: required, onBlur: required }}
+          validators={{ onChange: phoneCheck, onBlur: phoneCheck }}
         >
           {(field) => (
             <field.TextField
@@ -210,7 +214,7 @@ export function UserFormDialog({
         </form.AppField>
         <form.AppField
           name="login"
-          validators={{ onChange: required, onBlur: required }}
+          validators={{ onChange: loginCheck, onBlur: loginCheck }}
         >
           {(field) => (
             <field.TextField
@@ -225,8 +229,8 @@ export function UserFormDialog({
             <form.AppField
               name="password"
               validators={{
-                onChange: allOf(required, longPassword),
-                onBlur: allOf(required, longPassword),
+                onChange: newPasswordCheck,
+                onBlur: newPasswordCheck,
               }}
             >
               {(field) => (
@@ -367,7 +371,12 @@ export function UserActivationDialog({
       <form.AppField
         name="reason"
         validators={
-          deactivating ? { onChange: required, onBlur: required } : {}
+          deactivating
+            ? {
+                onChange: deactivationReasonCheck,
+                onBlur: deactivationReasonCheck,
+              }
+            : {}
         }
       >
         {(field) => (
@@ -440,8 +449,8 @@ export function ResetPasswordDialog({
         <form.AppField
           name="newPassword"
           validators={{
-            onChange: allOf(required, longPassword),
-            onBlur: allOf(required, longPassword),
+            onChange: newPasswordCheck,
+            onBlur: newPasswordCheck,
           }}
         >
           {(field) => (
@@ -469,7 +478,7 @@ export function ResetPasswordDialog({
         </form.AppField>
         <form.AppField
           name="reason"
-          validators={{ onChange: required, onBlur: required }}
+          validators={{ onChange: resetReasonCheck, onBlur: resetReasonCheck }}
         >
           {(field) => (
             <field.TextareaField label={t.users.reasonRequired} required />

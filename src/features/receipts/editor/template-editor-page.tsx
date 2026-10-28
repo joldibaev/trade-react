@@ -27,7 +27,7 @@ import { NumberValidityContext } from "@/features/printing/fields"
 import { useHistory } from "@/features/printing/history"
 import { storesQuery } from "@/features/stores/stores-api"
 import { useT } from "@/i18n/i18n"
-import { nameError } from "@/lib/text-rules"
+import { textRule, textValidator } from "@/lib/text-rules"
 
 import type { BlockType, ReceiptLayout } from "../receipt/layout"
 import { ReceiptQrError, printReceipt, qrNumber } from "../receipt/print"
@@ -56,6 +56,10 @@ import {
 } from "./draft"
 import { BlockProperties, RollProperties } from "./properties-panel"
 import { useReceiptFrame } from "./receipt-preview"
+
+const nameCheck = textValidator(
+  textRule("CreateReceiptTemplateRequest", "name")
+)
 
 /** An existing template, or a new one (the standard receipt, or a copy of another with `from`). */
 export function ReceiptTemplateEditorPage({
@@ -435,7 +439,7 @@ function Editor({
         <div className="w-full max-w-md">
           <form.AppField
             name="name"
-            validators={{ onChange: nameError, onBlur: nameError }}
+            validators={{ onChange: nameCheck, onBlur: nameCheck }}
           >
             {(field) => (
               <field.TextField label={t.receiptEditor.name} required />

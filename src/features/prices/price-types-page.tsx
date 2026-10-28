@@ -7,7 +7,7 @@ import { ConfirmDialog } from "@/components/confirm-dialog"
 import { DataTable } from "@/components/data-table/data-table"
 import { dataTableColumns } from "@/components/data-table/columns"
 import { useArraySource } from "@/components/data-table/sources"
-import { required, useAppForm } from "@/components/form/form"
+import { useAppForm } from "@/components/form/form"
 import { FormDialog, useRefusal } from "@/components/form/form-dialog"
 import { ActiveBadge, PageHeader, RowActions } from "@/components/page"
 import { Badge } from "@/components/ui/badge"
@@ -16,6 +16,7 @@ import { Empty, EmptyHeader, EmptyTitle } from "@/components/ui/empty"
 import { useCan } from "@/features/auth/permissions"
 import { useT } from "@/i18n/i18n"
 import type { Messages } from "@/i18n/messages/ru"
+import { textRule, textValidator } from "@/lib/text-rules"
 
 import {
   createPriceType,
@@ -24,6 +25,10 @@ import {
   updatePriceType,
   type PriceType,
 } from "./prices-api"
+
+const createPriceTypeNameCheck = textValidator(
+  textRule("CreatePriceTypeRequest", "name")
+)
 
 const column = dataTableColumns<PriceType>()
 
@@ -293,7 +298,10 @@ function PriceTypeFormDialog({
     >
       <form.AppField
         name="name"
-        validators={{ onChange: required, onBlur: required }}
+        validators={{
+          onChange: createPriceTypeNameCheck,
+          onBlur: createPriceTypeNameCheck,
+        }}
       >
         {(field) => (
           <field.TextField

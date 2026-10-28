@@ -27,6 +27,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import type { PriceType } from "@/features/prices/prices-api"
 import { useT } from "@/i18n/i18n"
+import { textError } from "@/lib/text-rules"
 
 import {
   fillVariables,
@@ -36,7 +37,14 @@ import {
 } from "../label-data"
 import { mm, mmText } from "../mm"
 import type { LabelElement, LabelTextStyle } from "../templates-api"
-import { boxOf, fitInside, limits, withBox, type DraftItem } from "./draft"
+import {
+  boxOf,
+  fitInside,
+  labelTextRule,
+  limits,
+  withBox,
+  type DraftItem,
+} from "./draft"
 import { CheckField, NumberField, Section } from "@/features/printing/fields"
 import { ImagePicker } from "@/features/printing/image-picker"
 
@@ -285,14 +293,14 @@ function TextContent({
   const id = useId()
   const area = useRef<HTMLTextAreaElement>(null)
   const unknown = unknownVariables(text)
-  const error =
-    text.trim() === ""
-      ? t.fields.REQUIRED
-      : text.length > limits.textMaxLength
-        ? `${t.labelEditor.tooLong} ${String(limits.textMaxLength)}`
-        : unknown.length > 0
-          ? `${t.labelEditor.unknownVariables} ${unknown.map((name) => `{${name}}`).join(", ")}`
-          : null
+  const refused = textError(text, labelTextRule)
+  const error = refused
+    ? refused === "OUT_OF_RANGE"
+      ? `${t.labelEditor.tooLong} ${String(labelTextRule.maxLength)}`
+      : t.fields[refused]
+    : unknown.length > 0
+      ? `${t.labelEditor.unknownVariables} ${unknown.map((name) => `{${name}}`).join(", ")}`
+      : null
   const filled = fillVariables(text, sample.values)
   return (
     <Section title={t.labelEditor.kinds.TEXT}>

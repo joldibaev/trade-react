@@ -1,12 +1,25 @@
 import { useQueryClient } from "@tanstack/react-query"
 import { useState } from "react"
 
-import { required, useAppForm } from "@/components/form/form"
+import { useAppForm } from "@/components/form/form"
 import { FormDialog, useRefusal } from "@/components/form/form-dialog"
 import { useT } from "@/i18n/i18n"
 import { changedFields } from "@/lib/changes"
+import { textRule, textValidator } from "@/lib/text-rules"
 
 import { createStore, storeQuery, updateStore, type Store } from "./stores-api"
+
+const createStoreNameCheck = textValidator(
+  textRule("CreateStoreRequest", "name")
+)
+const createStoreAddressCheck = textValidator(
+  textRule("CreateStoreRequest", "address"),
+  { required: false }
+)
+const createStorePhoneCheck = textValidator(
+  textRule("CreateStoreRequest", "phone"),
+  { required: false }
+)
 
 type StoreFormProps = {
   /** The store to edit; a new store when absent. */
@@ -90,11 +103,20 @@ export function StoreFormDialog({
     >
       <form.AppField
         name="name"
-        validators={{ onChange: required, onBlur: required }}
+        validators={{
+          onChange: createStoreNameCheck,
+          onBlur: createStoreNameCheck,
+        }}
       >
         {(field) => <field.TextField label={t.stores.name} required />}
       </form.AppField>
-      <form.AppField name="address">
+      <form.AppField
+        name="address"
+        validators={{
+          onChange: createStoreAddressCheck,
+          onBlur: createStoreAddressCheck,
+        }}
+      >
         {(field) => (
           <field.TextField
             label={t.stores.address}
@@ -102,7 +124,13 @@ export function StoreFormDialog({
           />
         )}
       </form.AppField>
-      <form.AppField name="phone">
+      <form.AppField
+        name="phone"
+        validators={{
+          onChange: createStorePhoneCheck,
+          onBlur: createStorePhoneCheck,
+        }}
+      >
         {(field) => (
           <field.TextField
             label={t.stores.phone}

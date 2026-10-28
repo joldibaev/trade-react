@@ -20,7 +20,6 @@ import { Textarea } from "@/components/ui/textarea"
 import { useT } from "@/i18n/i18n"
 
 import { receiptVariables, unknownVariables } from "../receipt/data"
-import { limits } from "../receipt/layout"
 
 /**
  * The words under a refused field: what the editor or TradeNet found wrong. A text names the variables it does not
@@ -48,6 +47,7 @@ export function VariableField({
   label,
   value,
   multiline,
+  limit,
   hint,
   error,
   preview,
@@ -56,6 +56,8 @@ export function VariableField({
   label: string
   value: string
   multiline: boolean
+  /** The longest text the API allows here, for the words under a text that is too long. */
+  limit: number
   hint?: string
   error: FieldCode | undefined
   /** What the value prints on the sample sale (a link's values are encoded, a text's are not). */
@@ -66,11 +68,10 @@ export function VariableField({
   const id = useId()
   const input = useRef<HTMLInputElement & HTMLTextAreaElement>(null)
   const filled = preview(value)
-  const maxLength = multiline ? limits.textLength : limits.qrValueLength
   const message = error
     ? errorText(t, error, {
         unknown: unknownVariables(value),
-        length: maxLength,
+        length: limit,
       })
     : null
   const common = {

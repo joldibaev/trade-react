@@ -2,10 +2,11 @@ import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { useMemo } from "react"
 
 import { ConfirmDialog } from "@/components/confirm-dialog"
-import { required, useAppForm } from "@/components/form/form"
+import { useAppForm } from "@/components/form/form"
 import { FormDialog, useRefusal } from "@/components/form/form-dialog"
 import { useT } from "@/i18n/i18n"
 import { changedFields } from "@/lib/changes"
+import { textRule, textValidator } from "@/lib/text-rules"
 
 import {
   categoriesQuery,
@@ -21,6 +22,10 @@ import {
   type Category,
   type CategoryNode,
 } from "./category-tree"
+
+const createCategoryNameCheck = textValidator(
+  textRule("CreateCategoryRequest", "name")
+)
 
 /** The select's value for "at the top level": a select item needs a non-empty value. */
 const topLevel = "top"
@@ -113,7 +118,10 @@ export function CategoryFormDialog({
     >
       <form.AppField
         name="name"
-        validators={{ onChange: required, onBlur: required }}
+        validators={{
+          onChange: createCategoryNameCheck,
+          onBlur: createCategoryNameCheck,
+        }}
       >
         {(field) => <field.TextField label={t.categories.name} required />}
       </form.AppField>

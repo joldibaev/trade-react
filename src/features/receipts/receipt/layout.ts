@@ -1,4 +1,5 @@
 import type { components } from "@/api/schema"
+import { textRule } from "@/lib/text-rules"
 
 export type ReceiptLayout = components["schemas"]["ReceiptLayout"]
 export type ReceiptBlock = components["schemas"]["ReceiptBlock"]
@@ -11,14 +12,25 @@ export type PaperWidth = 58 | 80
 
 export type BlockOf<T extends BlockType> = Extract<ReceiptBlock, { type: T }>
 
-/** What the server accepts (TradeNet `ReceiptLayout.cs`); the editor refuses the same, one step earlier. */
+/**
+ * The text rules of the blocks, as the API publishes them: the editor refuses what the server refuses, one step
+ * earlier, with no copy of a limit or a pattern.
+ */
+export const blockTextRules = {
+  text: textRule("ReceiptBlockText", "text"),
+  title: textRule("ReceiptBlockDocument", "title"),
+  qrValue: textRule("ReceiptBlockQr", "value"),
+  imageSrc: textRule("ReceiptBlockImage", "src"),
+}
+
+/**
+ * The numbers the server accepts (TradeNet `ReceiptLayout.cs`). The OpenAPI document does not publish them yet, so
+ * they are written here until it does.
+ */
 export const limits = {
   fontSizePt: { min: 6, max: 14 },
   blocks: 30,
   images: 2,
-  textLength: 300,
-  titleLength: 40,
-  qrValueLength: 200,
   qrSizeMm: { min: 15, max: 40 },
   imageWidthPercent: { min: 20, max: 100 },
 }

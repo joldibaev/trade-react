@@ -9,12 +9,7 @@ import {
   FormChecksProvider,
   useFormChecks,
 } from "@/components/form/form-checks"
-import {
-  allOf,
-  focusFirstInvalid,
-  required,
-  useAppForm,
-} from "@/components/form/form"
+import { focusFirstInvalid, required, useAppForm } from "@/components/form/form"
 import { useRefusal } from "@/components/form/form-dialog"
 import { DetailsList, PageHeader } from "@/components/page"
 import { LanguageMenu, ThemeMenu } from "@/components/preference-menus"
@@ -29,6 +24,7 @@ import { useT } from "@/i18n/i18n"
 import type { Messages } from "@/i18n/messages/ru"
 import { changedFields } from "@/lib/changes"
 import { formatInstant } from "@/lib/instant"
+import { textRule, textValidator } from "@/lib/text-rules"
 
 import {
   changePassword,
@@ -38,7 +34,22 @@ import {
   updateProfile,
   type Session,
 } from "./access-api"
-import { longPassword, passwordsDiffer } from "./user-dialogs"
+import { passwordsDiffer } from "./user-dialogs"
+
+const updateProfileFullNameCheck = textValidator(
+  textRule("UpdateProfileRequest", "fullName")
+)
+const updateProfilePhoneCheck = textValidator(
+  textRule("UpdateProfileRequest", "phone")
+)
+const changePasswordNewCheck = textValidator(
+  textRule("ChangePasswordRequest", "newPassword"),
+  { trim: false }
+)
+const changePasswordCurrentPasswordCheck = textValidator(
+  textRule("ChangePasswordRequest", "currentPassword"),
+  { trim: false }
+)
 
 /** The person's own account: name and phone, password, and where they are signed in. */
 export function AccountPage() {
@@ -127,7 +138,10 @@ function ProfileCard() {
             )}
             <form.AppField
               name="fullName"
-              validators={{ onChange: required, onBlur: required }}
+              validators={{
+                onChange: updateProfileFullNameCheck,
+                onBlur: updateProfileFullNameCheck,
+              }}
             >
               {(field) => (
                 <field.TextField
@@ -139,7 +153,10 @@ function ProfileCard() {
             </form.AppField>
             <form.AppField
               name="phone"
-              validators={{ onChange: required, onBlur: required }}
+              validators={{
+                onChange: updateProfilePhoneCheck,
+                onBlur: updateProfilePhoneCheck,
+              }}
             >
               {(field) => (
                 <field.TextField
@@ -224,7 +241,10 @@ function PasswordCard() {
               )}
               <form.AppField
                 name="currentPassword"
-                validators={{ onChange: required, onBlur: required }}
+                validators={{
+                  onChange: changePasswordCurrentPasswordCheck,
+                  onBlur: changePasswordCurrentPasswordCheck,
+                }}
               >
                 {(field) => (
                   <field.TextField
@@ -238,8 +258,8 @@ function PasswordCard() {
               <form.AppField
                 name="newPassword"
                 validators={{
-                  onChange: allOf(required, longPassword),
-                  onBlur: allOf(required, longPassword),
+                  onChange: changePasswordNewCheck,
+                  onBlur: changePasswordNewCheck,
                 }}
               >
                 {(field) => (

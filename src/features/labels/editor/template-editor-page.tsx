@@ -13,7 +13,7 @@ import {
 import { useMemo, useState } from "react"
 
 import { isApiError, type FieldCode } from "@/api/errors"
-import { focusFirstInvalid, required, useAppForm } from "@/components/form/form"
+import { focusFirstInvalid, useAppForm } from "@/components/form/form"
 import { useRefusal } from "@/components/form/form-dialog"
 import { PageHeader } from "@/components/page"
 import { ProblemAlert } from "@/components/problem-alert"
@@ -57,10 +57,15 @@ import {
   useLeaveGuard,
 } from "@/features/printing/editor-shell"
 import { useHistory } from "@/features/printing/history"
+import { textRule, textValidator } from "@/lib/text-rules"
 import { applyAction, type ItemAction } from "./items"
 import { PropertiesPanel } from "./properties-panel"
 import { sampleData } from "./sample"
 import { ElementsPanel, LabelPanel } from "./side-panels"
+
+const createLabelTemplateNameCheck = textValidator(
+  textRule("CreateLabelTemplateRequest", "name")
+)
 
 /** An existing template, or a new one (from a preset, or a copy of another with `from`). */
 export function TemplateEditorPage({
@@ -361,7 +366,10 @@ function Editor({
       <div className="hidden w-full max-w-md lg:block">
         <form.AppField
           name="name"
-          validators={{ onChange: required, onBlur: required }}
+          validators={{
+            onChange: createLabelTemplateNameCheck,
+            onBlur: createLabelTemplateNameCheck,
+          }}
         >
           {(field) => <field.TextField label={t.labelEditor.name} required />}
         </form.AppField>
